@@ -1,0 +1,53 @@
+@import "tailwindcss";
+
+@theme {
+  --color-dota-bg: #1a1a2e;
+  --color-dota-surface: #16213e;
+  --color-dota-card: #0f3460;
+  --color-dota-gold: #c9a84c;
+  --color-dota-gold-dim: #8a7030;
+  --color-dota-red: #e94560;
+  --color-dota-green: #4ade80;
+  --color-dota-blue: #3b82f6;
+  --color-dota-text: #e8e8e8;
+  --color-dota-text-dim: #9ca3af;
+  --color-dota-border: #2a2a4a;
+
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+body {
+  background-color: var(--color-dota-bg);
+  color: var(--color-dota-text);
+  font-family: var(--font-sans);
+}
+
+/* Animations */
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Custom scrollbar for Dota aesthetic */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-dota-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-dota-border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-dota-gold-dim);
+}

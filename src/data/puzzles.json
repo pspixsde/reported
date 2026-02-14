@@ -1,0 +1,3002 @@
+[
+  {
+    "id": "8689856189-9",
+    "hero": "mirana",
+    "heroId": 9,
+    "items": [
+      0,
+      180,
+      250,
+      92,
+      36,
+      0
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 435,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "0-3 / 0-3 / 0-4"
+  },
+  {
+    "id": "8689846139-35",
+    "hero": "sniper",
+    "heroId": 35,
+    "items": [
+      1808,
+      277,
+      235,
+      180,
+      0,
+      0
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1112,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "8-12 / 0-3 / 15+"
+  },
+  {
+    "id": "8689846139-73",
+    "hero": "alchemist",
+    "heroId": 73,
+    "items": [
+      0,
+      178,
+      244,
+      114,
+      34,
+      48
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1112,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "0-3 / 0-3 / 5-9"
+  },
+  {
+    "id": "8689846139-14",
+    "hero": "pudge",
+    "heroId": 14,
+    "items": [
+      273,
+      50,
+      1,
+      32,
+      114,
+      121
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1112,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "8-12 / 0-3 / 15+"
+  },
+  {
+    "id": "8689846139-100",
+    "hero": "tusk",
+    "heroId": 100,
+    "items": [
+      240,
+      152,
+      50,
+      11,
+      8,
+      36
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1112,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "0-3 / 8+ / 5-9"
+  },
+  {
+    "id": "8689846095-87",
+    "hero": "disruptor",
+    "heroId": 87,
+    "items": [
+      180,
+      203,
+      98,
+      1107,
+      4204,
+      0
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 970,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "4-7 / 0-3 / 10-14"
+  },
+  {
+    "id": "8689846095-49",
+    "hero": "dragon_knight",
+    "heroId": 49,
+    "items": [
+      1,
+      108,
+      112,
+      178,
+      158,
+      63
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 970,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "4-7 / 0-3 / 5-9"
+  },
+  {
+    "id": "8689846095-74",
+    "hero": "invoker",
+    "heroId": 74,
+    "items": [
+      1575,
+      250,
+      92,
+      48,
+      25,
+      40
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 970,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "4-7 / 0-3 / 5-9"
+  },
+  {
+    "id": "8689846095-7",
+    "hero": "earthshaker",
+    "heroId": 7,
+    "items": [
+      231,
+      90,
+      1,
+      42,
+      108,
+      73
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 970,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "4-7 / 4-7 / 0-4"
+  },
+  {
+    "id": "8689846094-95",
+    "hero": "troll_warlord",
+    "heroId": 95,
+    "items": [
+      63,
+      116,
+      73,
+      152,
+      40,
+      166
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1066,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "0-3 / 8+ / 0-4"
+  },
+  {
+    "id": "8689846094-86",
+    "hero": "rubick",
+    "heroId": 86,
+    "items": [
+      218,
+      204,
+      1,
+      77,
+      180,
+      38
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1066,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "0-3 / 4-7 / 0-4"
+  },
+  {
+    "id": "8689846094-54",
+    "hero": "life_stealer",
+    "heroId": 54,
+    "items": [
+      73,
+      125,
+      34,
+      29,
+      162,
+      60
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1066,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "0-3 / 4-7 / 0-4"
+  },
+  {
+    "id": "8689846094-21",
+    "hero": "windrunner",
+    "heroId": 21,
+    "items": [
+      236,
+      67,
+      108,
+      158,
+      63,
+      135
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1066,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "0-3 / 0-3 / 5-9"
+  },
+  {
+    "id": "8689846094-14",
+    "hero": "pudge",
+    "heroId": 14,
+    "items": [
+      50,
+      600,
+      114,
+      108,
+      73,
+      247
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1066,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "13+ / 0-3 / 10-14"
+  },
+  {
+    "id": "8689846093-58",
+    "hero": "enchantress",
+    "heroId": 58,
+    "items": [
+      214,
+      603,
+      135,
+      236,
+      0,
+      0
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1226,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "8-12 / 8+ / 5-9"
+  },
+  {
+    "id": "8689846093-35",
+    "hero": "sniper",
+    "heroId": 35,
+    "items": [
+      218,
+      152,
+      160,
+      135,
+      48,
+      55
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1226,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "8-12 / 8+ / 5-9"
+  },
+  {
+    "id": "8689846093-11",
+    "hero": "nevermore",
+    "heroId": 11,
+    "items": [
+      116,
+      110,
+      1,
+      0,
+      277,
+      48
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1226,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "8-12 / 4-7 / 10-14"
+  },
+  {
+    "id": "8689846093-119",
+    "hero": "dark_willow",
+    "heroId": 119,
+    "items": [
+      108,
+      116,
+      1806,
+      247,
+      63,
+      1
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1226,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "4-7 / 4-7 / 15+"
+  },
+  {
+    "id": "8689846093-27",
+    "hero": "shadow_shaman",
+    "heroId": 27,
+    "items": [
+      180,
+      1,
+      123,
+      108,
+      259,
+      232
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1226,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "4-7 / 8+ / 15+"
+  },
+  {
+    "id": "8689846076-35",
+    "hero": "sniper",
+    "heroId": 35,
+    "items": [
+      48,
+      152,
+      108,
+      40,
+      1107,
+      0
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1095,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "4-7 / 4-7 / 15+"
+  },
+  {
+    "id": "8689846076-53",
+    "hero": "furion",
+    "heroId": 53,
+    "items": [
+      250,
+      158,
+      225,
+      156,
+      63,
+      240
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1095,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "13+ / 4-7 / 15+"
+  },
+  {
+    "id": "8689846076-111",
+    "hero": "oracle",
+    "heroId": 111,
+    "items": [
+      1,
+      180,
+      273,
+      1808,
+      23,
+      36
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1095,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "8-12 / 4-7 / 15+"
+  },
+  {
+    "id": "8689846076-10",
+    "hero": "morphling",
+    "heroId": 10,
+    "items": [
+      201,
+      176,
+      36,
+      29,
+      20,
+      1107
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1095,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "4-7 / 4-7 / 0-4"
+  },
+  {
+    "id": "8689846020-68",
+    "hero": "ancient_apparition",
+    "heroId": 68,
+    "items": [
+      235,
+      1802,
+      102,
+      36,
+      180,
+      259
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1132,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "4-7 / 4-7 / 10-14"
+  },
+  {
+    "id": "8689846020-35",
+    "hero": "sniper",
+    "heroId": 35,
+    "items": [
+      63,
+      244,
+      34,
+      108,
+      1107,
+      265
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1132,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "0-3 / 8+ / 5-9"
+  },
+  {
+    "id": "8689846018-58",
+    "hero": "enchantress",
+    "heroId": 58,
+    "items": [
+      1806,
+      108,
+      96,
+      0,
+      63,
+      141
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1234,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "13+ / 0-3 / 10-14"
+  },
+  {
+    "id": "8689846017-71",
+    "hero": "spirit_breaker",
+    "heroId": 71,
+    "items": [
+      249,
+      73,
+      154,
+      247,
+      50,
+      0
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1101,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "4-7 / 0-3 / 15+"
+  },
+  {
+    "id": "8689846017-40",
+    "hero": "venomancer",
+    "heroId": 40,
+    "items": [
+      231,
+      256,
+      39,
+      36,
+      43,
+      1575
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1101,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "0-3 / 8+ / 10-14"
+  },
+  {
+    "id": "8689846017-31",
+    "hero": "lich",
+    "heroId": 31,
+    "items": [
+      43,
+      1,
+      254,
+      36,
+      279,
+      214
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1101,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "0-3 / 8+ / 5-9"
+  },
+  {
+    "id": "8689845998-50",
+    "hero": "dazzle",
+    "heroId": 50,
+    "items": [
+      98,
+      269,
+      88,
+      29,
+      7,
+      1806
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1102,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "8-12 / 8+ / 5-9"
+  },
+  {
+    "id": "8689845998-22",
+    "hero": "zuus",
+    "heroId": 22,
+    "items": [
+      36,
+      141,
+      41,
+      0,
+      237,
+      180
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1102,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "0-3 / 8+ / 0-4"
+  },
+  {
+    "id": "8689845998-14",
+    "hero": "pudge",
+    "heroId": 14,
+    "items": [
+      73,
+      73,
+      50,
+      1,
+      36,
+      279
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1102,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "0-3 / 8+ / 10-14"
+  },
+  {
+    "id": "8689845998-71",
+    "hero": "spirit_breaker",
+    "heroId": 71,
+    "items": [
+      1,
+      249,
+      50,
+      114,
+      43,
+      0
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1102,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "4-7 / 4-7 / 10-14"
+  },
+  {
+    "id": "8689845998-58",
+    "hero": "enchantress",
+    "heroId": 58,
+    "items": [
+      108,
+      534,
+      160,
+      263,
+      34,
+      166
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1102,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "13+ / 0-3 / 0-4"
+  },
+  {
+    "id": "8689845998-136",
+    "hero": "marci",
+    "heroId": 136,
+    "items": [
+      152,
+      166,
+      0,
+      216,
+      149,
+      39
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1102,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "0-3 / 8+ / 5-9"
+  },
+  {
+    "id": "8689845935-155",
+    "hero": "largo",
+    "heroId": 155,
+    "items": [
+      137,
+      108,
+      180,
+      73,
+      16,
+      16
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1121,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "0-3 / 4-7 / 0-4"
+  },
+  {
+    "id": "8689845935-101",
+    "hero": "skywrath_mage",
+    "heroId": 101,
+    "items": [
+      1808,
+      77,
+      77,
+      77,
+      0,
+      206
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1121,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "0-3 / 4-7 / 5-9"
+  },
+  {
+    "id": "8689845935-84",
+    "hero": "ogre_magi",
+    "heroId": 84,
+    "items": [
+      108,
+      65,
+      180,
+      119,
+      273,
+      114
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1121,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "8-12 / 4-7 / 15+"
+  },
+  {
+    "id": "8689845935-25",
+    "hero": "lina",
+    "heroId": 25,
+    "items": [
+      277,
+      96,
+      204,
+      176,
+      77,
+      48
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1121,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "4-7 / 0-3 / 10-14"
+  },
+  {
+    "id": "8689845935-11",
+    "hero": "nevermore",
+    "heroId": 11,
+    "items": [
+      277,
+      235,
+      116,
+      604,
+      133,
+      48
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1121,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "13+ / 0-3 / 5-9"
+  },
+  {
+    "id": "8689845804-71",
+    "hero": "spirit_breaker",
+    "heroId": 71,
+    "items": [
+      250,
+      36,
+      86,
+      277,
+      50,
+      43
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1171,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "0-3 / 4-7 / 15+"
+  },
+  {
+    "id": "8689845804-58",
+    "hero": "enchantress",
+    "heroId": 58,
+    "items": [
+      244,
+      63,
+      98,
+      263,
+      0,
+      0
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1171,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "0-3 / 0-3 / 10-14"
+  },
+  {
+    "id": "8689845804-11",
+    "hero": "nevermore",
+    "heroId": 11,
+    "items": [
+      1,
+      48,
+      277,
+      100,
+      143,
+      110
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1171,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "4-7 / 0-3 / 10-14"
+  },
+  {
+    "id": "8689845804-17",
+    "hero": "storm_spirit",
+    "heroId": 17,
+    "items": [
+      231,
+      178,
+      273,
+      190,
+      41,
+      0
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1171,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "0-3 / 8+ / 5-9"
+  },
+  {
+    "id": "8689845804-40",
+    "hero": "venomancer",
+    "heroId": 40,
+    "items": [
+      263,
+      36,
+      210,
+      92,
+      180,
+      0
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1171,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "0-3 / 8+ / 0-4"
+  },
+  {
+    "id": "8689845804-136",
+    "hero": "marci",
+    "heroId": 136,
+    "items": [
+      73,
+      168,
+      116,
+      50,
+      135,
+      0
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1171,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "4-7 / 4-7 / 5-9"
+  },
+  {
+    "id": "8689844200-26",
+    "hero": "lion",
+    "heroId": 26,
+    "items": [
+      108,
+      1,
+      116,
+      63,
+      252,
+      141
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1280,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "8-12 / 4-7 / 10-14"
+  },
+  {
+    "id": "8689844200-23",
+    "hero": "kunkka",
+    "heroId": 23,
+    "items": [
+      141,
+      1,
+      141,
+      133,
+      133,
+      50
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1280,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "4-7 / 0-3 / 10-14"
+  },
+  {
+    "id": "8689844200-15",
+    "hero": "razor",
+    "heroId": 15,
+    "items": [
+      231,
+      116,
+      154,
+      137,
+      75,
+      114
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1280,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "8-12 / 0-3 / 10-14"
+  },
+  {
+    "id": "8689844200-68",
+    "hero": "ancient_apparition",
+    "heroId": 68,
+    "items": [
+      214,
+      267,
+      263,
+      256,
+      40,
+      0
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1280,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "0-3 / 4-7 / 5-9"
+  },
+  {
+    "id": "8689844199-93",
+    "hero": "slark",
+    "heroId": 93,
+    "items": [
+      14,
+      20,
+      223,
+      939,
+      36,
+      63
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1136,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "13+ / 0-3 / 15+"
+  },
+  {
+    "id": "8689844199-136",
+    "hero": "marci",
+    "heroId": 136,
+    "items": [
+      29,
+      65,
+      149,
+      0,
+      36,
+      73
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1136,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "4-7 / 8+ / 0-4"
+  },
+  {
+    "id": "8689844198-84",
+    "hero": "ogre_magi",
+    "heroId": 84,
+    "items": [
+      65,
+      250,
+      8,
+      50,
+      218,
+      21
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1203,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "4-7 / 4-7 / 5-9"
+  },
+  {
+    "id": "8689844198-21",
+    "hero": "windrunner",
+    "heroId": 21,
+    "items": [
+      108,
+      250,
+      40,
+      48,
+      1,
+      21
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1203,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "4-7 / 4-7 / 5-9"
+  },
+  {
+    "id": "8689844178-16",
+    "hero": "sand_king",
+    "heroId": 16,
+    "items": [
+      1,
+      108,
+      43,
+      114,
+      180,
+      0
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1181,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "8-12 / 4-7 / 15+"
+  },
+  {
+    "id": "8689844178-112",
+    "hero": "winter_wyvern",
+    "heroId": 112,
+    "items": [
+      180,
+      98,
+      273,
+      1802,
+      108,
+      0
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1181,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "4-7 / 0-3 / 15+"
+  },
+  {
+    "id": "8689844178-53",
+    "hero": "furion",
+    "heroId": 53,
+    "items": [
+      36,
+      98,
+      168,
+      63,
+      0,
+      0
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1181,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "0-3 / 8+ / 5-9"
+  },
+  {
+    "id": "8689844170-6",
+    "hero": "drow_ranger",
+    "heroId": 6,
+    "items": [
+      63,
+      158,
+      249,
+      0,
+      598,
+      236
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1133,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "4-7 / 0-3 / 5-9"
+  },
+  {
+    "id": "8689844170-84",
+    "hero": "ogre_magi",
+    "heroId": 84,
+    "items": [
+      180,
+      273,
+      65,
+      125,
+      279,
+      73
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1133,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "0-3 / 4-7 / 5-9"
+  },
+  {
+    "id": "8689844165-71",
+    "hero": "spirit_breaker",
+    "heroId": 71,
+    "items": [
+      50,
+      127,
+      73,
+      154,
+      73,
+      40
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1271,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "4-7 / 4-7 / 10-14"
+  },
+  {
+    "id": "8689844139-7",
+    "hero": "earthshaker",
+    "heroId": 7,
+    "items": [
+      73,
+      141,
+      63,
+      108,
+      0,
+      44
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1237,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "0-3 / 0-3 / 5-9"
+  },
+  {
+    "id": "8689844139-15",
+    "hero": "razor",
+    "heroId": 15,
+    "items": [
+      43,
+      36,
+      108,
+      75,
+      1,
+      63
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1237,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "0-3 / 4-7 / 5-9"
+  },
+  {
+    "id": "8689844128-39",
+    "hero": "queenofpain",
+    "heroId": 39,
+    "items": [
+      235,
+      232,
+      202,
+      63,
+      108,
+      0
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1205,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "4-7 / 0-3 / 10-14"
+  },
+  {
+    "id": "8689844128-84",
+    "hero": "ogre_magi",
+    "heroId": 84,
+    "items": [
+      1,
+      114,
+      114,
+      180,
+      114,
+      108
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1205,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "8-12 / 4-7 / 15+"
+  },
+  {
+    "id": "8689844128-36",
+    "hero": "necrolyte",
+    "heroId": 36,
+    "items": [
+      204,
+      180,
+      0,
+      59,
+      0,
+      0
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1205,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "0-3 / 4-7 / 5-9"
+  },
+  {
+    "id": "8689844054-41",
+    "hero": "faceless_void",
+    "heroId": 41,
+    "items": [
+      75,
+      172,
+      158,
+      141,
+      247,
+      63
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1259,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "4-7 / 4-7 / 10-14"
+  },
+  {
+    "id": "8689844054-126",
+    "hero": "void_spirit",
+    "heroId": 126,
+    "items": [
+      77,
+      911,
+      63,
+      36,
+      75,
+      73
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1259,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "4-7 / 4-7 / 5-9"
+  },
+  {
+    "id": "8689844054-119",
+    "hero": "dark_willow",
+    "heroId": 119,
+    "items": [
+      98,
+      108,
+      172,
+      1,
+      63,
+      55
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1259,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "4-7 / 4-7 / 5-9"
+  },
+  {
+    "id": "8689844035-84",
+    "hero": "ogre_magi",
+    "heroId": 84,
+    "items": [
+      125,
+      63,
+      154,
+      127,
+      73,
+      114
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1113,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "4-7 / 4-7 / 10-14"
+  },
+  {
+    "id": "8689844035-113",
+    "hero": "arc_warden",
+    "heroId": 113,
+    "items": [
+      36,
+      108,
+      166,
+      40,
+      63,
+      162
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1113,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "0-3 / 4-7 / 10-14"
+  },
+  {
+    "id": "8689844035-74",
+    "hero": "invoker",
+    "heroId": 74,
+    "items": [
+      1466,
+      119,
+      65,
+      77,
+      108,
+      220
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1113,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "8-12 / 4-7 / 5-9"
+  },
+  {
+    "id": "8689844033-2",
+    "hero": "axe",
+    "heroId": 2,
+    "items": [
+      127,
+      50,
+      226,
+      116,
+      60,
+      1
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1173,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "4-7 / 8+ / 5-9"
+  },
+  {
+    "id": "8689844033-35",
+    "hero": "sniper",
+    "heroId": 35,
+    "items": [
+      133,
+      77,
+      108,
+      63,
+      1107,
+      1806
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1173,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "4-7 / 4-7 / 5-9"
+  },
+  {
+    "id": "8689844033-138",
+    "hero": "muerta",
+    "heroId": 138,
+    "items": [
+      0,
+      44,
+      0,
+      534,
+      596,
+      63
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1173,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "0-3 / 8+ / 5-9"
+  },
+  {
+    "id": "8689844033-110",
+    "hero": "phoenix",
+    "heroId": 110,
+    "items": [
+      29,
+      137,
+      65,
+      4,
+      267,
+      20
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1173,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "4-7 / 4-7 / 10-14"
+  },
+  {
+    "id": "8689844033-14",
+    "hero": "pudge",
+    "heroId": 14,
+    "items": [
+      119,
+      600,
+      235,
+      108,
+      50,
+      114
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1173,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "13+ / 4-7 / 15+"
+  },
+  {
+    "id": "8689844033-47",
+    "hero": "viper",
+    "heroId": 47,
+    "items": [
+      63,
+      139,
+      247,
+      36,
+      263,
+      0
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1173,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "4-7 / 4-7 / 10-14"
+  },
+  {
+    "id": "8689844033-26",
+    "hero": "lion",
+    "heroId": 26,
+    "items": [
+      108,
+      214,
+      1802,
+      61,
+      273,
+      1
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1173,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "4-7 / 4-7 / 5-9"
+  },
+  {
+    "id": "8689843995-105",
+    "hero": "techies",
+    "heroId": 105,
+    "items": [
+      156,
+      263,
+      63,
+      158,
+      247,
+      247
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1232,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "4-7 / 0-3 / 10-14"
+  },
+  {
+    "id": "8689843995-85",
+    "hero": "undying",
+    "heroId": 85,
+    "items": [
+      231,
+      178,
+      127,
+      36,
+      73,
+      114
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1232,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "4-7 / 0-3 / 10-14"
+  },
+  {
+    "id": "8689843986-80",
+    "hero": "lone_druid",
+    "heroId": 80,
+    "items": [
+      11,
+      108,
+      50,
+      137,
+      181,
+      4204
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1091,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "0-3 / 0-3 / 0-4"
+  },
+  {
+    "id": "8689843986-67",
+    "hero": "spectre",
+    "heroId": 67,
+    "items": [
+      137,
+      1808,
+      147,
+      0,
+      160,
+      208
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1091,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "13+ / 0-3 / 10-14"
+  },
+  {
+    "id": "8689843986-2",
+    "hero": "axe",
+    "heroId": 2,
+    "items": [
+      156,
+      151,
+      127,
+      170,
+      534,
+      1
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1091,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "13+ / 4-7 / 10-14"
+  },
+  {
+    "id": "8689843986-41",
+    "hero": "faceless_void",
+    "heroId": 41,
+    "items": [
+      75,
+      63,
+      60,
+      252,
+      56,
+      22
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1091,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "0-3 / 4-7 / 5-9"
+  },
+  {
+    "id": "8689842734-40",
+    "hero": "venomancer",
+    "heroId": 40,
+    "items": [
+      600,
+      206,
+      100,
+      114,
+      48,
+      30
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1318,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "4-7 / 0-3 / 15+"
+  },
+  {
+    "id": "8689842734-16",
+    "hero": "sand_king",
+    "heroId": 16,
+    "items": [
+      1,
+      610,
+      119,
+      137,
+      180,
+      123
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1318,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "8-12 / 0-3 / 15+"
+  },
+  {
+    "id": "8689842734-62",
+    "hero": "bounty_hunter",
+    "heroId": 62,
+    "items": [
+      218,
+      40,
+      114,
+      180,
+      240,
+      226
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1318,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "0-3 / 4-7 / 5-9"
+  },
+  {
+    "id": "8689842734-96",
+    "hero": "centaur",
+    "heroId": 96,
+    "items": [
+      21,
+      1,
+      127,
+      692,
+      226,
+      8
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1318,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "4-7 / 8+ / 5-9"
+  },
+  {
+    "id": "8689842724-31",
+    "hero": "lich",
+    "heroId": 31,
+    "items": [
+      1466,
+      214,
+      244,
+      232,
+      0,
+      0
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1114,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "0-3 / 4-7 / 15+"
+  },
+  {
+    "id": "8689842724-123",
+    "hero": "hoodwink",
+    "heroId": 123,
+    "items": [
+      75,
+      56,
+      180,
+      166,
+      24,
+      108
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1114,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "4-7 / 4-7 / 10-14"
+  },
+  {
+    "id": "8689842724-84",
+    "hero": "ogre_magi",
+    "heroId": 84,
+    "items": [
+      610,
+      267,
+      1,
+      34,
+      180,
+      0
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1114,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "8-12 / 4-7 / 10-14"
+  },
+  {
+    "id": "8689842693-6",
+    "hero": "drow_ranger",
+    "heroId": 6,
+    "items": [
+      156,
+      154,
+      139,
+      48,
+      263,
+      108
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1248,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "8-12 / 0-3 / 10-14"
+  },
+  {
+    "id": "8689842693-50",
+    "hero": "dazzle",
+    "heroId": 50,
+    "items": [
+      168,
+      1,
+      180,
+      73,
+      244,
+      149
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1248,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "0-3 / 0-3 / 15+"
+  },
+  {
+    "id": "8689842693-126",
+    "hero": "void_spirit",
+    "heroId": 126,
+    "items": [
+      98,
+      77,
+      63,
+      534,
+      598,
+      108
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1248,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "0-3 / 0-3 / 10-14"
+  },
+  {
+    "id": "8689842689-84",
+    "hero": "ogre_magi",
+    "heroId": 84,
+    "items": [
+      73,
+      108,
+      216,
+      180,
+      114,
+      1
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1048,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "0-3 / 0-3 / 10-14"
+  },
+  {
+    "id": "8689842689-26",
+    "hero": "lion",
+    "heroId": 26,
+    "items": [
+      50,
+      1,
+      40,
+      108,
+      77,
+      0
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1048,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "4-7 / 4-7 / 5-9"
+  },
+  {
+    "id": "8689842689-43",
+    "hero": "death_prophet",
+    "heroId": 43,
+    "items": [
+      108,
+      114,
+      180,
+      137,
+      0,
+      0
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1048,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "0-3 / 4-7 / 5-9"
+  },
+  {
+    "id": "8689842689-74",
+    "hero": "invoker",
+    "heroId": 74,
+    "items": [
+      44,
+      206,
+      48,
+      77,
+      534,
+      0
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1048,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "0-3 / 8+ / 0-4"
+  },
+  {
+    "id": "8689842688-32",
+    "hero": "riki",
+    "heroId": 32,
+    "items": [
+      139,
+      208,
+      63,
+      26,
+      160,
+      174
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1238,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "4-7 / 0-3 / 15+"
+  },
+  {
+    "id": "8689842686-14",
+    "hero": "pudge",
+    "heroId": 14,
+    "items": [
+      50,
+      1,
+      73,
+      73,
+      36,
+      279
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 995,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "0-3 / 4-7 / 5-9"
+  },
+  {
+    "id": "8689842686-25",
+    "hero": "lina",
+    "heroId": 25,
+    "items": [
+      41,
+      108,
+      48,
+      235,
+      0,
+      0
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 995,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "0-3 / 0-3 / 5-9"
+  },
+  {
+    "id": "8689842683-35",
+    "hero": "sniper",
+    "heroId": 35,
+    "items": [
+      63,
+      236,
+      14,
+      20,
+      168,
+      0
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 930,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "0-3 / 4-7 / 0-4"
+  },
+  {
+    "id": "8689842683-138",
+    "hero": "muerta",
+    "heroId": 138,
+    "items": [
+      263,
+      141,
+      596,
+      63,
+      1806,
+      133
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 930,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "13+ / 0-3 / 0-4"
+  },
+  {
+    "id": "8689842683-44",
+    "hero": "phantom_assassin",
+    "heroId": 44,
+    "items": [
+      36,
+      166,
+      75,
+      34,
+      63,
+      20
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 930,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "0-3 / 0-3 / 5-9"
+  },
+  {
+    "id": "8689842683-47",
+    "hero": "viper",
+    "heroId": 47,
+    "items": [
+      63,
+      166,
+      75,
+      34,
+      36,
+      20
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 930,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "0-3 / 8+ / 0-4"
+  },
+  {
+    "id": "8689842683-31",
+    "hero": "lich",
+    "heroId": 31,
+    "items": [
+      94,
+      231,
+      36,
+      31,
+      16,
+      34
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 930,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "4-7 / 4-7 / 0-4"
+  },
+  {
+    "id": "8689842683-5",
+    "hero": "crystal_maiden",
+    "heroId": 5,
+    "items": [
+      231,
+      90,
+      20,
+      36,
+      16,
+      34
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 930,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "0-3 / 0-3 / 5-9"
+  },
+  {
+    "id": "8689842683-26",
+    "hero": "lion",
+    "heroId": 26,
+    "items": [
+      36,
+      231,
+      20,
+      34,
+      44,
+      16
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 930,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "0-3 / 4-7 / 5-9"
+  },
+  {
+    "id": "8689842668-84",
+    "hero": "ogre_magi",
+    "heroId": 84,
+    "items": [
+      208,
+      277,
+      48,
+      112,
+      249,
+      114
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1281,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "13+ / 4-7 / 10-14"
+  },
+  {
+    "id": "8689842668-138",
+    "hero": "muerta",
+    "heroId": 138,
+    "items": [
+      152,
+      263,
+      166,
+      214,
+      247,
+      1806
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1281,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "4-7 / 4-7 / 10-14"
+  },
+  {
+    "id": "8689842668-68",
+    "hero": "ancient_apparition",
+    "heroId": 68,
+    "items": [
+      108,
+      263,
+      63,
+      247,
+      77,
+      534
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1281,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "4-7 / 8+ / 15+"
+  },
+  {
+    "id": "8689842645-85",
+    "hero": "undying",
+    "heroId": 85,
+    "items": [
+      114,
+      127,
+      242,
+      0,
+      692,
+      231
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1295,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "8-12 / 4-7 / 15+"
+  },
+  {
+    "id": "8689842645-47",
+    "hero": "viper",
+    "heroId": 47,
+    "items": [
+      263,
+      116,
+      206,
+      231,
+      598,
+      36
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1295,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "4-7 / 4-7 / 10-14"
+  },
+  {
+    "id": "8689842645-35",
+    "hero": "sniper",
+    "heroId": 35,
+    "items": [
+      180,
+      1,
+      152,
+      108,
+      51,
+      218
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1295,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "4-7 / 4-7 / 5-9"
+  },
+  {
+    "id": "8689842644-26",
+    "hero": "lion",
+    "heroId": 26,
+    "items": [
+      223,
+      100,
+      1,
+      256,
+      214,
+      254
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1273,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "4-7 / 8+ / 15+"
+  },
+  {
+    "id": "8689842644-39",
+    "hero": "queenofpain",
+    "heroId": 39,
+    "items": [
+      36,
+      1802,
+      180,
+      40,
+      77,
+      610
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1273,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "0-3 / 4-7 / 15+"
+  },
+  {
+    "id": "8689842643-90",
+    "hero": "keeper_of_the_light",
+    "heroId": 90,
+    "items": [
+      0,
+      48,
+      204,
+      1466,
+      123,
+      0
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1284,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "4-7 / 0-3 / 15+"
+  },
+  {
+    "id": "8689842643-39",
+    "hero": "queenofpain",
+    "heroId": 39,
+    "items": [
+      250,
+      141,
+      63,
+      0,
+      1806,
+      114
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1284,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "13+ / 0-3 / 15+"
+  },
+  {
+    "id": "8689842643-35",
+    "hero": "sniper",
+    "heroId": 35,
+    "items": [
+      180,
+      108,
+      34,
+      259,
+      1808,
+      0
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1284,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "4-7 / 8+ / 10-14"
+  },
+  {
+    "id": "8689842643-9",
+    "hero": "mirana",
+    "heroId": 9,
+    "items": [
+      147,
+      166,
+      56,
+      0,
+      1125,
+      63
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1284,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "0-3 / 8+ / 0-4"
+  },
+  {
+    "id": "8689842635-105",
+    "hero": "techies",
+    "heroId": 105,
+    "items": [
+      214,
+      232,
+      77,
+      141,
+      277,
+      0
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1078,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "8-12 / 4-7 / 15+"
+  },
+  {
+    "id": "8689842635-84",
+    "hero": "ogre_magi",
+    "heroId": 84,
+    "items": [
+      65,
+      116,
+      273,
+      108,
+      180,
+      235
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1078,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "8-12 / 0-3 / 15+"
+  },
+  {
+    "id": "8689842635-32",
+    "hero": "riki",
+    "heroId": 32,
+    "items": [
+      63,
+      75,
+      36,
+      174,
+      135,
+      11
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1078,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "4-7 / 8+ / 10-14"
+  },
+  {
+    "id": "8689842635-57",
+    "hero": "omniknight",
+    "heroId": 57,
+    "items": [
+      13,
+      11,
+      235,
+      0,
+      0,
+      20
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1078,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "0-3 / 0-3 / 10-14"
+  },
+  {
+    "id": "8689842635-74",
+    "hero": "invoker",
+    "heroId": 74,
+    "items": [
+      38,
+      143,
+      1,
+      48,
+      218,
+      36
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1078,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "0-3 / 8+ / 0-4"
+  },
+  {
+    "id": "8689842635-49",
+    "hero": "dragon_knight",
+    "heroId": 49,
+    "items": [
+      158,
+      63,
+      73,
+      13,
+      152,
+      218
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1078,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "4-7 / 8+ / 5-9"
+  },
+  {
+    "id": "8689842635-114",
+    "hero": "monkey_king",
+    "heroId": 114,
+    "items": [
+      75,
+      12,
+      63,
+      252,
+      166,
+      0
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1078,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "0-3 / 8+ / 5-9"
+  },
+  {
+    "id": "8689842634-35",
+    "hero": "sniper",
+    "heroId": 35,
+    "items": [
+      277,
+      63,
+      1808,
+      108,
+      216,
+      0
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1184,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "4-7 / 0-3 / 10-14"
+  },
+  {
+    "id": "8689842634-64",
+    "hero": "jakiro",
+    "heroId": 64,
+    "items": [
+      98,
+      1806,
+      180,
+      77,
+      108,
+      1
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1184,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "13+ / 0-3 / 5-9"
+  },
+  {
+    "id": "8689842634-145",
+    "hero": "kez",
+    "heroId": 145,
+    "items": [
+      50,
+      598,
+      154,
+      596,
+      168,
+      108
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1184,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "8-12 / 4-7 / 15+"
+  },
+  {
+    "id": "8689842634-84",
+    "hero": "ogre_magi",
+    "heroId": 84,
+    "items": [
+      279,
+      1107,
+      180,
+      43,
+      1,
+      108
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1184,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "8-12 / 8+ / 5-9"
+  },
+  {
+    "id": "8689842634-11",
+    "hero": "nevermore",
+    "heroId": 11,
+    "items": [
+      100,
+      48,
+      1,
+      116,
+      41,
+      277
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1184,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "0-3 / 4-7 / 0-4"
+  },
+  {
+    "id": "8689842634-62",
+    "hero": "bounty_hunter",
+    "heroId": 62,
+    "items": [
+      69,
+      7,
+      232,
+      0,
+      98,
+      0
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1184,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "0-3 / 8+ / 5-9"
+  },
+  {
+    "id": "8689842632-91",
+    "hero": "wisp",
+    "heroId": 91,
+    "items": [
+      92,
+      36,
+      210,
+      254,
+      81,
+      0
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1289,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "0-3 / 8+ / 10-14"
+  },
+  {
+    "id": "8689842632-84",
+    "hero": "ogre_magi",
+    "heroId": 84,
+    "items": [
+      73,
+      36,
+      154,
+      114,
+      216,
+      8
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1289,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "4-7 / 8+ / 5-9"
+  },
+  {
+    "id": "8689842632-88",
+    "hero": "nyx_assassin",
+    "heroId": 88,
+    "items": [
+      176,
+      36,
+      77,
+      204,
+      41,
+      180
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1289,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "4-7 / 4-7 / 15+"
+  },
+  {
+    "id": "8689842632-105",
+    "hero": "techies",
+    "heroId": 105,
+    "items": [
+      176,
+      232,
+      34,
+      214,
+      235,
+      218
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1289,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "8-12 / 4-7 / 10-14"
+  },
+  {
+    "id": "8689842632-119",
+    "hero": "dark_willow",
+    "heroId": 119,
+    "items": [
+      108,
+      247,
+      117,
+      180,
+      1,
+      247
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1289,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "13+ / 0-3 / 15+"
+  },
+  {
+    "id": "8689842629-23",
+    "hero": "kunkka",
+    "heroId": 23,
+    "items": [
+      190,
+      231,
+      73,
+      36,
+      90,
+      73
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1323,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "0-3 / 4-7 / 5-9"
+  },
+  {
+    "id": "8689842629-64",
+    "hero": "jakiro",
+    "heroId": 64,
+    "items": [
+      1,
+      116,
+      108,
+      911,
+      1806,
+      277
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1323,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "13+ / 8+ / 5-9"
+  },
+  {
+    "id": "8689842629-103",
+    "hero": "elder_titan",
+    "heroId": 103,
+    "items": [
+      50,
+      252,
+      208,
+      141,
+      108,
+      247
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1323,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "13+ / 4-7 / 10-14"
+  },
+  {
+    "id": "8689842629-41",
+    "hero": "faceless_void",
+    "heroId": 41,
+    "items": [
+      235,
+      63,
+      137,
+      166,
+      108,
+      277
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1323,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "4-7 / 0-3 / 15+"
+  },
+  {
+    "id": "8689842629-7",
+    "hero": "earthshaker",
+    "heroId": 7,
+    "items": [
+      110,
+      249,
+      220,
+      277,
+      0,
+      1
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1323,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "8-12 / 8+ / 15+"
+  },
+  {
+    "id": "8689841562-138",
+    "hero": "muerta",
+    "heroId": 138,
+    "items": [
+      263,
+      160,
+      48,
+      158,
+      156,
+      141
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1346,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "8-12 / 0-3 / 5-9"
+  },
+  {
+    "id": "8689841562-19",
+    "hero": "tiny",
+    "heroId": 19,
+    "items": [
+      127,
+      1,
+      141,
+      180,
+      112,
+      1107
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1346,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "4-7 / 8+ / 15+"
+  },
+  {
+    "id": "8689841562-108",
+    "hero": "abyssal_underlord",
+    "heroId": 108,
+    "items": [
+      206,
+      108,
+      114,
+      127,
+      1,
+      180
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1346,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "8-12 / 4-7 / 10-14"
+  },
+  {
+    "id": "8689841562-35",
+    "hero": "sniper",
+    "heroId": 35,
+    "items": [
+      26,
+      160,
+      152,
+      174,
+      149,
+      247
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1346,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "8-12 / 8+ / 5-9"
+  },
+  {
+    "id": "8689841546-100",
+    "hero": "tusk",
+    "heroId": 100,
+    "items": [
+      36,
+      50,
+      152,
+      168,
+      21,
+      11
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1172,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "0-3 / 4-7 / 10-14"
+  },
+  {
+    "id": "8689841546-36",
+    "hero": "necrolyte",
+    "heroId": 36,
+    "items": [
+      1,
+      231,
+      102,
+      36,
+      69,
+      0
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1172,
+    "patch": "7.36",
+    "win": false,
+    "rankBracket": "Archon",
+    "kdaBucket": "4-7 / 4-7 / 0-4"
+  },
+  {
+    "id": "8689841546-93",
+    "hero": "slark",
+    "heroId": 93,
+    "items": [
+      63,
+      208,
+      174,
+      225,
+      108,
+      123
+    ],
+    "role": "Core",
+    "lane": "Roaming",
+    "duration": 1172,
+    "patch": "7.36",
+    "win": true,
+    "rankBracket": "Archon",
+    "kdaBucket": "8-12 / 4-7 / 5-9"
+  }
+]
