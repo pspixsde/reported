@@ -26,8 +26,8 @@ const en = {
 
   // ── Settings ──
   "settings.title": "Settings",
-  "settings.hardMode": "Hard Mode",
-  "settings.hardMode.desc": "No net worth, no creep stats. Red logo.",
+  "settings.easyMode": "Easy Mode",
+  "settings.easyMode.desc": "Shows net worth and creep stats. Green logo.",
   "settings.colorblind": "Colorblind Mode",
   "settings.colorblind.desc": "Use blue/orange instead of green/red",
 
@@ -42,24 +42,29 @@ const en = {
   "puzzle.items": "Items",
   "puzzle.gold": "{value} gold",
   "puzzle.cs": "{lastHits} / {denies} CS",
+  "puzzle.hiddenHero": "??? (Guess the hero!)",
 
   // ── Guess panel ──
   "guess.winloss": "Win/Loss",
   "guess.rank": "Rank",
   "guess.kda": "KDA",
+  "guess.hero": "Hero",
   "guess.level1.prompt":
     "Did this player <b>win</b> or <b>lose</b> this match?",
   "guess.win": "Win",
   "guess.loss": "Loss",
   "guess.level2.prompt":
-    "What was the player's <b>K / D / A</b> range?",
+    "What was the player's <b>K / D / A</b>?",
   "guess.level3.prompt":
     "What <b>rank bracket</b> was this match played in?",
+  "guess.hero.prompt":
+    "Which <b>hero</b> was this build played on?",
 
   // ── Result feedback ──
   "result.winloss": "Win/Loss",
   "result.rank": "Rank Bracket",
-  "result.kda": "KDA Range",
+  "result.kda": "KDA",
+  "result.hero": "Hero",
   "result.level": "Level {n} — {label}",
 
   // ── Score card ──
@@ -80,6 +85,16 @@ const en = {
   "levels.title": "Puzzles",
   "levels.desc": "{completed}/{total} completed",
   "levels.back": "Back to Menu",
+  "levels.hardMode.on": "Hard Mode: ON",
+  "levels.hardMode.off": "Hard Mode: OFF",
+  "levels.stats.title": "Puzzles Stats",
+  "levels.stats.played": "Played",
+  "levels.stats.accuracy": "Accuracy",
+
+  // ── Puzzle navigation ──
+  "nav.prevPuzzle": "Previous puzzle",
+  "nav.nextPuzzle": "Next puzzle",
+  "nav.backToGrid": "Grid",
 
   // ── Loading ──
   "loading.puzzle": "Loading puzzle...",

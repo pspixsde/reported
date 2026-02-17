@@ -8,6 +8,11 @@ const nextConfig: NextConfig = {
         hostname: "cdn.cloudflare.steamstatic.com",
         pathname: "/apps/dota2/images/**",
       },
+      {
+        protocol: "https",
+        hostname: "static.wikia.nocookie.net",
+        pathname: "/dota2_gamepedia/images/**",
+      },
     ],
   },
 };

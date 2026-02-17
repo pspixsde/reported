@@ -21,17 +21,20 @@ export function ScoreCard({ className }: ScoreCardProps) {
   const heroes = useGameStore((s) => s.heroes);
   const resetGame = useGameStore((s) => s.resetGame);
   const returnToPuzzleGrid = useGameStore((s) => s.returnToPuzzleGrid);
+  const maxScore = useGameStore((s) => s.maxScore);
 
   if (!completed) return null;
+
+  const max = maxScore();
 
   const heroName =
     (puzzle && heroes?.[puzzle.heroId]?.localized_name) ||
     puzzle?.hero ||
     "Unknown";
 
-  const scoreKey = `score.${score}` as "score.0" | "score.1" | "score.2" | "score.3";
+  const scoreKey = `score.${Math.min(score, 3)}` as "score.0" | "score.1" | "score.2" | "score.3";
 
-  const shareText = generateShareText(score, results.map((r) => r.correct));
+  const shareText = generateShareText(score, max, results.map((r) => r.correct));
 
   async function handleShare() {
     try {
@@ -52,7 +55,7 @@ export function ScoreCard({ className }: ScoreCardProps) {
       )}
     >
       {/* Score */}
-      <div className="mb-2 text-5xl font-black text-dota-gold">{score}/3</div>
+      <div className="mb-2 text-5xl font-black text-dota-gold">{score}/{max}</div>
       <p className="text-sm text-dota-text-dim">{t(scoreKey)}</p>
       <p className="mt-1 text-xs text-dota-text-dim">
         {t("score.hero", { name: heroName })}
@@ -73,24 +76,24 @@ export function ScoreCard({ className }: ScoreCardProps) {
 
       {/* Action buttons */}
       <div className="mt-6 flex flex-col gap-2">
-        {mode === "daily" && (
-          <button
-            onClick={handleShare}
-            className={cn(
-              "rounded-lg px-4 py-2.5 text-sm font-semibold transition-all",
-              copied
-                ? "bg-dota-green text-dota-bg"
-                : "bg-dota-gold text-dota-bg hover:bg-dota-gold-dim",
-            )}
-          >
-            {copied ? t("score.copied") : t("score.copy")}
-          </button>
-        )}
+        {/* Copy Results — shown for all modes */}
+        <button
+          onClick={handleShare}
+          className={cn(
+            "rounded-lg px-4 py-2.5 text-sm font-semibold transition-all",
+            copied
+              ? "bg-dota-green text-dota-bg"
+              : "bg-dota-gold text-dota-bg hover:bg-dota-gold-dim",
+          )}
+        >
+          {copied ? t("score.copied") : t("score.copy")}
+        </button>
 
+        {/* Back to Puzzles — only in puzzles mode */}
         {mode === "puzzles" && (
           <button
             onClick={returnToPuzzleGrid}
-            className="rounded-lg bg-dota-gold px-4 py-2.5 text-sm font-semibold text-dota-bg transition-all hover:bg-dota-gold-dim"
+            className="rounded-lg border border-dota-border px-4 py-2.5 text-sm font-semibold text-dota-text transition-all hover:bg-dota-card"
           >
             {t("score.backToPuzzles")}
           </button>
@@ -114,7 +117,7 @@ export function ScoreCard({ className }: ScoreCardProps) {
   );
 }
 
-function generateShareText(score: number, correctResults: boolean[]): string {
+function generateShareText(score: number, maxScore: number, correctResults: boolean[]): string {
   const emojis = correctResults
     .map((c) => (c ? "🟢" : "🔴"))
     .join(" ");
@@ -122,7 +125,7 @@ function generateShareText(score: number, correctResults: boolean[]): string {
   const today = new Date().toISOString().slice(0, 10);
 
   return [
-    `REPORTED ${score}/3`,
+    `REPORTED ${score}/${maxScore}`,
     emojis,
     `${today}`,
     "",

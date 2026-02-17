@@ -1,16 +1,18 @@
 import { NextResponse } from "next/server";
-import { getAllPuzzles, getPuzzleById } from "@/lib/puzzles-server";
-import { getPuzzleAssignments, stripAnswers } from "@/lib/puzzle-utils";
+import { getAllPuzzles, getPuzzleById, getAllHeroIds } from "@/lib/puzzles-server";
+import { getPuzzleAssignments, stripAnswers, generateHeroOptions } from "@/lib/puzzle-utils";
 import { PUZZLES_TOTAL } from "@/lib/game-types";
 
 /**
- * GET /api/puzzle/level?index=0
+ * GET /api/puzzle/level?index=0&hard=false
  * Returns a specific puzzle from the Puzzles mode grid (without answers).
+ * Pass hard=true for hard-mode pool (indices 20-39 with heroOptions).
  */
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const indexParam = searchParams.get("index");
+    const hard = searchParams.get("hard") === "true";
 
     if (indexParam === null) {
       return NextResponse.json(
@@ -36,9 +38,15 @@ export async function GET(request: Request) {
       );
     }
 
-    const assignments = getPuzzleAssignments(puzzles.length);
+    const assignments = getPuzzleAssignments(hard);
     const puzzlePoolIndex = assignments[index];
     const puzzle = puzzles[puzzlePoolIndex];
+
+    if (hard) {
+      const allHeroIds = getAllHeroIds();
+      const heroOpts = generateHeroOptions(puzzle, allHeroIds);
+      return NextResponse.json(stripAnswers(puzzle, heroOpts));
+    }
 
     return NextResponse.json(stripAnswers(puzzle));
   } catch (err) {
@@ -50,15 +58,19 @@ export async function GET(request: Request) {
 /**
  * POST /api/puzzle/level
  * Submit a guess for a Puzzles-mode puzzle.
- * Body: { puzzleId, level (guess level 1-3), guess }
+ * Body: { puzzleId, level (1-4), guess, hard? }
+ *
+ * Normal mode levels: 1=Win/Loss, 2=KDA, 3=Rank
+ * Hard mode levels:   1=Hero, 2=Win/Loss, 3=KDA, 4=Rank
  */
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { puzzleId, level, guess } = body as {
+    const { puzzleId, level, guess, hard } = body as {
       puzzleId: string;
       level: number;
       guess: string;
+      hard?: boolean;
     };
 
     if (!puzzleId || !level || guess === undefined) {
@@ -79,24 +91,52 @@ export async function POST(request: Request) {
     let answer: string;
     let correct: boolean;
 
-    switch (level) {
-      case 1:
-        answer = puzzle.win ? "Win" : "Loss";
-        correct = guess === answer;
-        break;
-      case 2:
-        answer = puzzle.kdaBucket;
-        correct = guess === answer;
-        break;
-      case 3:
-        answer = puzzle.rankBracket;
-        correct = guess === answer;
-        break;
-      default:
-        return NextResponse.json(
-          { error: "Invalid level (1-3)" },
-          { status: 400 },
-        );
+    if (hard) {
+      // Hard mode: 4 levels — Hero, Win/Loss, KDA, Rank
+      switch (level) {
+        case 1:
+          answer = String(puzzle.heroId);
+          correct = guess === answer;
+          break;
+        case 2:
+          answer = puzzle.win ? "Win" : "Loss";
+          correct = guess === answer;
+          break;
+        case 3:
+          answer = `${puzzle.kills}/${puzzle.deaths}/${puzzle.assists}`;
+          correct = guess === answer;
+          break;
+        case 4:
+          answer = puzzle.rankBracket;
+          correct = guess === answer;
+          break;
+        default:
+          return NextResponse.json(
+            { error: "Invalid level (1-4)" },
+            { status: 400 },
+          );
+      }
+    } else {
+      // Normal mode: 3 levels — Win/Loss, KDA, Rank
+      switch (level) {
+        case 1:
+          answer = puzzle.win ? "Win" : "Loss";
+          correct = guess === answer;
+          break;
+        case 2:
+          answer = `${puzzle.kills}/${puzzle.deaths}/${puzzle.assists}`;
+          correct = guess === answer;
+          break;
+        case 3:
+          answer = puzzle.rankBracket;
+          correct = guess === answer;
+          break;
+        default:
+          return NextResponse.json(
+            { error: "Invalid level (1-3)" },
+            { status: 400 },
+          );
+      }
     }
 
     return NextResponse.json({ correct, answer });

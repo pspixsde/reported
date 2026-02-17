@@ -8,6 +8,7 @@ import { resolve } from "path";
 import type { Puzzle } from "./game-types";
 
 const PUZZLES_FILE = resolve(process.cwd(), "src/data/puzzles.json");
+const HEROES_FILE = resolve(process.cwd(), "src/data/heroes.json");
 
 export function getAllPuzzles(): Puzzle[] {
   if (!existsSync(PUZZLES_FILE)) {
@@ -24,4 +25,15 @@ export function getAllPuzzles(): Puzzle[] {
 
 export function getPuzzleById(id: string): Puzzle | undefined {
   return getAllPuzzles().find((p) => p.id === id);
+}
+
+/** Return all hero IDs from the heroes.json constants file. */
+export function getAllHeroIds(): number[] {
+  if (!existsSync(HEROES_FILE)) return [];
+  try {
+    const heroes = JSON.parse(readFileSync(HEROES_FILE, "utf-8"));
+    return Object.keys(heroes).map(Number);
+  } catch {
+    return [];
+  }
 }

@@ -4,7 +4,7 @@ import Image from "next/image";
 import { cn } from "@/lib/cn";
 import { useGameStore } from "@/stores/game-store";
 import { useTranslation } from "@/i18n";
-import { RANK_BRACKETS, rankNameToNumber } from "@/lib/game-types";
+import { RANK_BRACKETS, RANK_MEDAL_URLS } from "@/lib/game-types";
 import type { GuessLevel } from "@/lib/game-types";
 import { translateAnswer } from "@/lib/translate-answer";
 
@@ -17,8 +17,13 @@ export function GuessPanel({ className }: GuessPanelProps) {
   const completed = useGameStore((s) => s.completed);
   const loading = useGameStore((s) => s.loading);
   const submitGuess = useGameStore((s) => s.submitGuess);
+  const mode = useGameStore((s) => s.mode);
+  const puzzlesHardMode = useGameStore((s) => s.puzzlesHardMode);
 
   if (completed) return null;
+
+  const hard = puzzlesHardMode && mode === "puzzles";
+  const totalLevels = hard ? 4 : 3;
 
   return (
     <div
@@ -27,17 +32,36 @@ export function GuessPanel({ className }: GuessPanelProps) {
         className,
       )}
     >
-      <LevelIndicator current={currentLevel} />
+      <LevelIndicator current={currentLevel} hard={hard} total={totalLevels} />
 
       <div className="mt-4">
-        {currentLevel === 1 && (
-          <WinLossGuess onGuess={submitGuess} disabled={loading} />
-        )}
-        {currentLevel === 2 && (
-          <KdaQuizGuess onGuess={submitGuess} disabled={loading} />
-        )}
-        {currentLevel === 3 && (
-          <RankGuess onGuess={submitGuess} disabled={loading} />
+        {hard ? (
+          <>
+            {currentLevel === 1 && (
+              <HeroGuess onGuess={submitGuess} disabled={loading} />
+            )}
+            {currentLevel === 2 && (
+              <WinLossGuess onGuess={submitGuess} disabled={loading} />
+            )}
+            {currentLevel === 3 && (
+              <KdaQuizGuess onGuess={submitGuess} disabled={loading} />
+            )}
+            {currentLevel === 4 && (
+              <RankGuess onGuess={submitGuess} disabled={loading} />
+            )}
+          </>
+        ) : (
+          <>
+            {currentLevel === 1 && (
+              <WinLossGuess onGuess={submitGuess} disabled={loading} />
+            )}
+            {currentLevel === 2 && (
+              <KdaQuizGuess onGuess={submitGuess} disabled={loading} />
+            )}
+            {currentLevel === 3 && (
+              <RankGuess onGuess={submitGuess} disabled={loading} />
+            )}
+          </>
         )}
       </div>
     </div>
@@ -46,12 +70,24 @@ export function GuessPanel({ className }: GuessPanelProps) {
 
 // ── Level indicator ──
 
-function LevelIndicator({ current }: { current: GuessLevel }) {
+function LevelIndicator({
+  current,
+  hard,
+  total,
+}: {
+  current: GuessLevel;
+  hard: boolean;
+  total: number;
+}) {
   const { t } = useTranslation();
-  const labels = [t("guess.winloss"), t("guess.kda"), t("guess.rank")];
+
+  const labels = hard
+    ? [t("guess.hero"), t("guess.winloss"), t("guess.kda"), t("guess.rank")]
+    : [t("guess.winloss"), t("guess.kda"), t("guess.rank")];
+
   return (
     <div className="flex items-center gap-2">
-      {labels.map((label, i) => {
+      {labels.slice(0, total).map((label, i) => {
         const level = (i + 1) as GuessLevel;
         const isActive = level === current;
         const isPast = level < current;
@@ -92,7 +128,75 @@ function LevelIndicator({ current }: { current: GuessLevel }) {
   );
 }
 
-// ── Level 1: Win or Loss ──
+// ── Hard Mode Level 1: Guess the Hero ──
+
+function HeroGuess({
+  onGuess,
+  disabled,
+}: {
+  onGuess: (g: string) => void;
+  disabled: boolean;
+}) {
+  const { t } = useTranslation();
+  const puzzle = useGameStore((s) => s.puzzle);
+  const heroes = useGameStore((s) => s.heroes);
+
+  const heroOptions = puzzle?.heroOptions ?? [];
+
+  return (
+    <div>
+      <p className="mb-3 text-sm text-dota-text-dim">
+        {t("guess.hero.prompt")
+          .split(/<b>|<\/b>/)
+          .map((part, i) =>
+            i % 2 === 1 ? (
+              <span key={i} className="font-semibold text-dota-text">
+                {part}
+              </span>
+            ) : (
+              <span key={i}>{part}</span>
+            ),
+          )}
+      </p>
+      <div className="grid grid-cols-2 gap-2">
+        {heroOptions.map((heroId) => {
+          const hero = heroes?.[heroId];
+          const name = hero?.localized_name || `Hero ${heroId}`;
+          const imgPath = hero?.img
+            ? `https://cdn.cloudflare.steamstatic.com${hero.img}`
+            : undefined;
+          return (
+            <button
+              key={heroId}
+              onClick={() => onGuess(String(heroId))}
+              disabled={disabled}
+              className={cn(
+                "flex items-center gap-2 rounded-lg border px-3 py-2 text-sm font-medium transition-all",
+                "disabled:cursor-not-allowed disabled:opacity-50",
+                "active:scale-[0.97]",
+                "border-dota-border bg-dota-card text-dota-text hover:border-dota-gold/40 hover:bg-dota-gold/10 hover:text-dota-gold",
+              )}
+            >
+              {imgPath && (
+                <Image
+                  src={imgPath}
+                  alt={name}
+                  width={32}
+                  height={18}
+                  className="h-[18px] w-[32px] rounded-sm"
+                  unoptimized
+                />
+              )}
+              <span className="truncate">{name}</span>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+// ── Level 1 (Normal) / Level 2 (Hard): Win or Loss ──
 
 function WinLossGuess({
   onGuess,
@@ -137,7 +241,7 @@ function WinLossGuess({
   );
 }
 
-// ── Level 2: KDA Quiz (4 options) ──
+// ── Level 2 (Normal) / Level 3 (Hard): KDA Quiz (4 options) ──
 
 function KdaQuizGuess({
   onGuess,
@@ -166,15 +270,15 @@ function KdaQuizGuess({
           )}
       </p>
       <div className="grid grid-cols-2 gap-2">
-        {kdaOptions.map((bucket) => (
+        {kdaOptions.map((kda) => (
           <GuessButton
-            key={bucket}
-            onClick={() => onGuess(bucket)}
+            key={kda}
+            onClick={() => onGuess(kda)}
             disabled={disabled}
             variant="neutral"
             size="sm"
           >
-            {bucket}
+            {kda}
           </GuessButton>
         ))}
       </div>
@@ -182,7 +286,7 @@ function KdaQuizGuess({
   );
 }
 
-// ── Level 3: Rank Bracket (with medal images) ──
+// ── Level 3 (Normal) / Level 4 (Hard): Rank Bracket (with medal images) ──
 
 function RankGuess({
   onGuess,
@@ -208,9 +312,7 @@ function RankGuess({
           )}
       </p>
       <div className="grid grid-cols-4 gap-2">
-        {RANK_BRACKETS.map((bracket) => {
-          const rankNum = rankNameToNumber[bracket];
-          return (
+        {RANK_BRACKETS.map((bracket) => (
             <button
               key={bracket}
               onClick={() => onGuess(bracket)}
@@ -223,7 +325,7 @@ function RankGuess({
               )}
             >
               <Image
-                src={`https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/rank_icons/rank_icon_${rankNum}.png`}
+                src={RANK_MEDAL_URLS[bracket]}
                 alt={bracket}
                 width={32}
                 height={32}
@@ -232,8 +334,7 @@ function RankGuess({
               />
               <span>{translateAnswer(bracket, t)}</span>
             </button>
-          );
-        })}
+          ))}
       </div>
     </div>
   );

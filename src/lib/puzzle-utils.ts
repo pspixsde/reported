@@ -1,5 +1,11 @@
 import type { Puzzle, PuzzlePublic } from "./game-types";
-import { KDA_BUCKETS, PUZZLES_TOTAL } from "./game-types";
+import {
+  PUZZLES_TOTAL,
+  DAILY_POOL_SIZE,
+  DAILY_POOL_START,
+  REGULAR_POOL_START,
+  HARD_POOL_START,
+} from "./game-types";
 
 /**
  * Simple string hash (djb2) — deterministic across runs.
@@ -20,72 +26,57 @@ export function todayUTC(): string {
 
 /**
  * Pick today's daily puzzle index deterministically.
- * Same date always returns same index.
+ * Cycles sequentially through the daily pool (indices 40-49).
  */
-export function dailyPuzzleIndex(puzzleCount: number): number {
-  const date = todayUTC();
-  const hash = djb2Hash(`reported-daily-${date}`);
-  return hash % puzzleCount;
+export function dailyPuzzleIndex(): number {
+  const today = todayUTC();
+  const epochMs = new Date("2026-02-17").getTime(); // v0.5.0 launch date
+  const todayMs = new Date(today).getTime();
+  const dayOffset = Math.floor((todayMs - epochMs) / 86400000);
+  return DAILY_POOL_START + (((dayOffset % DAILY_POOL_SIZE) + DAILY_POOL_SIZE) % DAILY_POOL_SIZE);
 }
 
 /**
- * Deterministically pick puzzle indices for Puzzles mode.
- * Returns a flat array of PUZZLES_TOTAL (20) puzzle-pool indices.
- * Uses a fixed seed so every player gets the same puzzles in the same order.
- * Excludes today's daily puzzle.
+ * Return the puzzle-pool indices for Puzzles mode.
+ * Regular mode: indices 0-19, Hard mode: indices 20-39.
  */
-export function getPuzzleAssignments(puzzleCount: number): number[] {
-  if (puzzleCount < PUZZLES_TOTAL + 1) {
-    throw new Error(
-      `Need at least ${PUZZLES_TOTAL + 1} puzzles, got ${puzzleCount}`,
-    );
-  }
-
-  const dailyIdx = dailyPuzzleIndex(puzzleCount);
-
-  // Build a pool of all indices except the daily
-  const pool: number[] = [];
-  for (let i = 0; i < puzzleCount; i++) {
-    if (i !== dailyIdx) pool.push(i);
-  }
-
-  // Deterministic shuffle using a fixed seed (Fisher-Yates with seeded RNG)
-  const seed = djb2Hash("reported-puzzles-levels-v1");
-  let rng = seed;
-  function nextRng(): number {
-    rng = (rng * 1664525 + 1013904223) >>> 0;
-    return rng / 0x100000000; // 0..1
-  }
-
-  // Shuffle pool deterministically
-  for (let i = pool.length - 1; i > 0; i--) {
-    const j = Math.floor(nextRng() * (i + 1));
-    [pool[i], pool[j]] = [pool[j], pool[i]];
-  }
-
-  return pool.slice(0, PUZZLES_TOTAL);
+export function getPuzzleAssignments(hard: boolean): number[] {
+  const start = hard ? HARD_POOL_START : REGULAR_POOL_START;
+  return Array.from({ length: PUZZLES_TOTAL }, (_, i) => start + i);
 }
 
 /**
- * Generate 4 deterministic KDA options (1 real + 3 fake) for a puzzle.
- * Uses puzzle ID as seed so options are stable across requests.
+ * Create a seeded RNG function from a string seed.
  */
-function generateKdaOptions(puzzle: Puzzle): string[] {
-  const real = puzzle.kdaBucket;
-  const fakes: string[] = [];
-
-  // Seeded RNG based on puzzle ID
-  let rng = djb2Hash(`kda-options-${puzzle.id}`);
-  function nextRng(): number {
+function seededRng(seedStr: string): () => number {
+  let rng = djb2Hash(seedStr);
+  return () => {
     rng = (rng * 1664525 + 1013904223) >>> 0;
     return rng / 0x100000000;
-  }
+  };
+}
 
-  // Pick 3 unique fake buckets
-  const candidates = KDA_BUCKETS.filter((b) => b !== real);
-  while (fakes.length < 3 && candidates.length > 0) {
-    const idx = Math.floor(nextRng() * candidates.length);
-    fakes.push(candidates.splice(idx, 1)[0]);
+/**
+ * Generate 4 deterministic literal KDA options (1 real + 3 fake).
+ * Format: "K/D/A" e.g. "5/1/5". Uses puzzle ID as seed.
+ */
+function generateKdaOptions(puzzle: Puzzle): string[] {
+  const real = `${puzzle.kills}/${puzzle.deaths}/${puzzle.assists}`;
+  const nextRng = seededRng(`kda-options-${puzzle.id}`);
+
+  const fakes: string[] = [];
+  const seen = new Set<string>([real]);
+
+  while (fakes.length < 3) {
+    // Vary each component by ±1..5, clamped to >= 0
+    const k = Math.max(0, puzzle.kills + Math.floor(nextRng() * 9) - 4);
+    const d = Math.max(0, puzzle.deaths + Math.floor(nextRng() * 9) - 4);
+    const a = Math.max(0, puzzle.assists + Math.floor(nextRng() * 9) - 4);
+    const fake = `${k}/${d}/${a}`;
+    if (!seen.has(fake)) {
+      fakes.push(fake);
+      seen.add(fake);
+    }
   }
 
   // Combine and shuffle deterministically
@@ -98,9 +89,36 @@ function generateKdaOptions(puzzle: Puzzle): string[] {
   return options;
 }
 
-/** Strip answers from a puzzle before sending to the client */
-export function stripAnswers(puzzle: Puzzle): PuzzlePublic {
-  return {
+/**
+ * Generate 4 deterministic hero ID options (1 real + 3 fake) for hard mode.
+ * Uses puzzle ID as seed. Requires a list of all valid hero IDs.
+ */
+export function generateHeroOptions(puzzle: Puzzle, allHeroIds: number[]): number[] {
+  const real = puzzle.heroId;
+  const nextRng = seededRng(`hero-options-${puzzle.id}`);
+
+  const fakes: number[] = [];
+  const candidates = allHeroIds.filter((id) => id !== real);
+
+  while (fakes.length < 3 && candidates.length > 0) {
+    const idx = Math.floor(nextRng() * candidates.length);
+    fakes.push(candidates.splice(idx, 1)[0]);
+  }
+
+  // Combine and shuffle
+  const options = [real, ...fakes];
+  for (let i = options.length - 1; i > 0; i--) {
+    const j = Math.floor(nextRng() * (i + 1));
+    [options[i], options[j]] = [options[j], options[i]];
+  }
+
+  return options;
+}
+
+/** Strip answers from a puzzle before sending to the client.
+ *  Pass heroOptionIds for hard-mode puzzles to include hero guess options. */
+export function stripAnswers(puzzle: Puzzle, heroOptionIds?: number[]): PuzzlePublic {
+  const result: PuzzlePublic = {
     id: puzzle.id,
     hero: puzzle.hero,
     heroId: puzzle.heroId,
@@ -112,6 +130,10 @@ export function stripAnswers(puzzle: Puzzle): PuzzlePublic {
     patch: puzzle.patch,
     kdaOptions: generateKdaOptions(puzzle),
   };
+  if (heroOptionIds) {
+    result.heroOptions = heroOptionIds;
+  }
+  return result;
 }
 
 /** Format seconds into "MM:SS" display */
@@ -119,30 +141,6 @@ export function formatDuration(seconds: number): string {
   const m = Math.floor(seconds / 60);
   const s = seconds % 60;
   return `${m}:${s.toString().padStart(2, "0")}`;
-}
-
-/** Classify K/D/A into a KDA bucket string */
-export function classifyKda(
-  kills: number,
-  deaths: number,
-  assists: number,
-): string {
-  const k = bucketValue(kills, [0, 4, 8, 13]);
-  const d = bucketValue(deaths, [0, 4, 8]);
-  const a = bucketValue(assists, [0, 5, 10, 15]);
-  return `${k} / ${d} / ${a}`;
-}
-
-function bucketValue(val: number, thresholds: number[]): string {
-  for (let i = thresholds.length - 1; i >= 0; i--) {
-    if (val >= thresholds[i]) {
-      if (i === thresholds.length - 1) {
-        return `${thresholds[i]}+`;
-      }
-      return `${thresholds[i]}-${thresholds[i + 1] - 1}`;
-    }
-  }
-  return `0-${thresholds[1] ? thresholds[1] - 1 : 0}`;
 }
 
 /** Format net worth as compact string, e.g. "12.3k" */

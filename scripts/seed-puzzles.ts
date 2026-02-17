@@ -29,6 +29,10 @@ const UNUSUAL_THRESHOLD = 0.65;
 const MATCHES_TO_DETAIL = 25;
 // Penalty subtracted per top-5 popular item in a build
 const POPULAR_PENALTY = 0.4;
+// Items above this cost get amplified weirdness weight
+const EXPENSIVE_ITEM_COST = 4000;
+// Multiplier for unusual items costing more than EXPENSIVE_ITEM_COST
+const EXPENSIVE_MULTIPLIER = 1.5;
 // Minimum final net worth for a player to be considered as a puzzle
 const MIN_NET_WORTH = 7000;
 // Items excluded from weirdness scoring (e.g. Meteor Hammer — used to end
@@ -293,9 +297,12 @@ function unusualScore(
 
     significant++;
     const rank = heroRanks[String(itemId)];
+    const cost = item.cost ?? 0;
+    const expensiveWeight = cost > EXPENSIVE_ITEM_COST ? EXPENSIVE_MULTIPLIER : 1.0;
+
     if (rank === undefined) {
-      // Not in top 20 — unusual
-      unusualPoints += 1;
+      // Not in top 20 — unusual; expensive unusual items matter more
+      unusualPoints += 1 * expensiveWeight;
     } else if (rank <= 5) {
       // Top 5 most popular — penalize
       unusualPoints -= POPULAR_PENALTY;

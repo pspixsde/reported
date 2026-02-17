@@ -11,8 +11,10 @@ import { ResultFeedback } from "@/components/ResultFeedback";
 import { ScoreCard } from "@/components/ScoreCard";
 import { ReportSurvey } from "@/components/ReportSurvey";
 import { LevelSelect } from "@/components/LevelSelect";
+import { PuzzleNavigation } from "@/components/PuzzleNavigation";
 import { Footer } from "@/components/Footer";
 import type { GameMode } from "@/lib/game-types";
+import { PUZZLES_TOTAL } from "@/lib/game-types";
 
 export default function Home() {
   const mode = useGameStore((s) => s.mode);
@@ -49,6 +51,7 @@ export default function Home() {
         {/* Active game (daily or puzzles) */}
         {mode && puzzle && (
           <div className="flex w-full flex-col items-center gap-4">
+            {mode === "puzzles" && <PuzzleNavigation />}
             <PuzzleCard />
             <ResultFeedback />
             {!completed && <GuessPanel />}
@@ -73,7 +76,7 @@ function ModeSelect() {
   const gamesPlayed = useGameStore((s) => s.gamesPlayed);
   const totalScore = useGameStore((s) => s.totalScore);
   const completedPuzzles = useGameStore((s) => s.completedPuzzles);
-  const hardMode = useSettingsStore((s) => s.hardMode);
+  const easyMode = useSettingsStore((s) => s.easyMode);
 
   const today = new Date().toISOString().slice(0, 10);
   const dailyDoneToday = dailyCompleted && dailyDate === today;
@@ -86,7 +89,7 @@ function ModeSelect() {
   return (
     <div className="flex max-w-lg flex-col items-center text-center">
       {/* Logo / title */}
-      <h1 className={`text-5xl font-black tracking-tight sm:text-6xl ${hardMode ? "text-dota-red" : "text-dota-gold"}`}>
+      <h1 className={`text-5xl font-black tracking-tight sm:text-6xl ${easyMode ? "text-dota-green" : "text-dota-gold"}`}>
         {t("app.title")}
       </h1>
       <p className="mt-3 max-w-sm text-dota-text-dim">{t("app.tagline")}</p>

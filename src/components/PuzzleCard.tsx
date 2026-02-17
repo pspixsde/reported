@@ -16,12 +16,17 @@ export function PuzzleCard({ className }: PuzzleCardProps) {
   const { t } = useTranslation();
   const puzzle = useGameStore((s) => s.puzzle);
   const heroes = useGameStore((s) => s.heroes);
-  const hardMode = useSettingsStore((s) => s.hardMode);
+  const mode = useGameStore((s) => s.mode);
+  const puzzlesHardMode = useGameStore((s) => s.puzzlesHardMode);
+  const completed = useGameStore((s) => s.completed);
+  const easyMode = useSettingsStore((s) => s.easyMode);
 
   if (!puzzle) return null;
 
   const hero = heroes?.[puzzle.heroId];
   const heroDisplayName = hero?.localized_name || puzzle.hero;
+  const isHardPuzzle = puzzlesHardMode && mode === "puzzles";
+  const hideHero = isHardPuzzle && !completed;
 
   return (
     <div
@@ -32,13 +37,21 @@ export function PuzzleCard({ className }: PuzzleCardProps) {
     >
       {/* Hero section */}
       <div className="flex items-center gap-4">
-        <HeroIcon
-          heroName={puzzle.hero}
-          localizedName={heroDisplayName}
-          size="md"
-        />
+        {hideHero ? (
+          <div className="flex h-16 w-16 items-center justify-center rounded-lg bg-dota-card text-3xl font-bold text-dota-text-dim">
+            ?
+          </div>
+        ) : (
+          <HeroIcon
+            heroName={puzzle.hero}
+            localizedName={heroDisplayName}
+            size="md"
+          />
+        )}
         <div>
-          <h2 className="text-xl font-bold text-dota-text">{heroDisplayName}</h2>
+          <h2 className="text-xl font-bold text-dota-text">
+            {hideHero ? t("puzzle.hiddenHero") : heroDisplayName}
+          </h2>
         </div>
       </div>
 
@@ -60,13 +73,13 @@ export function PuzzleCard({ className }: PuzzleCardProps) {
           <ClockIcon />
           <span>{formatDuration(puzzle.duration)}</span>
         </div>
-        {!hardMode && (
+        {easyMode && (
           <div className="flex items-center gap-1.5" title="Net Worth">
             <GoldIcon />
             <span>{t("puzzle.gold", { value: formatNetWorth(puzzle.netWorth) })}</span>
           </div>
         )}
-        {!hardMode && (
+        {easyMode && (
           <div className="flex items-center gap-1.5" title="Last Hits / Denies">
             <SwordIcon />
             <span>{t("puzzle.cs", { lastHits: puzzle.lastHits, denies: puzzle.denies })}</span>
@@ -110,4 +123,3 @@ function SwordIcon() {
     </svg>
   );
 }
-

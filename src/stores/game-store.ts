@@ -43,12 +43,29 @@ interface GameStoreState {
   // Puzzles mode (flat grid of 20)
   puzzlesGridVisible: boolean;
   currentPuzzleIndex: number | null;
-  completedPuzzles: number[];        // indices 0-19
-  puzzleScores: Record<number, number>; // index -> score
+  completedPuzzles: number[];             // indices 0-19
+  puzzleScores: Record<number, number>;   // index -> score
+  puzzleResults: Record<number, LevelResult[]>; // index -> results (for revisiting)
   // Puzzles in-progress persistence
   puzzlesInProgressIndex: number | null;
   puzzlesInProgressLevel: GuessLevel;
   puzzlesInProgressResults: LevelResult[];
+
+  // Hard mode (puzzles only)
+  puzzlesHardMode: boolean;
+  completedHardPuzzles: number[];
+  hardPuzzleScores: Record<number, number>;
+  hardPuzzleResults: Record<number, LevelResult[]>;
+  hardPuzzlesInProgressIndex: number | null;
+  hardPuzzlesInProgressLevel: GuessLevel;
+  hardPuzzlesInProgressResults: LevelResult[];
+
+  // Puzzles mode stats (regular)
+  puzzlesGamesPlayed: number;
+  puzzlesTotalScore: number;
+  // Puzzles mode stats (hard)
+  hardPuzzlesGamesPlayed: number;
+  hardPuzzlesTotalScore: number;
 
   // Survey tracking
   surveyedPuzzleIds: string[];
@@ -67,8 +84,14 @@ interface GameStoreState {
   startPuzzlesMode: () => void;
   selectPuzzle: (index: number) => Promise<void>;
   returnToPuzzleGrid: () => void;
+  togglePuzzlesHardMode: () => void;
+  navigateToPuzzle: (index: number) => Promise<void>;
   // Survey actions
   markSurveyed: (puzzleId: string) => void;
+
+  // Computed helpers
+  maxScore: () => number;
+  isHardModeActive: () => boolean;
 }
 
 function todayUTC(): string {
@@ -104,9 +127,25 @@ export const useGameStore = create<GameStoreState>()(
       currentPuzzleIndex: null,
       completedPuzzles: [],
       puzzleScores: {},
+      puzzleResults: {},
       puzzlesInProgressIndex: null,
       puzzlesInProgressLevel: 1,
       puzzlesInProgressResults: [],
+
+      // Hard mode
+      puzzlesHardMode: false,
+      completedHardPuzzles: [],
+      hardPuzzleScores: {},
+      hardPuzzleResults: {},
+      hardPuzzlesInProgressIndex: null,
+      hardPuzzlesInProgressLevel: 1,
+      hardPuzzlesInProgressResults: [],
+
+      // Puzzles stats
+      puzzlesGamesPlayed: 0,
+      puzzlesTotalScore: 0,
+      hardPuzzlesGamesPlayed: 0,
+      hardPuzzlesTotalScore: 0,
 
       // Survey tracking
       surveyedPuzzleIds: [],
@@ -114,6 +153,10 @@ export const useGameStore = create<GameStoreState>()(
       heroes: null,
       items: null,
       constantsLoaded: false,
+
+      // ── Computed helpers ──
+      maxScore: () => get().puzzlesHardMode && get().mode === "puzzles" ? 4 : 3,
+      isHardModeActive: () => get().puzzlesHardMode && get().mode === "puzzles",
 
       // ── Load hero/item constants ──
       loadConstants: async () => {
@@ -220,6 +263,10 @@ export const useGameStore = create<GameStoreState>()(
         const { puzzle, currentLevel, results, mode } = get();
         if (!puzzle) return;
 
+        const state = get();
+        const hard = state.puzzlesHardMode && mode === "puzzles";
+        const maxLvl = hard ? 4 : 3;
+
         set({ loading: true });
 
         try {
@@ -235,6 +282,7 @@ export const useGameStore = create<GameStoreState>()(
               puzzleId: puzzle.id,
               level: currentLevel,
               guess,
+              ...(hard ? { hard: true } : {}),
             }),
           });
 
@@ -251,31 +299,47 @@ export const useGameStore = create<GameStoreState>()(
           const newScore =
             get().score + (data.correct ? 1 : 0);
 
-          if (currentLevel >= 3) {
+          if (currentLevel >= maxLvl) {
             // Game complete
-            const state = get();
+            const st = get();
 
             // Only track stats for daily mode
             const statsUpdate =
               mode === "daily"
                 ? {
-                    gamesPlayed: state.gamesPlayed + 1,
-                    totalScore: state.totalScore + newScore,
-                    streak: newScore === 3 ? state.streak + 1 : 0,
+                    gamesPlayed: st.gamesPlayed + 1,
+                    totalScore: st.totalScore + newScore,
+                    streak: newScore === maxLvl ? st.streak + 1 : 0,
                   }
                 : {};
 
             // Puzzles mode: record score for this puzzle
             let puzzlesUpdate = {};
-            if (mode === "puzzles" && state.currentPuzzleIndex !== null) {
-              const idx = state.currentPuzzleIndex;
-              puzzlesUpdate = {
-                completedPuzzles: [...new Set([...state.completedPuzzles, idx])],
-                puzzleScores: { ...state.puzzleScores, [idx]: newScore },
-                puzzlesInProgressIndex: null,
-                puzzlesInProgressLevel: 1 as GuessLevel,
-                puzzlesInProgressResults: [],
-              };
+            if (mode === "puzzles" && st.currentPuzzleIndex !== null) {
+              const idx = st.currentPuzzleIndex;
+              if (hard) {
+                puzzlesUpdate = {
+                  completedHardPuzzles: [...new Set([...st.completedHardPuzzles, idx])],
+                  hardPuzzleScores: { ...st.hardPuzzleScores, [idx]: newScore },
+                  hardPuzzleResults: { ...st.hardPuzzleResults, [idx]: newResults },
+                  hardPuzzlesInProgressIndex: null,
+                  hardPuzzlesInProgressLevel: 1 as GuessLevel,
+                  hardPuzzlesInProgressResults: [],
+                  hardPuzzlesGamesPlayed: st.hardPuzzlesGamesPlayed + 1,
+                  hardPuzzlesTotalScore: st.hardPuzzlesTotalScore + newScore,
+                };
+              } else {
+                puzzlesUpdate = {
+                  completedPuzzles: [...new Set([...st.completedPuzzles, idx])],
+                  puzzleScores: { ...st.puzzleScores, [idx]: newScore },
+                  puzzleResults: { ...st.puzzleResults, [idx]: newResults },
+                  puzzlesInProgressIndex: null,
+                  puzzlesInProgressLevel: 1 as GuessLevel,
+                  puzzlesInProgressResults: [],
+                  puzzlesGamesPlayed: st.puzzlesGamesPlayed + 1,
+                  puzzlesTotalScore: st.puzzlesTotalScore + newScore,
+                };
+              }
             }
 
             set({
@@ -308,10 +372,16 @@ export const useGameStore = create<GameStoreState>()(
                     dailyCurrentLevel: nextLevel,
                   }
                 : {}),
-              ...(mode === "puzzles"
+              ...(mode === "puzzles" && !hard
                 ? {
                     puzzlesInProgressLevel: nextLevel,
                     puzzlesInProgressResults: newResults,
+                  }
+                : {}),
+              ...(mode === "puzzles" && hard
+                ? {
+                    hardPuzzlesInProgressLevel: nextLevel,
+                    hardPuzzlesInProgressResults: newResults,
                   }
                 : {}),
             });
@@ -354,38 +424,89 @@ export const useGameStore = create<GameStoreState>()(
         });
       },
 
+      // ── Toggle hard mode for puzzles ──
+      togglePuzzlesHardMode: () => {
+        set((state) => ({ puzzlesHardMode: !state.puzzlesHardMode }));
+      },
+
       // ── Puzzles mode: start playing a specific puzzle ──
       selectPuzzle: async (index: number) => {
         const state = get();
+        const hard = state.puzzlesHardMode;
+        const completedList = hard ? state.completedHardPuzzles : state.completedPuzzles;
+        const scoresMap = hard ? state.hardPuzzleScores : state.puzzleScores;
+        const resultsMap = hard ? state.hardPuzzleResults : state.puzzleResults;
 
-        // Don't allow replaying completed puzzles
-        if (state.completedPuzzles.includes(index)) return;
-
-        set({ loading: true, error: null });
-
-        try {
-          const res = await fetch(`/api/puzzle/level?index=${index}`);
-          if (!res.ok) throw new Error("Failed to fetch puzzle");
-          const puzzle: PuzzlePublic = await res.json();
-
-          // Check if we have in-progress state for this puzzle
-          if (
-            state.puzzlesInProgressIndex === index &&
-            state.puzzlesInProgressLevel > 1
-          ) {
+        // If puzzle is completed, open it in read-only view
+        if (completedList.includes(index)) {
+          set({ loading: true, error: null });
+          try {
+            const res = await fetch(`/api/puzzle/level?index=${index}&hard=${hard}`);
+            if (!res.ok) throw new Error("Failed to fetch puzzle");
+            const puzzle: PuzzlePublic = await res.json();
             set({
               mode: "puzzles",
               puzzle,
               puzzlesGridVisible: false,
               currentPuzzleIndex: index,
-              currentLevel: state.puzzlesInProgressLevel,
-              results: state.puzzlesInProgressResults,
-              score: state.puzzlesInProgressResults.filter((r) => r.correct).length,
+              completed: true,
+              score: scoresMap[index] ?? 0,
+              results: resultsMap[index] ?? [],
+              currentLevel: 1,
+              loading: false,
+              error: null,
+            });
+          } catch (err) {
+            console.error("Error loading completed puzzle:", err);
+            set({ loading: false, error: "Failed to load puzzle." });
+          }
+          return;
+        }
+
+        set({ loading: true, error: null });
+
+        try {
+          const res = await fetch(`/api/puzzle/level?index=${index}&hard=${hard}`);
+          if (!res.ok) throw new Error("Failed to fetch puzzle");
+          const puzzle: PuzzlePublic = await res.json();
+
+          // Check if we have in-progress state for this puzzle
+          const inProgressIdx = hard
+            ? state.hardPuzzlesInProgressIndex
+            : state.puzzlesInProgressIndex;
+          const inProgressLevel = hard
+            ? state.hardPuzzlesInProgressLevel
+            : state.puzzlesInProgressLevel;
+          const inProgressResults = hard
+            ? state.hardPuzzlesInProgressResults
+            : state.puzzlesInProgressResults;
+
+          if (inProgressIdx === index && inProgressLevel > 1) {
+            set({
+              mode: "puzzles",
+              puzzle,
+              puzzlesGridVisible: false,
+              currentPuzzleIndex: index,
+              currentLevel: inProgressLevel,
+              results: inProgressResults,
+              score: inProgressResults.filter((r) => r.correct).length,
               completed: false,
               loading: false,
               error: null,
             });
           } else {
+            const progressUpdate = hard
+              ? {
+                  hardPuzzlesInProgressIndex: index,
+                  hardPuzzlesInProgressLevel: 1 as GuessLevel,
+                  hardPuzzlesInProgressResults: [] as LevelResult[],
+                }
+              : {
+                  puzzlesInProgressIndex: index,
+                  puzzlesInProgressLevel: 1 as GuessLevel,
+                  puzzlesInProgressResults: [] as LevelResult[],
+                };
+
             set({
               mode: "puzzles",
               puzzle,
@@ -397,9 +518,7 @@ export const useGameStore = create<GameStoreState>()(
               score: 0,
               loading: false,
               error: null,
-              puzzlesInProgressIndex: index,
-              puzzlesInProgressLevel: 1,
-              puzzlesInProgressResults: [],
+              ...progressUpdate,
             });
           }
         } catch (err) {
@@ -409,6 +528,20 @@ export const useGameStore = create<GameStoreState>()(
             error: "Failed to load puzzle. Try again.",
           });
         }
+      },
+
+      // ── Navigate to another puzzle by index (for arrows) ──
+      navigateToPuzzle: async (index: number) => {
+        if (index < 0 || index >= PUZZLES_TOTAL) return;
+        // Reset current game state, then select the new puzzle
+        set({
+          puzzle: null,
+          currentLevel: 1,
+          results: [],
+          completed: false,
+          score: 0,
+        });
+        await get().selectPuzzle(index);
       },
 
       // ── Puzzles mode: return to puzzle grid ──
@@ -435,7 +568,7 @@ export const useGameStore = create<GameStoreState>()(
       },
     }),
     {
-      name: "reported-game-v4",
+      name: "reported-game-v5",
       partialize: (state) => ({
         // Daily persistence
         dailyDate: state.dailyDate,
@@ -450,9 +583,23 @@ export const useGameStore = create<GameStoreState>()(
         // Puzzles mode progress
         completedPuzzles: state.completedPuzzles,
         puzzleScores: state.puzzleScores,
+        puzzleResults: state.puzzleResults,
         puzzlesInProgressIndex: state.puzzlesInProgressIndex,
         puzzlesInProgressLevel: state.puzzlesInProgressLevel,
         puzzlesInProgressResults: state.puzzlesInProgressResults,
+        // Hard mode
+        puzzlesHardMode: state.puzzlesHardMode,
+        completedHardPuzzles: state.completedHardPuzzles,
+        hardPuzzleScores: state.hardPuzzleScores,
+        hardPuzzleResults: state.hardPuzzleResults,
+        hardPuzzlesInProgressIndex: state.hardPuzzlesInProgressIndex,
+        hardPuzzlesInProgressLevel: state.hardPuzzlesInProgressLevel,
+        hardPuzzlesInProgressResults: state.hardPuzzlesInProgressResults,
+        // Puzzles stats
+        puzzlesGamesPlayed: state.puzzlesGamesPlayed,
+        puzzlesTotalScore: state.puzzlesTotalScore,
+        hardPuzzlesGamesPlayed: state.hardPuzzlesGamesPlayed,
+        hardPuzzlesTotalScore: state.hardPuzzlesTotalScore,
         // Survey tracking
         surveyedPuzzleIds: state.surveyedPuzzleIds,
       }),
