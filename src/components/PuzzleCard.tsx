@@ -60,10 +60,6 @@ export function PuzzleCard({ className }: PuzzleCardProps) {
           <ClockIcon />
           <span>{formatDuration(puzzle.duration)}</span>
         </div>
-        <div className="flex items-center gap-1.5">
-          <PatchIcon />
-          <span>Patch {puzzle.patch}</span>
-        </div>
       </div>
     </div>
   );
@@ -92,18 +88,3 @@ function ClockIcon() {
   );
 }
 
-function PatchIcon() {
-  return (
-    <svg
-      className="h-4 w-4"
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-      strokeWidth={2}
-    >
-      <path d="M12 2L2 7l10 5 10-5-10-5z" />
-      <path d="M2 17l10 5 10-5" />
-      <path d="M2 12l10 5 10-5" />
-    </svg>
-  );
-}

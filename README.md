@@ -4,7 +4,7 @@ A Wordle-like web game for Dota 2 players. Guess the outcome of real matches fea
 
 ## How to Play
 
-You're shown a real match with an unusual build — the hero, their items, role, lane, match duration, and patch. Then you guess:
+You're shown a real ranked match with an unusual build — the hero, their items, role, lane, and match duration. Then you guess:
 
 1. **Win or Loss** — did this player win?
 2. **Rank Bracket** — Herald through Immortal
@@ -21,7 +21,7 @@ npm install
 # Fetch hero & item data from OpenDota
 npm run seed:constants
 
-# Seed puzzle data (takes ~5 min due to API rate limits)
+# Seed puzzle data from ranked matches (takes ~7 min due to API rate limits)
 npm run seed:puzzles
 
 # Start development server
@@ -32,8 +32,8 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ## Game Modes
 
-- **Daily Challenge** — one puzzle per day, same for everyone
-- **Practice** — unlimited puzzles, play during queue time
+- **Daily Challenge** — one puzzle per day, same for everyone (stats tracked here)
+- **Puzzles** — 4 levels of 5 puzzles each, same for everyone, complete them all
 
 ## Tech Stack
 
@@ -62,4 +62,4 @@ scripts/         — data seeding scripts
 | `npm run dev` | Start dev server |
 | `npm run build` | Production build |
 | `npm run seed:constants` | Fetch hero/item data from OpenDota |
-| `npm run seed:puzzles` | Fetch and curate unusual-build puzzles |
+| `npm run seed:puzzles` | Fetch ranked puzzles from latest patch |

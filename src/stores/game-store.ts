@@ -11,6 +11,7 @@ import type {
   ItemConstant,
   GuessResponse,
 } from "@/lib/game-types";
+import { PUZZLES_PER_LEVEL } from "@/lib/game-types";
 
 // ── Store state ──
 
@@ -31,10 +32,17 @@ interface GameStoreState {
   dailyScore: number | null;
   dailyResults: LevelResult[];
 
-  // Stats
+  // Daily-only stats
   streak: number;
   gamesPlayed: number;
   totalScore: number;
+
+  // Puzzles mode
+  puzzlesLevelSelect: boolean;
+  currentPuzzleLevel: number | null;
+  currentPuzzleIndex: number;
+  completedLevels: number[];
+  levelScores: Record<number, number[]>;
 
   // Constants (hero/item lookup)
   heroes: Record<number, HeroConstant> | null;
@@ -46,6 +54,11 @@ interface GameStoreState {
   startGame: (mode: GameMode) => Promise<void>;
   submitGuess: (guess: string) => Promise<void>;
   resetGame: () => void;
+  // Puzzles mode actions
+  startPuzzlesMode: () => void;
+  selectLevel: (level: number) => Promise<void>;
+  advanceToNextPuzzle: () => Promise<void>;
+  returnToLevelSelect: () => void;
 }
 
 function todayUTC(): string {
@@ -74,6 +87,13 @@ export const useGameStore = create<GameStoreState>()(
       gamesPlayed: 0,
       totalScore: 0,
 
+      // Puzzles mode
+      puzzlesLevelSelect: false,
+      currentPuzzleLevel: null,
+      currentPuzzleIndex: 0,
+      completedLevels: [],
+      levelScores: {},
+
       heroes: null,
       items: null,
       constantsLoaded: false,
@@ -96,35 +116,47 @@ export const useGameStore = create<GameStoreState>()(
         }
       },
 
-      // ── Start a new game ──
+      // ── Start a game (daily only — puzzles uses startPuzzlesMode) ──
       startGame: async (mode: GameMode) => {
+        if (mode === "puzzles") {
+          get().startPuzzlesMode();
+          return;
+        }
+
         const state = get();
 
-        // If daily and already completed today, restore results
+        // If daily and already completed today, re-fetch puzzle and restore results
         if (mode === "daily" && state.dailyDate === todayUTC() && state.dailyCompleted) {
-          set({
-            mode: "daily",
-            completed: true,
-            results: state.dailyResults,
-            score: state.dailyScore ?? 0,
-            currentLevel: 1,
-            error: null,
-          });
+          set({ loading: true, error: null });
+          try {
+            const res = await fetch("/api/puzzle/daily");
+            if (!res.ok) throw new Error("Failed to fetch puzzle");
+            const puzzle: PuzzlePublic = await res.json();
+            set({
+              mode: "daily",
+              puzzle,
+              completed: true,
+              results: state.dailyResults,
+              score: state.dailyScore ?? 0,
+              currentLevel: 1,
+              loading: false,
+              error: null,
+            });
+          } catch {
+            set({ loading: false, error: "Failed to load daily puzzle." });
+          }
           return;
         }
 
         set({ loading: true, error: null });
 
         try {
-          const endpoint =
-            mode === "daily" ? "/api/puzzle/daily" : "/api/puzzle/random";
-          const res = await fetch(endpoint);
+          const res = await fetch("/api/puzzle/daily");
           if (!res.ok) throw new Error("Failed to fetch puzzle");
           const puzzle: PuzzlePublic = await res.json();
 
           // If daily and we have an in-progress game for today, restore
           if (
-            mode === "daily" &&
             state.dailyDate === todayUTC() &&
             !state.dailyCompleted &&
             state.puzzle?.id === puzzle.id
@@ -138,7 +170,7 @@ export const useGameStore = create<GameStoreState>()(
           }
 
           set({
-            mode,
+            mode: "daily",
             puzzle,
             currentLevel: 1,
             results: [],
@@ -146,7 +178,7 @@ export const useGameStore = create<GameStoreState>()(
             score: 0,
             loading: false,
             error: null,
-            ...(mode === "daily" ? { dailyDate: todayUTC() } : {}),
+            dailyDate: todayUTC(),
           });
         } catch (err) {
           console.error("Error starting game:", err);
@@ -168,7 +200,7 @@ export const useGameStore = create<GameStoreState>()(
           const endpoint =
             mode === "daily"
               ? "/api/puzzle/daily"
-              : "/api/puzzle/random";
+              : "/api/puzzle/level";
 
           const res = await fetch(endpoint, {
             method: "POST",
@@ -196,18 +228,45 @@ export const useGameStore = create<GameStoreState>()(
           if (currentLevel >= 3) {
             // Game complete
             const state = get();
-            const newGamesPlayed = state.gamesPlayed + 1;
-            const newTotalScore = state.totalScore + newScore;
-            const newStreak = newScore === 3 ? state.streak + 1 : 0;
+
+            // Only track stats for daily mode
+            const statsUpdate =
+              mode === "daily"
+                ? {
+                    gamesPlayed: state.gamesPlayed + 1,
+                    totalScore: state.totalScore + newScore,
+                    streak: newScore === 3 ? state.streak + 1 : 0,
+                  }
+                : {};
+
+            // Puzzles mode: record score for this puzzle in the level
+            let puzzlesUpdate = {};
+            if (mode === "puzzles" && state.currentPuzzleLevel !== null) {
+              const lvl = state.currentPuzzleLevel;
+              const newLevelScores = { ...state.levelScores };
+              const existing = newLevelScores[lvl] || [];
+              newLevelScores[lvl] = [...existing, newScore];
+
+              // Check if level is now complete (all puzzles done)
+              const isLevelDone =
+                state.currentPuzzleIndex >= PUZZLES_PER_LEVEL - 1;
+              const newCompleted = isLevelDone
+                ? [...new Set([...state.completedLevels, lvl])]
+                : state.completedLevels;
+
+              puzzlesUpdate = {
+                levelScores: newLevelScores,
+                completedLevels: newCompleted,
+              };
+            }
 
             set({
               results: newResults,
               score: newScore,
               completed: true,
               loading: false,
-              gamesPlayed: newGamesPlayed,
-              totalScore: newTotalScore,
-              streak: newStreak,
+              ...statsUpdate,
+              ...puzzlesUpdate,
               ...(mode === "daily"
                 ? {
                     dailyCompleted: true,
@@ -217,7 +276,7 @@ export const useGameStore = create<GameStoreState>()(
                 : {}),
             });
           } else {
-            // Advance to next level
+            // Advance to next guess level
             set({
               results: newResults,
               score: newScore,
@@ -232,11 +291,120 @@ export const useGameStore = create<GameStoreState>()(
         }
       },
 
-      // ── Reset for a new game ──
+      // ── Reset for main menu ──
       resetGame: () => {
         set({
           mode: null,
           puzzle: null,
+          currentLevel: 1,
+          results: [],
+          completed: false,
+          score: 0,
+          loading: false,
+          error: null,
+          puzzlesLevelSelect: false,
+          currentPuzzleLevel: null,
+          currentPuzzleIndex: 0,
+        });
+      },
+
+      // ── Puzzles mode: show level select ──
+      startPuzzlesMode: () => {
+        set({
+          mode: "puzzles",
+          puzzle: null,
+          puzzlesLevelSelect: true,
+          currentPuzzleLevel: null,
+          currentPuzzleIndex: 0,
+          currentLevel: 1,
+          results: [],
+          completed: false,
+          score: 0,
+          loading: false,
+          error: null,
+        });
+      },
+
+      // ── Puzzles mode: start playing a level ──
+      selectLevel: async (level: number) => {
+        set({ loading: true, error: null });
+
+        try {
+          const res = await fetch(
+            `/api/puzzle/level?level=${level}&index=0`,
+          );
+          if (!res.ok) throw new Error("Failed to fetch puzzle");
+          const puzzle: PuzzlePublic = await res.json();
+
+          set({
+            mode: "puzzles",
+            puzzle,
+            puzzlesLevelSelect: false,
+            currentPuzzleLevel: level,
+            currentPuzzleIndex: 0,
+            currentLevel: 1,
+            results: [],
+            completed: false,
+            score: 0,
+            loading: false,
+            error: null,
+          });
+        } catch (err) {
+          console.error("Error selecting level:", err);
+          set({
+            loading: false,
+            error: "Failed to load puzzle. Try again.",
+          });
+        }
+      },
+
+      // ── Puzzles mode: advance to next puzzle in level ──
+      advanceToNextPuzzle: async () => {
+        const state = get();
+        if (state.currentPuzzleLevel === null) return;
+
+        const nextIndex = state.currentPuzzleIndex + 1;
+        if (nextIndex >= PUZZLES_PER_LEVEL) {
+          // Level complete — return to level select
+          get().returnToLevelSelect();
+          return;
+        }
+
+        set({ loading: true, error: null });
+
+        try {
+          const res = await fetch(
+            `/api/puzzle/level?level=${state.currentPuzzleLevel}&index=${nextIndex}`,
+          );
+          if (!res.ok) throw new Error("Failed to fetch puzzle");
+          const puzzle: PuzzlePublic = await res.json();
+
+          set({
+            puzzle,
+            currentPuzzleIndex: nextIndex,
+            currentLevel: 1,
+            results: [],
+            completed: false,
+            score: 0,
+            loading: false,
+            error: null,
+          });
+        } catch (err) {
+          console.error("Error advancing puzzle:", err);
+          set({
+            loading: false,
+            error: "Failed to load next puzzle. Try again.",
+          });
+        }
+      },
+
+      // ── Puzzles mode: return to level select ──
+      returnToLevelSelect: () => {
+        set({
+          puzzle: null,
+          puzzlesLevelSelect: true,
+          currentPuzzleLevel: null,
+          currentPuzzleIndex: 0,
           currentLevel: 1,
           results: [],
           completed: false,
@@ -257,6 +425,9 @@ export const useGameStore = create<GameStoreState>()(
         streak: state.streak,
         gamesPlayed: state.gamesPlayed,
         totalScore: state.totalScore,
+        // Puzzles mode progress
+        completedLevels: state.completedLevels,
+        levelScores: state.levelScores,
       }),
     },
   ),

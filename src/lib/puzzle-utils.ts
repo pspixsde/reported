@@ -1,4 +1,5 @@
 import type { Puzzle, PuzzlePublic } from "./game-types";
+import { PUZZLES_LEVEL_COUNT, PUZZLES_PER_LEVEL, PUZZLES_TOTAL } from "./game-types";
 
 /**
  * Simple string hash (djb2) — deterministic across runs.
@@ -28,18 +29,49 @@ export function dailyPuzzleIndex(puzzleCount: number): number {
 }
 
 /**
- * Pick a random puzzle index, excluding the daily.
+ * Deterministically pick puzzle indices for Puzzles mode levels.
+ * Returns a 2D array: levelAssignments[level][puzzleIndexWithinLevel] = puzzle pool index.
+ * Uses a fixed seed so every player gets the same puzzles in the same order.
+ * Excludes today's daily puzzle.
  */
-export function randomPuzzleIndex(
-  puzzleCount: number,
-  excludeIndex: number,
-): number {
-  if (puzzleCount <= 1) return 0;
-  let idx: number;
-  do {
-    idx = Math.floor(Math.random() * puzzleCount);
-  } while (idx === excludeIndex);
-  return idx;
+export function getPuzzleLevelAssignments(puzzleCount: number): number[][] {
+  if (puzzleCount < PUZZLES_TOTAL + 1) {
+    throw new Error(
+      `Need at least ${PUZZLES_TOTAL + 1} puzzles, got ${puzzleCount}`,
+    );
+  }
+
+  const dailyIdx = dailyPuzzleIndex(puzzleCount);
+
+  // Build a pool of all indices except the daily
+  const pool: number[] = [];
+  for (let i = 0; i < puzzleCount; i++) {
+    if (i !== dailyIdx) pool.push(i);
+  }
+
+  // Deterministic shuffle using a fixed seed (Fisher-Yates with seeded RNG)
+  const seed = djb2Hash("reported-puzzles-levels-v1");
+  let rng = seed;
+  function nextRng(): number {
+    // Simple LCG (linear congruential generator)
+    rng = (rng * 1664525 + 1013904223) >>> 0;
+    return rng / 0x100000000; // 0..1
+  }
+
+  // Shuffle pool deterministically
+  for (let i = pool.length - 1; i > 0; i--) {
+    const j = Math.floor(nextRng() * (i + 1));
+    [pool[i], pool[j]] = [pool[j], pool[i]];
+  }
+
+  // Take first PUZZLES_TOTAL and split into levels
+  const levels: number[][] = [];
+  for (let lvl = 0; lvl < PUZZLES_LEVEL_COUNT; lvl++) {
+    const start = lvl * PUZZLES_PER_LEVEL;
+    levels.push(pool.slice(start, start + PUZZLES_PER_LEVEL));
+  }
+
+  return levels;
 }
 
 /** Strip answers from a puzzle before sending to the client */

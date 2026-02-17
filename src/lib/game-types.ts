@@ -84,7 +84,18 @@ export type KdaBucket = (typeof KDA_BUCKETS)[number];
 
 // ── Game state ──
 
-export type GameMode = "daily" | "practice";
+export type GameMode = "daily" | "puzzles";
+
+// ── Puzzles mode ──
+
+/** Number of levels in Puzzles mode */
+export const PUZZLES_LEVEL_COUNT = 4;
+
+/** Number of puzzles per level */
+export const PUZZLES_PER_LEVEL = 5;
+
+/** Total puzzles used in Puzzles mode */
+export const PUZZLES_TOTAL = PUZZLES_LEVEL_COUNT * PUZZLES_PER_LEVEL; // 20
 
 export type GuessLevel = 1 | 2 | 3;
 

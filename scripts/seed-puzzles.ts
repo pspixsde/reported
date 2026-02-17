@@ -1,9 +1,11 @@
 /**
- * Seed puzzle data from OpenDota.
+ * Seed puzzle data from OpenDota — ranked matches on patch 7.40b only.
  *
  * Two-phase approach:
- *   Phase 1: Fetch item popularity for all heroes (cached to disk)
- *   Phase 2: Fetch public matches and score builds against cached popularity
+ *   Phase 1: Fetch ranked matches on patch 7.40b, accumulate hero item usage
+ *            to build a "normal items" baseline (hero-item-popularity.json)
+ *   Phase 2: Continue fetching ranked matches, score builds against the
+ *            baseline, and collect 150 unusual-build puzzles
  *
  * Run with: npm run seed:puzzles
  */
@@ -19,13 +21,20 @@ const POPULARITY_CACHE_PATH = resolve(DATA_DIR, "hero-item-popularity.json");
 
 // ── Config ──
 const TARGET_PUZZLES = 150;
-const MAX_BATCHES = 30;
+const MAX_BATCHES = 60;
 const RATE_LIMIT_MS = 1100;
 const MIN_ITEM_COST = 1000;
-// Lower threshold: 30% of significant items being unusual is enough
 const UNUSUAL_THRESHOLD = 0.3;
-// Process more matches per batch
 const MATCHES_TO_DETAIL = 15;
+
+// Patch filtering — only collect from ranked matches on 7.40b
+const TARGET_PATCH_ID = 59;        // OpenDota numeric ID for 7.40
+const TARGET_PATCH_DISPLAY = "7.40b"; // Display string
+
+// Phase 1: How many match details to process before computing popularity
+const POPULARITY_MATCH_TARGET = 200;
+// Minimum ranked tier (10 = Herald star 1 — ensures ranked games only)
+const MIN_RANK = 10;
 
 // ── Types ──
 
@@ -165,79 +174,86 @@ function bv(val: number, t: number[]): string {
   return `0-${(t[1] ?? 1) - 1}`;
 }
 
-function patchDisplay(p: number): string {
-  if (p >= 60) return "7.37";
-  if (p >= 59) return "7.36";
-  if (p >= 58) return "7.35d";
-  if (p >= 57) return "7.35c";
-  if (p >= 56) return "7.35b";
-  if (p >= 55) return "7.35";
-  if (p >= 54) return "7.34e";
-  return `7.${Math.max(30, p - 20)}`;
-}
-
-// ── Phase 1: Hero popularity ──
+// ── Hero item popularity (built from ranked match data) ──
 
 type PopularityMap = Record<number, Set<string>>;
+type ItemCountMap = Record<number, Record<string, number>>;
 
-async function fetchAllHeroPopularity(
-  heroes: Record<number, HeroData>,
-): Promise<PopularityMap> {
-  // Check cache
-  if (existsSync(POPULARITY_CACHE_PATH)) {
-    console.log("Loading cached hero item popularity...");
-    const raw: Record<string, string[]> = JSON.parse(
-      readFileSync(POPULARITY_CACHE_PATH, "utf-8"),
-    );
-    const map: PopularityMap = {};
-    for (const [heroId, itemIds] of Object.entries(raw)) {
-      map[Number(heroId)] = new Set(itemIds);
+/**
+ * Accumulate item usage from a match detail into the counts map.
+ * Only counts significant items (cost >= MIN_ITEM_COST).
+ */
+function accumulateItemUsage(
+  detail: MatchDetail,
+  items: Record<number, ItemData>,
+  counts: ItemCountMap,
+): void {
+  for (const player of detail.players) {
+    const heroId = player.hero_id;
+    if (!counts[heroId]) counts[heroId] = {};
+
+    const playerItems = [
+      player.item_0, player.item_1, player.item_2,
+      player.item_3, player.item_4, player.item_5,
+    ];
+
+    for (const itemId of playerItems) {
+      if (itemId === 0) continue;
+      const item = items[itemId];
+      if (!item || (item.cost !== null && item.cost < MIN_ITEM_COST)) continue;
+      const key = String(itemId);
+      counts[heroId][key] = (counts[heroId][key] || 0) + 1;
     }
-    console.log(`  Loaded popularity data for ${Object.keys(map).length} heroes.`);
-    return map;
   }
+}
 
-  console.log("Fetching item popularity for all heroes (this takes ~3 min)...");
+/**
+ * Convert accumulated item counts into a popularity map.
+ * Top 20 items per hero are considered "popular".
+ */
+function buildPopularityFromCounts(counts: ItemCountMap): PopularityMap {
   const map: PopularityMap = {};
-  const heroIds = Object.keys(heroes).map(Number);
-  let fetched = 0;
-
-  for (const heroId of heroIds) {
-    await sleep(RATE_LIMIT_MS);
-    const pop = await apiFetch<Record<string, Record<string, number>>>(
-      `/heroes/${heroId}/itemPopularity`,
-    );
-
+  for (const [heroIdStr, itemCounts] of Object.entries(counts)) {
+    const heroId = Number(heroIdStr);
+    const sorted = Object.entries(itemCounts).sort((a, b) => b[1] - a[1]);
     const popular = new Set<string>();
-    if (pop) {
-      for (const phase of Object.values(pop)) {
-        if (!phase || typeof phase !== "object") continue;
-        const sorted = Object.entries(phase).sort((a, b) => b[1] - a[1]);
-        // Top 15 items per phase considered "normal"
-        for (const [itemId] of sorted.slice(0, 15)) {
-          popular.add(itemId);
-        }
-      }
+    for (const [itemId] of sorted.slice(0, 20)) {
+      popular.add(itemId);
     }
     map[heroId] = popular;
-    fetched++;
-    if (fetched % 20 === 0) {
-      console.log(`  ${fetched}/${heroIds.length} heroes processed...`);
-    }
   }
+  return map;
+}
 
-  // Cache to disk
+/**
+ * Save popularity map to disk.
+ */
+function savePopularity(map: PopularityMap): void {
   const serializable: Record<string, string[]> = {};
   for (const [heroId, items] of Object.entries(map)) {
     serializable[heroId] = [...(items as unknown as Set<string>)];
   }
   writeFileSync(POPULARITY_CACHE_PATH, JSON.stringify(serializable, null, 2));
-  console.log(`  Cached popularity data for ${heroIds.length} heroes.`);
+}
 
+/**
+ * Load popularity map from disk cache.
+ */
+function loadPopularityCache(): PopularityMap | null {
+  if (!existsSync(POPULARITY_CACHE_PATH)) return null;
+  console.log("Loading cached hero item popularity...");
+  const raw: Record<string, string[]> = JSON.parse(
+    readFileSync(POPULARITY_CACHE_PATH, "utf-8"),
+  );
+  const map: PopularityMap = {};
+  for (const [heroId, itemIds] of Object.entries(raw)) {
+    map[Number(heroId)] = new Set(itemIds);
+  }
+  console.log(`  Loaded popularity data for ${Object.keys(map).length} heroes.`);
   return map;
 }
 
-// ── Phase 2: Match processing ──
+// ── Unusual build scoring ──
 
 function unusualScore(
   heroId: number,
@@ -265,6 +281,20 @@ function unusualScore(
   return significant > 0 ? unusual / significant : 0;
 }
 
+// ── Fetch ranked public matches ──
+
+async function fetchRankedMatches(
+  lastMatchId?: number,
+): Promise<PublicMatch[] | null> {
+  let path = `/publicMatches?min_rank=${MIN_RANK}`;
+  if (lastMatchId) {
+    path += `&less_than_match_id=${lastMatchId}`;
+  }
+  return apiFetch<PublicMatch[]>(path);
+}
+
+// ── Main ──
+
 async function main() {
   if (!existsSync(HEROES_PATH) || !existsSync(ITEMS_PATH)) {
     console.error("Run `npm run seed:constants` first.");
@@ -278,53 +308,77 @@ async function main() {
     readFileSync(ITEMS_PATH, "utf-8"),
   );
 
-  // Phase 1
-  const popularity = await fetchAllHeroPopularity(heroes);
+  // Try loading cached popularity
+  let popularity = loadPopularityCache();
+  const itemCounts: ItemCountMap = {};
+  let popularityMatchesProcessed = 0;
+  let popularityReady = popularity !== null;
 
-  // Phase 2
-  let puzzles: Puzzle[] = [];
-  if (existsSync(PUZZLES_PATH)) {
-    puzzles = JSON.parse(readFileSync(PUZZLES_PATH, "utf-8"));
-    console.log(`\nLoaded ${puzzles.length} existing puzzles.`);
-  }
-
-  const existingIds = new Set(puzzles.map((p) => p.id));
+  // Puzzles collection
+  const puzzles: Puzzle[] = [];
+  const existingIds = new Set<string>();
   let batches = 0;
   let lastMatchId: number | undefined;
 
-  console.log(`\nTarget: ${TARGET_PUZZLES} puzzles. Starting match scan...`);
+  console.log(`\nTarget: ${TARGET_PUZZLES} puzzles from ranked matches on patch ${TARGET_PATCH_DISPLAY}`);
+  console.log(`Popularity ready: ${popularityReady ? "yes (cached)" : "no (will build from matches)"}\n`);
 
-  while (puzzles.length < TARGET_PUZZLES && batches < MAX_BATCHES) {
+  while (
+    (puzzles.length < TARGET_PUZZLES || !popularityReady) &&
+    batches < MAX_BATCHES
+  ) {
     batches++;
-    const suffix = lastMatchId ? `?less_than_match_id=${lastMatchId}` : "";
     await sleep(RATE_LIMIT_MS);
-    const publicMatches = await apiFetch<PublicMatch[]>(
-      `/publicMatches${suffix}`,
-    );
+
+    const publicMatches = await fetchRankedMatches(lastMatchId);
     if (!publicMatches || publicMatches.length === 0) {
       console.warn("  No matches, retrying...");
       await sleep(3000);
       continue;
     }
 
-    // Track last match_id for pagination
     lastMatchId = publicMatches[publicMatches.length - 1].match_id;
 
+    const phase = popularityReady ? "Phase 2 (puzzles)" : "Phase 1 (popularity)";
     console.log(
-      `Batch ${batches}: ${publicMatches.length} matches (${puzzles.length}/${TARGET_PUZZLES} puzzles)`,
+      `Batch ${batches} [${phase}]: ${publicMatches.length} matches ` +
+      `(puzzles: ${puzzles.length}/${TARGET_PUZZLES}, popularity matches: ${popularityMatchesProcessed})`,
     );
 
     // Fetch details for a subset of matches
     for (const pm of publicMatches.slice(0, MATCHES_TO_DETAIL)) {
-      if (puzzles.length >= TARGET_PUZZLES) break;
+      if (popularityReady && puzzles.length >= TARGET_PUZZLES) break;
 
       await sleep(RATE_LIMIT_MS);
       const detail = await apiFetch<MatchDetail>(`/matches/${pm.match_id}`);
       if (!detail?.players) continue;
 
-      // Skip very short matches
-      if (detail.duration < 900) continue; // less than 15 min
+      // Filter: must be on target patch
+      if (detail.patch !== TARGET_PATCH_ID) {
+        continue;
+      }
 
+      // Filter: skip very short matches
+      if (detail.duration < 900) continue;
+
+      // Phase 1: accumulate item usage for popularity baseline
+      if (!popularityReady) {
+        accumulateItemUsage(detail, items, itemCounts);
+        popularityMatchesProcessed++;
+
+        if (popularityMatchesProcessed >= POPULARITY_MATCH_TARGET) {
+          console.log(
+            `\n  Popularity baseline built from ${popularityMatchesProcessed} matches.`,
+          );
+          popularity = buildPopularityFromCounts(itemCounts);
+          savePopularity(popularity);
+          console.log(`  Saved to ${POPULARITY_CACHE_PATH}\n`);
+          popularityReady = true;
+        }
+        continue;
+      }
+
+      // Phase 2: score builds and collect puzzles
       for (const player of detail.players) {
         if (puzzles.length >= TARGET_PUZZLES) break;
 
@@ -342,7 +396,7 @@ async function main() {
           player.hero_id,
           playerItems,
           items,
-          popularity,
+          popularity!,
         );
         if (score < UNUSUAL_THRESHOLD) continue;
 
@@ -362,7 +416,7 @@ async function main() {
           role: inferPosition(player.lane_role, isLikelySupport),
           lane: laneRoleName(player.lane_role),
           duration: detail.duration,
-          patch: patchDisplay(detail.patch),
+          patch: TARGET_PATCH_DISPLAY,
           win: player.win === 1,
           rankBracket: rankTierToName(detail.avg_rank_tier),
           kdaBucket: classifyKda(player.kills, player.deaths, player.assists),
@@ -376,10 +430,29 @@ async function main() {
     }
   }
 
+  if (!popularityReady) {
+    // If we didn't reach the target, save what we have
+    console.warn(
+      `\n  Warning: Only processed ${popularityMatchesProcessed} matches for popularity (target: ${POPULARITY_MATCH_TARGET}).`,
+    );
+    if (popularityMatchesProcessed > 0) {
+      popularity = buildPopularityFromCounts(itemCounts);
+      savePopularity(popularity);
+      console.log(`  Saved partial popularity data.`);
+    }
+  }
+
   writeFileSync(PUZZLES_PATH, JSON.stringify(puzzles, null, 2));
   console.log(
     `\nDone! Saved ${puzzles.length} puzzles to src/data/puzzles.json`,
   );
+
+  if (puzzles.length < TARGET_PUZZLES) {
+    console.warn(
+      `  Warning: Only found ${puzzles.length}/${TARGET_PUZZLES} puzzles. ` +
+      `Try increasing MAX_BATCHES or lowering UNUSUAL_THRESHOLD.`,
+    );
+  }
 }
 
 main().catch((err) => {
