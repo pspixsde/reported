@@ -4,6 +4,7 @@ import { useState } from "react";
 import { cn } from "@/lib/cn";
 import { useGameStore } from "@/stores/game-store";
 import { CountdownTimer } from "./CountdownTimer";
+import { PUZZLES_PER_LEVEL } from "@/lib/game-types";
 
 interface ScoreCardProps {
   className?: string;
@@ -18,7 +19,9 @@ export function ScoreCard({ className }: ScoreCardProps) {
   const puzzle = useGameStore((s) => s.puzzle);
   const heroes = useGameStore((s) => s.heroes);
   const resetGame = useGameStore((s) => s.resetGame);
-  const startGame = useGameStore((s) => s.startGame);
+  const currentPuzzleIndex = useGameStore((s) => s.currentPuzzleIndex);
+  const advanceToNextPuzzle = useGameStore((s) => s.advanceToNextPuzzle);
+  const returnToLevelSelect = useGameStore((s) => s.returnToLevelSelect);
 
   if (!completed) return null;
 
@@ -46,6 +49,9 @@ export function ScoreCard({ className }: ScoreCardProps) {
     }
   }
 
+  const isLastPuzzleInLevel =
+    mode === "puzzles" && currentPuzzleIndex >= PUZZLES_PER_LEVEL - 1;
+
   return (
     <div
       className={cn(
@@ -62,27 +68,58 @@ export function ScoreCard({ className }: ScoreCardProps) {
       <p className="mt-1 text-xs text-dota-text-dim">
         Hero: <span className="font-medium text-dota-text">{heroName}</span>
       </p>
+      {puzzle && (
+        <p className="mt-1 text-xs text-dota-text-dim">
+          Match ID:{" "}
+          <a
+            href={`https://www.opendota.com/matches/${puzzle.id.split("-")[0]}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-medium text-dota-text underline decoration-dota-border underline-offset-2 transition-colors hover:text-dota-gold hover:decoration-dota-gold"
+          >
+            {puzzle.id.split("-")[0]}
+          </a>
+        </p>
+      )}
+
+      {/* Puzzle progress within level */}
+      {mode === "puzzles" && (
+        <p className="mt-2 text-xs text-dota-text-dim">
+          Puzzle {currentPuzzleIndex + 1} of {PUZZLES_PER_LEVEL}
+        </p>
+      )}
 
       {/* Action buttons */}
       <div className="mt-6 flex flex-col gap-2">
-        <button
-          onClick={handleShare}
-          className={cn(
-            "rounded-lg px-4 py-2.5 text-sm font-semibold transition-all",
-            copied
-              ? "bg-dota-green text-dota-bg"
-              : "bg-dota-gold text-dota-bg hover:bg-dota-gold-dim",
-          )}
-        >
-          {copied ? "Copied!" : "Copy Results"}
-        </button>
-
-        {mode === "practice" && (
+        {mode === "daily" && (
           <button
-            onClick={() => startGame("practice")}
-            className="rounded-lg border border-dota-border px-4 py-2.5 text-sm font-medium text-dota-text transition-colors hover:border-dota-gold/40 hover:text-dota-gold"
+            onClick={handleShare}
+            className={cn(
+              "rounded-lg px-4 py-2.5 text-sm font-semibold transition-all",
+              copied
+                ? "bg-dota-green text-dota-bg"
+                : "bg-dota-gold text-dota-bg hover:bg-dota-gold-dim",
+            )}
           >
-            Play Again
+            {copied ? "Copied!" : "Copy Results"}
+          </button>
+        )}
+
+        {mode === "puzzles" && !isLastPuzzleInLevel && (
+          <button
+            onClick={advanceToNextPuzzle}
+            className="rounded-lg bg-dota-gold px-4 py-2.5 text-sm font-semibold text-dota-bg transition-all hover:bg-dota-gold-dim"
+          >
+            Next Puzzle
+          </button>
+        )}
+
+        {mode === "puzzles" && isLastPuzzleInLevel && (
+          <button
+            onClick={returnToLevelSelect}
+            className="rounded-lg bg-dota-green px-4 py-2.5 text-sm font-semibold text-dota-bg transition-all hover:bg-dota-green/80"
+          >
+            Level Complete!
           </button>
         )}
 

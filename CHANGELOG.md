@@ -1,5 +1,36 @@
 # Changelog
 
+## v0.2.0 — 2026-02-14
+
+### Changed
+
+- **Puzzles mode** replaces Practice mode: 4 levels of 5 puzzles each (20 total), same puzzles and order for everyone, with per-level completion tracking
+- Puzzle pool re-seeded from **ranked matches only** on **patch 7.40b**, with hero-item popularity baseline recalibrated from ranked data
+- Main menu stats now track **Daily Challenge only** (labeled "Daily Challenge Stats")
+- Patch version displayed in main menu instead of on individual puzzle cards
+- Daily Challenge re-entry now correctly shows completed results instead of blank screen
+
+### Added
+
+- LevelSelect component with completion state (green checkmark + score for finished levels)
+- `/api/puzzle/level` API route for serving puzzles by level and index
+- Deterministic level assignment function (fixed seed, same for all players)
+- Two-phase seed script: builds popularity baseline from ranked match data, then scores builds
+- Match ID shown on results screen (links to OpenDota match page)
+- Settings button (cog icon) in header with placeholder modal
+- Language selector button (flag icon) in header — English only for now
+- Footer with "About Us" and "Privacy Policy" links
+- About Us modal with game description and Valve trademark disclaimer
+- Privacy Policy placeholder modal
+- Reusable Modal component
+
+### Removed
+
+- Practice mode and `/api/puzzle/random` API route
+- Patch display from PuzzleCard component (moved to main menu)
+
+---
+
 ## v0.1.0 — 2026-02-13
 
 Initial project setup.

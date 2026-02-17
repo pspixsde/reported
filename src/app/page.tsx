@@ -7,6 +7,8 @@ import { PuzzleCard } from "@/components/PuzzleCard";
 import { GuessPanel } from "@/components/GuessPanel";
 import { ResultFeedback } from "@/components/ResultFeedback";
 import { ScoreCard } from "@/components/ScoreCard";
+import { LevelSelect } from "@/components/LevelSelect";
+import { Footer } from "@/components/Footer";
 import type { GameMode } from "@/lib/game-types";
 
 export default function Home() {
@@ -16,7 +18,7 @@ export default function Home() {
   const error = useGameStore((s) => s.error);
   const completed = useGameStore((s) => s.completed);
   const loadConstants = useGameStore((s) => s.loadConstants);
-  const constantsLoaded = useGameStore((s) => s.constantsLoaded);
+  const puzzlesLevelSelect = useGameStore((s) => s.puzzlesLevelSelect);
 
   // Load constants on mount
   useEffect(() => {
@@ -36,8 +38,12 @@ export default function Home() {
 
         {!mode && !loading && <ModeSelect />}
 
-        {loading && !puzzle && <LoadingSpinner />}
+        {loading && !puzzle && !puzzlesLevelSelect && <LoadingSpinner />}
 
+        {/* Puzzles mode: level select */}
+        {mode === "puzzles" && puzzlesLevelSelect && !puzzle && <LevelSelect />}
+
+        {/* Active game (daily or puzzles) */}
         {mode && puzzle && (
           <div className="flex w-full flex-col items-center gap-4">
             <PuzzleCard />
@@ -47,6 +53,8 @@ export default function Home() {
           </div>
         )}
       </main>
+
+      <Footer />
     </div>
   );
 }
@@ -59,6 +67,7 @@ function ModeSelect() {
   const constantsLoaded = useGameStore((s) => s.constantsLoaded);
   const gamesPlayed = useGameStore((s) => s.gamesPlayed);
   const totalScore = useGameStore((s) => s.totalScore);
+  const completedLevels = useGameStore((s) => s.completedLevels);
 
   const today = new Date().toISOString().slice(0, 10);
   const dailyDoneToday = dailyCompleted && dailyDate === today;
@@ -78,6 +87,11 @@ function ModeSelect() {
         Guess the outcome of real Dota 2 matches featuring unusual,
         off-meta builds. Can you read the game?
       </p>
+
+      {/* Patch badge */}
+      <span className="mt-2 rounded bg-dota-card px-2.5 py-0.5 text-xs font-medium text-dota-text-dim">
+        Patch 7.40b
+      </span>
 
       {/* Mode cards */}
       <div className="mt-8 grid w-full gap-4 sm:grid-cols-2">
@@ -101,37 +115,47 @@ function ModeSelect() {
           </div>
         </button>
 
-        {/* Practice Mode */}
+        {/* Puzzles Mode */}
         <button
-          onClick={() => handleStart("practice")}
+          onClick={() => handleStart("puzzles")}
           disabled={!constantsLoaded}
           className="group relative overflow-hidden rounded-xl border border-dota-border bg-dota-surface p-6 text-left transition-all hover:border-dota-blue/40 hover:shadow-lg hover:shadow-dota-blue/5 disabled:opacity-50"
         >
           <div className="absolute -right-4 -top-4 h-24 w-24 rounded-full bg-dota-blue/5 transition-transform group-hover:scale-150" />
           <div className="relative">
-            <h3 className="text-lg font-bold text-dota-blue">Practice</h3>
+            <h3 className="text-lg font-bold text-dota-blue">Puzzles</h3>
             <p className="mt-1 text-sm text-dota-text-dim">
-              Unlimited puzzles. Perfect for queue time.
+              4 levels of 5 puzzles. Complete them all.
             </p>
+            {completedLevels.length > 0 && (
+              <p className="mt-2 text-xs font-medium text-dota-blue">
+                {completedLevels.length}/4 levels complete
+              </p>
+            )}
           </div>
         </button>
       </div>
 
-      {/* Stats */}
+      {/* Daily Challenge Stats */}
       {gamesPlayed > 0 && (
-        <div className="mt-8 flex items-center gap-6 text-sm text-dota-text-dim">
-          <div className="text-center">
-            <p className="text-2xl font-bold text-dota-text">{gamesPlayed}</p>
-            <p>Played</p>
-          </div>
-          <div className="text-center">
-            <p className="text-2xl font-bold text-dota-text">
-              {gamesPlayed > 0
-                ? ((totalScore / (gamesPlayed * 3)) * 100).toFixed(0)
-                : 0}
-              %
-            </p>
-            <p>Accuracy</p>
+        <div className="mt-8">
+          <p className="mb-2 text-xs font-medium uppercase tracking-wider text-dota-text-dim">
+            Daily Challenge Stats
+          </p>
+          <div className="flex items-center gap-6 text-sm text-dota-text-dim">
+            <div className="text-center">
+              <p className="text-2xl font-bold text-dota-text">{gamesPlayed}</p>
+              <p>Played</p>
+            </div>
+            <div className="text-center">
+              <p className="text-2xl font-bold text-dota-text">
+                {gamesPlayed > 0
+                  ? ((totalScore / (gamesPlayed * 3)) * 100).toFixed(0)
+                  : 0}
+                %
+              </p>
+              <p>Accuracy</p>
+            </div>
           </div>
         </div>
       )}
