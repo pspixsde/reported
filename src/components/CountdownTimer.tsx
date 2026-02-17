@@ -2,12 +2,14 @@
 
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/cn";
+import { useTranslation } from "@/i18n";
 
 interface CountdownTimerProps {
   className?: string;
 }
 
 export function CountdownTimer({ className }: CountdownTimerProps) {
+  const { t } = useTranslation();
   const [timeLeft, setTimeLeft] = useState(getTimeUntilMidnightUTC());
 
   useEffect(() => {
@@ -24,7 +26,7 @@ export function CountdownTimer({ className }: CountdownTimerProps) {
   return (
     <div className={cn("text-center", className)}>
       <p className="text-xs font-medium uppercase tracking-wider text-dota-text-dim">
-        Next daily puzzle in
+        {t("score.nextDaily")}
       </p>
       <p className="mt-1 font-mono text-2xl font-bold text-dota-gold tabular-nums">
         {pad(hours)}:{pad(minutes)}:{pad(seconds)}

@@ -5,14 +5,15 @@ export interface Puzzle {
   hero: string;          // internal name, e.g. "pudge"
   heroId: number;        // OpenDota hero_id
   items: number[];       // item IDs (final 6 inventory slots)
-  role: string;          // e.g. "Hard Support (Pos 5)"
-  lane: string;          // e.g. "Safe Lane"
+  netWorth: number;      // final net worth in gold
+  lastHits: number;      // creeps killed
+  denies: number;        // creeps denied
   duration: number;      // match duration in seconds
-  patch: string;         // e.g. "7.35d"
+  patch: string;         // e.g. "7.40c"
   // Answers — only sent after guessing / revealing
   win: boolean;
   rankBracket: RankBracket;
-  kdaBucket: string;     // e.g. "5-10 / 0-5 / 10-15"
+  kdaBucket: string;     // e.g. "4-7 / 0-3 / 5-9"
 }
 
 /** Puzzle data sent to the client (answers stripped) */
@@ -21,8 +22,9 @@ export interface PuzzlePublic {
   hero: string;
   heroId: number;
   items: number[];
-  role: string;
-  lane: string;
+  netWorth: number;
+  lastHits: number;
+  denies: number;
   duration: number;
   patch: string;
 }
@@ -68,16 +70,26 @@ export const rankNameToNumber: Record<RankBracket, number> = {
 // ── KDA Buckets ──
 
 export const KDA_BUCKETS = [
-  "0-3 / 0-3 / 0-5",
-  "4-7 / 0-3 / 5-10",
-  "4-7 / 4-7 / 5-10",
-  "8-12 / 0-3 / 10-20",
-  "8-12 / 4-7 / 10-20",
+  "0-3 / 0-3 / 0-4",
+  "0-3 / 0-3 / 5-9",
+  "0-3 / 4-7 / 0-4",
+  "0-3 / 4-7 / 5-9",
+  "0-3 / 8+ / 0-4",
+  "0-3 / 8+ / 5-9",
+  "4-7 / 0-3 / 5-9",
+  "4-7 / 0-3 / 10-14",
+  "4-7 / 4-7 / 5-9",
+  "4-7 / 4-7 / 10-14",
+  "4-7 / 8+ / 5-9",
+  "4-7 / 8+ / 10-14",
+  "8-12 / 0-3 / 10-14",
+  "8-12 / 0-3 / 15+",
+  "8-12 / 4-7 / 10-14",
+  "8-12 / 4-7 / 15+",
+  "8-12 / 8+ / 10-14",
+  "8-12 / 8+ / 15+",
   "13+ / 0-3 / 15+",
   "13+ / 4-7 / 15+",
-  "0-3 / 8+ / 0-10",
-  "4-7 / 8+ / 5-15",
-  "8+ / 8+ / 10+",
 ] as const;
 
 export type KdaBucket = (typeof KDA_BUCKETS)[number];

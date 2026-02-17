@@ -8,47 +8,52 @@ import { PUZZLES_LEVEL_COUNT, PUZZLES_PER_LEVEL } from "@/lib/game-types";
  * Returns a specific puzzle from the Puzzles mode level grid (without answers).
  */
 export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
-  const levelParam = searchParams.get("level");
-  const indexParam = searchParams.get("index");
+  try {
+    const { searchParams } = new URL(request.url);
+    const levelParam = searchParams.get("level");
+    const indexParam = searchParams.get("index");
 
-  if (levelParam === null || indexParam === null) {
-    return NextResponse.json(
-      { error: "Missing level or index query parameter" },
-      { status: 400 },
-    );
+    if (levelParam === null || indexParam === null) {
+      return NextResponse.json(
+        { error: "Missing level or index query parameter" },
+        { status: 400 },
+      );
+    }
+
+    const level = parseInt(levelParam, 10);
+    const index = parseInt(indexParam, 10);
+
+    if (isNaN(level) || level < 0 || level >= PUZZLES_LEVEL_COUNT) {
+      return NextResponse.json(
+        { error: `Invalid level (0-${PUZZLES_LEVEL_COUNT - 1})` },
+        { status: 400 },
+      );
+    }
+
+    if (isNaN(index) || index < 0 || index >= PUZZLES_PER_LEVEL) {
+      return NextResponse.json(
+        { error: `Invalid index (0-${PUZZLES_PER_LEVEL - 1})` },
+        { status: 400 },
+      );
+    }
+
+    const puzzles = getAllPuzzles();
+    if (puzzles.length === 0) {
+      return NextResponse.json(
+        { error: "No puzzles available" },
+        { status: 500 },
+      );
+    }
+
+    const levels = getPuzzleLevelAssignments(puzzles.length);
+    const puzzlePoolIndex = levels[level][index];
+    const puzzle = puzzles[puzzlePoolIndex];
+
+    return NextResponse.json(stripAnswers(puzzle));
+  } catch (err) {
+    console.error("Failed to load level puzzle:", err);
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
-
-  const level = parseInt(levelParam, 10);
-  const index = parseInt(indexParam, 10);
-
-  if (isNaN(level) || level < 0 || level >= PUZZLES_LEVEL_COUNT) {
-    return NextResponse.json(
-      { error: `Invalid level (0-${PUZZLES_LEVEL_COUNT - 1})` },
-      { status: 400 },
-    );
-  }
-
-  if (isNaN(index) || index < 0 || index >= PUZZLES_PER_LEVEL) {
-    return NextResponse.json(
-      { error: `Invalid index (0-${PUZZLES_PER_LEVEL - 1})` },
-      { status: 400 },
-    );
-  }
-
-  const puzzles = getAllPuzzles();
-  if (puzzles.length === 0) {
-    return NextResponse.json(
-      { error: "No puzzles available" },
-      { status: 500 },
-    );
-  }
-
-  const levels = getPuzzleLevelAssignments(puzzles.length);
-  const puzzlePoolIndex = levels[level][index];
-  const puzzle = puzzles[puzzlePoolIndex];
-
-  return NextResponse.json(stripAnswers(puzzle));
 }
 
 /**

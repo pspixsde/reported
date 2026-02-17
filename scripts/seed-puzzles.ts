@@ -1,11 +1,12 @@
 /**
- * Seed puzzle data from OpenDota — ranked matches on patch 7.40b only.
+ * Seed puzzle data from OpenDota — ranked matches on patch 7.40+ only.
  *
- * Two-phase approach:
- *   Phase 1: Fetch ranked matches on patch 7.40b, accumulate hero item usage
- *            to build a "normal items" baseline (hero-item-popularity.json)
- *   Phase 2: Continue fetching ranked matches, score builds against the
- *            baseline, and collect 150 unusual-build puzzles
+ * Approach:
+ *   1. Fetch hero item popularity from OpenDota's /heroes/{id}/itemPopularity
+ *      endpoint (aggregated data from millions of matches) and build a
+ *      per-hero "normal items" baseline (hero-item-popularity.json)
+ *   2. Fetch ranked match details, score builds against the baseline,
+ *      and collect 150 unusual-build puzzles
  *
  * Run with: npm run seed:puzzles
  */
@@ -24,17 +25,21 @@ const TARGET_PUZZLES = 150;
 const MAX_BATCHES = 60;
 const RATE_LIMIT_MS = 1100;
 const MIN_ITEM_COST = 1000;
-const UNUSUAL_THRESHOLD = 0.3;
+const UNUSUAL_THRESHOLD = 0.4;
 const MATCHES_TO_DETAIL = 15;
+// Penalty subtracted per top-5 popular item in a build
+const POPULAR_PENALTY = 0.1;
 
-// Patch filtering — only collect from ranked matches on 7.40b
+// Patch filtering — only collect from ranked matches on 7.40+
 const TARGET_PATCH_ID = 59;        // OpenDota numeric ID for 7.40
-const TARGET_PATCH_DISPLAY = "7.40b"; // Display string
+const TARGET_PATCH_DISPLAY = "7.40+"; // Display string
 
-// Phase 1: How many match details to process before computing popularity
-const POPULARITY_MATCH_TARGET = 200;
 // Minimum ranked tier (10 = Herald star 1 — ensures ranked games only)
 const MIN_RANK = 10;
+// Lobby type 7 = Ranked Matchmaking
+const RANKED_LOBBY_TYPE = 7;
+// Game mode 23 = Turbo (excluded even if lobby_type matches)
+const TURBO_GAME_MODE = 23;
 
 // ── Types ──
 
@@ -77,6 +82,9 @@ interface MatchPlayer {
   hero_damage: number;
   tower_damage: number;
   is_roaming: boolean | null;
+  net_worth: number;
+  last_hits: number;
+  denies: number;
 }
 
 interface MatchDetail {
@@ -84,8 +92,17 @@ interface MatchDetail {
   radiant_win: boolean;
   duration: number;
   patch: number;
+  lobby_type: number;
+  game_mode: number;
   players: MatchPlayer[];
   avg_rank_tier: number | null;
+}
+
+interface ItemPopularity {
+  start_game_items: Record<string, number>;
+  early_game_items: Record<string, number>;
+  mid_game_items: Record<string, number>;
+  late_game_items: Record<string, number>;
 }
 
 interface Puzzle {
@@ -93,8 +110,9 @@ interface Puzzle {
   hero: string;
   heroId: number;
   items: number[];
-  role: string;
-  lane: string;
+  netWorth: number;
+  lastHits: number;
+  denies: number;
   duration: number;
   patch: string;
   win: boolean;
@@ -128,37 +146,13 @@ async function apiFetch<T>(path: string): Promise<T | null> {
 }
 
 function rankTierToName(tier: number | null): string {
-  if (!tier) return "Archon";
+  if (!tier) return "Unknown";
   const bracket = Math.floor(tier / 10);
   const names: Record<number, string> = {
     1: "Herald", 2: "Guardian", 3: "Crusader", 4: "Archon",
     5: "Legend", 6: "Ancient", 7: "Divine", 8: "Immortal",
   };
-  return names[bracket] || "Archon";
-}
-
-function laneRoleName(role: number): string {
-  switch (role) {
-    case 1: return "Safe Lane";
-    case 2: return "Mid Lane";
-    case 3: return "Off Lane";
-    case 4: return "Jungle";
-    default: return "Roaming";
-  }
-}
-
-function inferPosition(laneRole: number, isLikelySupport: boolean): string {
-  if (isLikelySupport) {
-    if (laneRole === 1) return "Hard Support (Pos 5)";
-    if (laneRole === 3) return "Soft Support (Pos 4)";
-    return "Support (Pos 4/5)";
-  }
-  switch (laneRole) {
-    case 1: return "Carry (Pos 1)";
-    case 2: return "Mid (Pos 2)";
-    case 3: return "Offlane (Pos 3)";
-    default: return "Core";
-  }
+  return names[bracket] || "Unknown";
 }
 
 function classifyKda(k: number, d: number, a: number): string {
@@ -174,97 +168,113 @@ function bv(val: number, t: number[]): string {
   return `0-${(t[1] ?? 1) - 1}`;
 }
 
-// ── Hero item popularity (built from ranked match data) ──
+// ── Hero item popularity (from OpenDota API) ──
 
-type PopularityMap = Record<number, Set<string>>;
-type ItemCountMap = Record<number, Record<string, number>>;
+/** Maps heroId -> itemId -> popularity rank (1 = most popular) */
+type PopularityRankMap = Record<number, Record<string, number>>;
 
 /**
- * Accumulate item usage from a match detail into the counts map.
- * Only counts significant items (cost >= MIN_ITEM_COST).
+ * Fetch item popularity for every hero from OpenDota's
+ * /heroes/{id}/itemPopularity endpoint.
+ *
+ * Merges mid_game_items and late_game_items (most relevant for
+ * final inventory), ranks the top 20 per hero.
  */
-function accumulateItemUsage(
-  detail: MatchDetail,
+async function fetchPopularityFromAPI(
+  heroes: Record<number, HeroData>,
   items: Record<number, ItemData>,
-  counts: ItemCountMap,
-): void {
-  for (const player of detail.players) {
-    const heroId = player.hero_id;
-    if (!counts[heroId]) counts[heroId] = {};
+): Promise<PopularityRankMap> {
+  const heroIds = Object.keys(heroes).map(Number);
+  const map: PopularityRankMap = {};
+  let fetched = 0;
 
-    const playerItems = [
-      player.item_0, player.item_1, player.item_2,
-      player.item_3, player.item_4, player.item_5,
-    ];
+  console.log(`Fetching item popularity for ${heroIds.length} heroes from OpenDota API...`);
 
-    for (const itemId of playerItems) {
-      if (itemId === 0) continue;
-      const item = items[itemId];
-      if (!item || (item.cost !== null && item.cost < MIN_ITEM_COST)) continue;
-      const key = String(itemId);
-      counts[heroId][key] = (counts[heroId][key] || 0) + 1;
+  for (const heroId of heroIds) {
+    await sleep(RATE_LIMIT_MS);
+    const data = await apiFetch<ItemPopularity>(`/heroes/${heroId}/itemPopularity`);
+    fetched++;
+
+    if (!data) {
+      console.warn(`  Skipped hero ${heroId} (no data)`);
+      continue;
+    }
+
+    // Merge mid-game and late-game item counts (most relevant for final inventory)
+    const merged: Record<string, number> = {};
+    for (const phase of [data.mid_game_items, data.late_game_items]) {
+      if (!phase) continue;
+      for (const [itemId, count] of Object.entries(phase)) {
+        // Only count significant items (cost >= MIN_ITEM_COST)
+        const item = items[Number(itemId)];
+        if (!item || (item.cost !== null && item.cost < MIN_ITEM_COST)) continue;
+        merged[itemId] = (merged[itemId] || 0) + count;
+      }
+    }
+
+    // Rank top 20 items by total count
+    const sorted = Object.entries(merged).sort((a, b) => b[1] - a[1]);
+    const ranks: Record<string, number> = {};
+    for (let i = 0; i < Math.min(sorted.length, 20); i++) {
+      ranks[sorted[i][0]] = i + 1;
+    }
+    map[heroId] = ranks;
+
+    if (fetched % 20 === 0 || fetched === heroIds.length) {
+      console.log(`  ${fetched}/${heroIds.length} heroes processed`);
     }
   }
-}
 
-/**
- * Convert accumulated item counts into a popularity map.
- * Top 20 items per hero are considered "popular".
- */
-function buildPopularityFromCounts(counts: ItemCountMap): PopularityMap {
-  const map: PopularityMap = {};
-  for (const [heroIdStr, itemCounts] of Object.entries(counts)) {
-    const heroId = Number(heroIdStr);
-    const sorted = Object.entries(itemCounts).sort((a, b) => b[1] - a[1]);
-    const popular = new Set<string>();
-    for (const [itemId] of sorted.slice(0, 20)) {
-      popular.add(itemId);
-    }
-    map[heroId] = popular;
-  }
   return map;
 }
 
 /**
- * Save popularity map to disk.
+ * Save popularity rank map to disk.
  */
-function savePopularity(map: PopularityMap): void {
-  const serializable: Record<string, string[]> = {};
-  for (const [heroId, items] of Object.entries(map)) {
-    serializable[heroId] = [...(items as unknown as Set<string>)];
-  }
-  writeFileSync(POPULARITY_CACHE_PATH, JSON.stringify(serializable, null, 2));
+function savePopularity(map: PopularityRankMap): void {
+  writeFileSync(POPULARITY_CACHE_PATH, JSON.stringify(map, null, 2));
 }
 
 /**
- * Load popularity map from disk cache.
+ * Load popularity rank map from disk cache.
  */
-function loadPopularityCache(): PopularityMap | null {
+function loadPopularityCache(): PopularityRankMap | null {
   if (!existsSync(POPULARITY_CACHE_PATH)) return null;
   console.log("Loading cached hero item popularity...");
-  const raw: Record<string, string[]> = JSON.parse(
-    readFileSync(POPULARITY_CACHE_PATH, "utf-8"),
-  );
-  const map: PopularityMap = {};
-  for (const [heroId, itemIds] of Object.entries(raw)) {
-    map[Number(heroId)] = new Set(itemIds);
+  const raw = JSON.parse(readFileSync(POPULARITY_CACHE_PATH, "utf-8"));
+
+  // Handle legacy format (arrays instead of rank objects)
+  const firstValue = Object.values(raw)[0];
+  if (Array.isArray(firstValue)) {
+    console.log("  Legacy format detected, will rebuild...");
+    return null;
   }
+
+  const map: PopularityRankMap = raw as PopularityRankMap;
   console.log(`  Loaded popularity data for ${Object.keys(map).length} heroes.`);
   return map;
 }
 
 // ── Unusual build scoring ──
 
+/**
+ * Weighted unusual score:
+ *   - Items NOT in the top 20 for the hero: +1 (unusual)
+ *   - Items ranked 6-20: 0 (neutral)
+ *   - Items ranked 1-5 (most popular): -POPULAR_PENALTY each (penalized)
+ *
+ * score = (unusual_points - popular_penalty) / significant_items
+ */
 function unusualScore(
   heroId: number,
   playerItems: number[],
   items: Record<number, ItemData>,
-  popularity: PopularityMap,
+  popularity: PopularityRankMap,
 ): number {
-  const popular = popularity[heroId];
-  if (!popular) return 0;
+  const heroRanks = popularity[heroId];
+  if (!heroRanks) return 0;
 
-  let unusual = 0;
+  let unusualPoints = 0;
   let significant = 0;
 
   for (const itemId of playerItems) {
@@ -273,12 +283,18 @@ function unusualScore(
     if (!item || (item.cost !== null && item.cost < MIN_ITEM_COST)) continue;
 
     significant++;
-    if (!popular.has(String(itemId))) {
-      unusual++;
+    const rank = heroRanks[String(itemId)];
+    if (rank === undefined) {
+      // Not in top 20 — unusual
+      unusualPoints += 1;
+    } else if (rank <= 5) {
+      // Top 5 most popular — penalize
+      unusualPoints -= POPULAR_PENALTY;
     }
+    // Rank 6-20: neutral (0)
   }
 
-  return significant > 0 ? unusual / significant : 0;
+  return significant > 0 ? unusualPoints / significant : 0;
 }
 
 // ── Fetch ranked public matches ──
@@ -308,25 +324,24 @@ async function main() {
     readFileSync(ITEMS_PATH, "utf-8"),
   );
 
-  // Try loading cached popularity
+  // ── Step 1: Build or load hero item popularity ──
   let popularity = loadPopularityCache();
-  const itemCounts: ItemCountMap = {};
-  let popularityMatchesProcessed = 0;
-  let popularityReady = popularity !== null;
 
-  // Puzzles collection
+  if (!popularity) {
+    popularity = await fetchPopularityFromAPI(heroes, items);
+    savePopularity(popularity);
+    console.log(`  Saved popularity data to ${POPULARITY_CACHE_PATH}\n`);
+  }
+
+  // ── Step 2: Fetch matches and collect unusual-build puzzles ──
   const puzzles: Puzzle[] = [];
   const existingIds = new Set<string>();
   let batches = 0;
   let lastMatchId: number | undefined;
 
-  console.log(`\nTarget: ${TARGET_PUZZLES} puzzles from ranked matches on patch ${TARGET_PATCH_DISPLAY}`);
-  console.log(`Popularity ready: ${popularityReady ? "yes (cached)" : "no (will build from matches)"}\n`);
+  console.log(`\nTarget: ${TARGET_PUZZLES} puzzles from ranked matches on patch ${TARGET_PATCH_DISPLAY}\n`);
 
-  while (
-    (puzzles.length < TARGET_PUZZLES || !popularityReady) &&
-    batches < MAX_BATCHES
-  ) {
+  while (puzzles.length < TARGET_PUZZLES && batches < MAX_BATCHES) {
     batches++;
     await sleep(RATE_LIMIT_MS);
 
@@ -339,46 +354,32 @@ async function main() {
 
     lastMatchId = publicMatches[publicMatches.length - 1].match_id;
 
-    const phase = popularityReady ? "Phase 2 (puzzles)" : "Phase 1 (popularity)";
     console.log(
-      `Batch ${batches} [${phase}]: ${publicMatches.length} matches ` +
-      `(puzzles: ${puzzles.length}/${TARGET_PUZZLES}, popularity matches: ${popularityMatchesProcessed})`,
+      `Batch ${batches}: ${publicMatches.length} matches ` +
+      `(puzzles: ${puzzles.length}/${TARGET_PUZZLES})`,
     );
 
     // Fetch details for a subset of matches
     for (const pm of publicMatches.slice(0, MATCHES_TO_DETAIL)) {
-      if (popularityReady && puzzles.length >= TARGET_PUZZLES) break;
+      if (puzzles.length >= TARGET_PUZZLES) break;
 
       await sleep(RATE_LIMIT_MS);
       const detail = await apiFetch<MatchDetail>(`/matches/${pm.match_id}`);
       if (!detail?.players) continue;
 
       // Filter: must be on target patch
-      if (detail.patch !== TARGET_PATCH_ID) {
-        continue;
-      }
+      if (detail.patch !== TARGET_PATCH_ID) continue;
+
+      // Filter: must be ranked matchmaking (not Turbo, normal, etc.)
+      if (detail.lobby_type !== RANKED_LOBBY_TYPE) continue;
+      if (detail.game_mode === TURBO_GAME_MODE) continue;
 
       // Filter: skip very short matches
       if (detail.duration < 900) continue;
 
-      // Phase 1: accumulate item usage for popularity baseline
-      if (!popularityReady) {
-        accumulateItemUsage(detail, items, itemCounts);
-        popularityMatchesProcessed++;
+      // Use avg_rank_tier from the publicMatches response (more reliable than detail)
+      const pmAvgRankTier = pm.avg_rank_tier;
 
-        if (popularityMatchesProcessed >= POPULARITY_MATCH_TARGET) {
-          console.log(
-            `\n  Popularity baseline built from ${popularityMatchesProcessed} matches.`,
-          );
-          popularity = buildPopularityFromCounts(itemCounts);
-          savePopularity(popularity);
-          console.log(`  Saved to ${POPULARITY_CACHE_PATH}\n`);
-          popularityReady = true;
-        }
-        continue;
-      }
-
-      // Phase 2: score builds and collect puzzles
       for (const player of detail.players) {
         if (puzzles.length >= TARGET_PUZZLES) break;
 
@@ -396,14 +397,12 @@ async function main() {
           player.hero_id,
           playerItems,
           items,
-          popularity!,
+          popularity,
         );
         if (score < UNUSUAL_THRESHOLD) continue;
 
         const puzzleId = `${detail.match_id}-${player.hero_id}`;
         if (existingIds.has(puzzleId)) continue;
-
-        const isLikelySupport = player.gold_per_min < 350;
 
         puzzles.push({
           id: puzzleId,
@@ -413,32 +412,21 @@ async function main() {
             player.item_0, player.item_1, player.item_2,
             player.item_3, player.item_4, player.item_5,
           ],
-          role: inferPosition(player.lane_role, isLikelySupport),
-          lane: laneRoleName(player.lane_role),
+          netWorth: player.net_worth || 0,
+          lastHits: player.last_hits || 0,
+          denies: player.denies || 0,
           duration: detail.duration,
           patch: TARGET_PATCH_DISPLAY,
           win: player.win === 1,
-          rankBracket: rankTierToName(detail.avg_rank_tier),
+          rankBracket: rankTierToName(pmAvgRankTier),
           kdaBucket: classifyKda(player.kills, player.deaths, player.assists),
         });
 
         existingIds.add(puzzleId);
         console.log(
-          `  [${puzzles.length}] ${hero.localized_name} (${puzzles[puzzles.length - 1].role}) score=${score.toFixed(2)}`,
+          `  [${puzzles.length}] ${hero.localized_name} (NW: ${player.net_worth}) score=${score.toFixed(2)}`,
         );
       }
-    }
-  }
-
-  if (!popularityReady) {
-    // If we didn't reach the target, save what we have
-    console.warn(
-      `\n  Warning: Only processed ${popularityMatchesProcessed} matches for popularity (target: ${POPULARITY_MATCH_TARGET}).`,
-    );
-    if (popularityMatchesProcessed > 0) {
-      popularity = buildPopularityFromCounts(itemCounts);
-      savePopularity(popularity);
-      console.log(`  Saved partial popularity data.`);
     }
   }
 

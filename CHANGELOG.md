@@ -1,5 +1,42 @@
 # Changelog
 
+## v0.3.0 — 2026-02-17
+
+### Fixed
+
+- Matches are now **exclusively ranked**: seed script filters by `lobby_type === 7` (Ranked Matchmaking) and excludes Turbo (`game_mode === 23`), not just by player rank medal
+- **Rank bracket no longer always shows Archon**: puzzle creation now uses `avg_rank_tier` from the `/publicMatches` response (guaranteed non-null) instead of the match detail endpoint (which returned null); fallback changed from "Archon" to "Unknown"
+- **Puzzles loading fixed**: added try-catch error handling to `/api/puzzle/daily` and `/api/puzzle/level` GET handlers, and hardened `puzzles-server.ts` with file existence checks and parse error logging
+- **KDA buckets corrected**: `KDA_BUCKETS` constant regenerated to match actual `classifyKda()` output (20 valid bucket combinations, previously mismatched assist ranges)
+
+### Changed
+
+- Puzzle pool now targets **patch 7.40+** (OpenDota uses main patch IDs only, not letter sub-patches)
+- **Role/lane badges replaced with net worth and creep stats**: PuzzleCard now shows final net worth (e.g. "12.3k gold") and last hits/denies (e.g. "245 / 12 CS") instead of "Core" / "Roaming" labels, which were inaccurate for most builds
+- **Build uniqueness scoring improved**: replaced binary popular/not-popular item check with weighted scoring — top-5 most popular items per hero now penalize the score (-0.1 each), items outside top 20 count as unusual (+1), items ranked 6–20 are neutral; threshold raised from 0.3 to 0.4
+- **Item popularity source replaced**: self-built Phase 1 sampling (200 matches) replaced with OpenDota's `GET /heroes/{id}/itemPopularity` endpoint (~125 API calls, one per hero); merges `mid_game_items` and `late_game_items`, ranks top 20 per hero; cached to `hero-item-popularity.json`
+- Seed script simplified from two-phase loop to linear flow: fetch/load popularity, then collect puzzles
+
+### Added
+
+- **Russian language support**: lightweight i18n system with `src/i18n/en.ts` and `src/i18n/ru.ts` (~80 translation keys), `useTranslation()` hook with interpolation, all UI components translated
+- **Language selector**: header flag icon opens modal with English and Russian options (with flag icons); selected language persisted to localStorage
+- **Colorblind mode**: toggle in Settings modal swaps green/red to blue/orange via CSS variable overrides (`.colorblind` class on `<body>`); persisted to localStorage
+- **"Would you report this build?" survey**: appears after completing all 3 guesses, yes/no buttons, non-blocking; responses saved via `POST /api/survey/report` to `src/data/survey-responses.json`
+- Settings Zustand store (`settings-store.ts`) with `locale` and `colorblindMode`, persisted to localStorage
+- `SettingsProvider` component applies colorblind class and `lang` attribute globally
+- `formatNetWorth()` utility for compact gold display
+- Russian flag SVG icon component
+
+### Removed
+
+- `role` and `lane` fields from `Puzzle` and `PuzzlePublic` interfaces
+- `inferPosition()`, `inferRole()`, and `laneRoleName()` functions from seed script and `puzzle-utils.ts`
+- Placeholder "No settings available yet" text in Settings modal
+- "More languages coming soon" placeholder in Language modal
+
+---
+
 ## v0.2.0 — 2026-02-14
 
 ### Changed

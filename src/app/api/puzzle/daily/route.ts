@@ -7,14 +7,19 @@ import { dailyPuzzleIndex, stripAnswers } from "@/lib/puzzle-utils";
  * Returns today's puzzle (without answers).
  */
 export async function GET() {
-  const puzzles = getAllPuzzles();
-  if (puzzles.length === 0) {
-    return NextResponse.json({ error: "No puzzles available" }, { status: 500 });
-  }
+  try {
+    const puzzles = getAllPuzzles();
+    if (puzzles.length === 0) {
+      return NextResponse.json({ error: "No puzzles available" }, { status: 500 });
+    }
 
-  const index = dailyPuzzleIndex(puzzles.length);
-  const puzzle = puzzles[index];
-  return NextResponse.json(stripAnswers(puzzle));
+    const index = dailyPuzzleIndex(puzzles.length);
+    const puzzle = puzzles[index];
+    return NextResponse.json(stripAnswers(puzzle));
+  } catch (err) {
+    console.error("Failed to load daily puzzle:", err);
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+  }
 }
 
 /**

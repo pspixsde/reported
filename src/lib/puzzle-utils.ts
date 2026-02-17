@@ -81,8 +81,9 @@ export function stripAnswers(puzzle: Puzzle): PuzzlePublic {
     hero: puzzle.hero,
     heroId: puzzle.heroId,
     items: puzzle.items,
-    role: puzzle.role,
-    lane: puzzle.lane,
+    netWorth: puzzle.netWorth,
+    lastHits: puzzle.lastHits,
+    denies: puzzle.denies,
     duration: puzzle.duration,
     patch: puzzle.patch,
   };
@@ -119,43 +120,10 @@ function bucketValue(val: number, thresholds: number[]): string {
   return `0-${thresholds[1] ? thresholds[1] - 1 : 0}`;
 }
 
-/** Map OpenDota lane_role number to display string */
-export function laneRoleName(laneRole: number): string {
-  switch (laneRole) {
-    case 1:
-      return "Safe Lane";
-    case 2:
-      return "Mid Lane";
-    case 3:
-      return "Off Lane";
-    case 4:
-      return "Jungle";
-    default:
-      return "Roaming";
+/** Format net worth as compact string, e.g. "12.3k" */
+export function formatNetWorth(gold: number): string {
+  if (gold >= 1000) {
+    return `${(gold / 1000).toFixed(1)}k`;
   }
-}
-
-/**
- * Infer position label from lane + hero meta expectations.
- * Simplified: uses lane_role + player_slot ordering.
- */
-export function inferRole(
-  laneRole: number,
-  isSupport: boolean,
-): string {
-  if (isSupport) {
-    if (laneRole === 1) return "Hard Support (Pos 5)";
-    if (laneRole === 3) return "Soft Support (Pos 4)";
-    return "Support";
-  }
-  switch (laneRole) {
-    case 1:
-      return "Carry (Pos 1)";
-    case 2:
-      return "Mid (Pos 2)";
-    case 3:
-      return "Offlane (Pos 3)";
-    default:
-      return "Core";
-  }
+  return String(gold);
 }
