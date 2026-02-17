@@ -1,38 +1,29 @@
 import { NextResponse } from "next/server";
 import { getAllPuzzles, getPuzzleById } from "@/lib/puzzles-server";
-import { getPuzzleLevelAssignments, stripAnswers } from "@/lib/puzzle-utils";
-import { PUZZLES_LEVEL_COUNT, PUZZLES_PER_LEVEL } from "@/lib/game-types";
+import { getPuzzleAssignments, stripAnswers } from "@/lib/puzzle-utils";
+import { PUZZLES_TOTAL } from "@/lib/game-types";
 
 /**
- * GET /api/puzzle/level?level=0&index=0
- * Returns a specific puzzle from the Puzzles mode level grid (without answers).
+ * GET /api/puzzle/level?index=0
+ * Returns a specific puzzle from the Puzzles mode grid (without answers).
  */
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
-    const levelParam = searchParams.get("level");
     const indexParam = searchParams.get("index");
 
-    if (levelParam === null || indexParam === null) {
+    if (indexParam === null) {
       return NextResponse.json(
-        { error: "Missing level or index query parameter" },
+        { error: "Missing index query parameter" },
         { status: 400 },
       );
     }
 
-    const level = parseInt(levelParam, 10);
     const index = parseInt(indexParam, 10);
 
-    if (isNaN(level) || level < 0 || level >= PUZZLES_LEVEL_COUNT) {
+    if (isNaN(index) || index < 0 || index >= PUZZLES_TOTAL) {
       return NextResponse.json(
-        { error: `Invalid level (0-${PUZZLES_LEVEL_COUNT - 1})` },
-        { status: 400 },
-      );
-    }
-
-    if (isNaN(index) || index < 0 || index >= PUZZLES_PER_LEVEL) {
-      return NextResponse.json(
-        { error: `Invalid index (0-${PUZZLES_PER_LEVEL - 1})` },
+        { error: `Invalid index (0-${PUZZLES_TOTAL - 1})` },
         { status: 400 },
       );
     }
@@ -45,8 +36,8 @@ export async function GET(request: Request) {
       );
     }
 
-    const levels = getPuzzleLevelAssignments(puzzles.length);
-    const puzzlePoolIndex = levels[level][index];
+    const assignments = getPuzzleAssignments(puzzles.length);
+    const puzzlePoolIndex = assignments[index];
     const puzzle = puzzles[puzzlePoolIndex];
 
     return NextResponse.json(stripAnswers(puzzle));
@@ -94,11 +85,11 @@ export async function POST(request: Request) {
         correct = guess === answer;
         break;
       case 2:
-        answer = puzzle.rankBracket;
+        answer = puzzle.kdaBucket;
         correct = guess === answer;
         break;
       case 3:
-        answer = puzzle.kdaBucket;
+        answer = puzzle.rankBracket;
         correct = guess === answer;
         break;
       default:

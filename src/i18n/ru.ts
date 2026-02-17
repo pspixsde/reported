@@ -12,8 +12,8 @@ const ru: Record<TranslationKey, string> = {
   "mode.daily.desc": "Один пазл в день. Одинаковый для всех.",
   "mode.daily.completed": "Завершено сегодня — {score}/3",
   "mode.puzzles.title": "Пазлы",
-  "mode.puzzles.desc": "4 уровня по 5 пазлов. Пройдите все.",
-  "mode.puzzles.progress": "{count}/4 уровней пройдено",
+  "mode.puzzles.desc": "20 пазлов. Пройдите все.",
+  "mode.puzzles.progress": "{completed}/{total} пазлов пройдено",
 
   // ── Stats ──
   "stats.title": "Статистика ежедневного вызова",
@@ -28,6 +28,8 @@ const ru: Record<TranslationKey, string> = {
 
   // ── Settings ──
   "settings.title": "Настройки",
+  "settings.hardMode": "Сложный режим",
+  "settings.hardMode.desc": "Без золота и крипов. Красный логотип.",
   "settings.colorblind": "Режим дальтонизма",
   "settings.colorblind.desc": "Синий/оранжевый вместо зелёного/красного",
 
@@ -52,8 +54,9 @@ const ru: Record<TranslationKey, string> = {
   "guess.win": "Победа",
   "guess.loss": "Поражение",
   "guess.level2.prompt":
+    "Каков был <b>K / D / A</b> диапазон игрока?",
+  "guess.level3.prompt":
     "В каком <b>ранговом диапазоне</b> проходил этот матч?",
-  "guess.level3.prompt": "Каков был <b>K / D / A</b> диапазон игрока?",
 
   // ── Result feedback ──
   "result.winloss": "Победа/Поражение",
@@ -71,17 +74,13 @@ const ru: Record<TranslationKey, string> = {
   "score.puzzleOf": "Пазл {current} из {total}",
   "score.copy": "Скопировать результаты",
   "score.copied": "Скопировано!",
-  "score.next": "Следующий пазл",
-  "score.levelComplete": "Уровень пройден!",
+  "score.backToPuzzles": "Назад к пазлам",
   "score.backToMenu": "Назад в меню",
   "score.nextDaily": "Следующий ежедневный пазл через",
 
-  // ── Level select ──
+  // ── Puzzle grid ──
   "levels.title": "Пазлы",
-  "levels.desc": "{count} пазлов на уровень. Пройдите все!",
-  "levels.level": "Уровень {n}",
-  "levels.puzzles": "{count} пазлов",
-  "levels.score": "Счёт: {score}/{total}",
+  "levels.desc": "{completed}/{total} пройдено",
   "levels.back": "Назад в меню",
 
   // ── Loading ──
@@ -100,6 +99,18 @@ const ru: Record<TranslationKey, string> = {
   "privacy.title": "Политика конфиденциальности",
   "privacy.text":
     "Мы не собираем персональные данные и не показываем рекламу. Ваш игровой прогресс хранится локально в вашем браузере. Полная политика конфиденциальности будет опубликована здесь, если что-то изменится.",
+
+  // ── Answer translations ──
+  "answer.Win": "Победа",
+  "answer.Loss": "Поражение",
+  "answer.Herald": "Герольд",
+  "answer.Guardian": "Страж",
+  "answer.Crusader": "Крестоносец",
+  "answer.Archon": "Архонт",
+  "answer.Legend": "Легенда",
+  "answer.Ancient": "Властелин",
+  "answer.Divine": "Божество",
+  "answer.Immortal": "Титан",
 
   // ── Survey ──
   "survey.question": "Вы бы зарепортили эту сборку?",

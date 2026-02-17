@@ -2,6 +2,7 @@
 
 import { cn } from "@/lib/cn";
 import { useGameStore } from "@/stores/game-store";
+import { useSettingsStore } from "@/stores/settings-store";
 import { useTranslation } from "@/i18n";
 import { HeroIcon } from "./HeroIcon";
 import { ItemIcon } from "./ItemIcon";
@@ -15,6 +16,7 @@ export function PuzzleCard({ className }: PuzzleCardProps) {
   const { t } = useTranslation();
   const puzzle = useGameStore((s) => s.puzzle);
   const heroes = useGameStore((s) => s.heroes);
+  const hardMode = useSettingsStore((s) => s.hardMode);
 
   if (!puzzle) return null;
 
@@ -58,14 +60,18 @@ export function PuzzleCard({ className }: PuzzleCardProps) {
           <ClockIcon />
           <span>{formatDuration(puzzle.duration)}</span>
         </div>
-        <div className="flex items-center gap-1.5" title="Net Worth">
-          <GoldIcon />
-          <span>{t("puzzle.gold", { value: formatNetWorth(puzzle.netWorth) })}</span>
-        </div>
-        <div className="flex items-center gap-1.5" title="Last Hits / Denies">
-          <SwordIcon />
-          <span>{t("puzzle.cs", { lastHits: puzzle.lastHits, denies: puzzle.denies })}</span>
-        </div>
+        {!hardMode && (
+          <div className="flex items-center gap-1.5" title="Net Worth">
+            <GoldIcon />
+            <span>{t("puzzle.gold", { value: formatNetWorth(puzzle.netWorth) })}</span>
+          </div>
+        )}
+        {!hardMode && (
+          <div className="flex items-center gap-1.5" title="Last Hits / Denies">
+            <SwordIcon />
+            <span>{t("puzzle.cs", { lastHits: puzzle.lastHits, denies: puzzle.denies })}</span>
+          </div>
+        )}
       </div>
     </div>
   );

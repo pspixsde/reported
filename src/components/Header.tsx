@@ -17,6 +17,7 @@ export function Header({ className }: HeaderProps) {
   const streak = useGameStore((s) => s.streak);
   const gamesPlayed = useGameStore((s) => s.gamesPlayed);
   const resetGame = useGameStore((s) => s.resetGame);
+  const hardMode = useSettingsStore((s) => s.hardMode);
 
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
@@ -38,7 +39,12 @@ export function Header({ className }: HeaderProps) {
       >
         <button
           onClick={resetGame}
-          className="text-2xl font-bold tracking-tight text-dota-gold transition-colors hover:text-dota-gold-dim"
+          className={cn(
+            "text-2xl font-bold tracking-tight transition-colors",
+            hardMode
+              ? "text-dota-red hover:text-dota-red/70"
+              : "text-dota-gold hover:text-dota-gold-dim",
+          )}
         >
           {t("app.title")}
         </button>
@@ -92,6 +98,17 @@ export function Header({ className }: HeaderProps) {
         title={t("settings.title")}
       >
         <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium text-dota-text">
+                {t("settings.hardMode")}
+              </p>
+              <p className="text-xs text-dota-text-dim">
+                {t("settings.hardMode.desc")}
+              </p>
+            </div>
+            <HardModeToggle />
+          </div>
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-dota-text">
@@ -185,6 +202,30 @@ function CogIcon() {
         d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
       />
     </svg>
+  );
+}
+
+function HardModeToggle() {
+  const hardMode = useSettingsStore((s) => s.hardMode);
+  const setHardMode = useSettingsStore((s) => s.setHardMode);
+
+  return (
+    <button
+      onClick={() => setHardMode(!hardMode)}
+      className={cn(
+        "relative inline-flex h-6 w-11 items-center rounded-full transition-colors",
+        hardMode ? "bg-dota-red" : "bg-dota-border",
+      )}
+      role="switch"
+      aria-checked={hardMode}
+    >
+      <span
+        className={cn(
+          "inline-block h-4 w-4 transform rounded-full bg-white transition-transform",
+          hardMode ? "translate-x-6" : "translate-x-1",
+        )}
+      />
+    </button>
   );
 }
 

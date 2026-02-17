@@ -3,6 +3,7 @@
 import { cn } from "@/lib/cn";
 import { useGameStore } from "@/stores/game-store";
 import { useTranslation } from "@/i18n";
+import { translateAnswer } from "@/lib/translate-answer";
 import type { LevelResult } from "@/lib/game-types";
 
 interface ResultFeedbackProps {
@@ -17,8 +18,8 @@ export function ResultFeedback({ className }: ResultFeedbackProps) {
 
   const levelLabels = [
     t("result.winloss"),
-    t("result.rank"),
     t("result.kda"),
+    t("result.rank"),
   ];
 
   return (
@@ -45,6 +46,10 @@ function ResultRow({
   index: number;
 }) {
   const { t } = useTranslation();
+
+  const displayGuess = translateAnswer(result.guess, t);
+  const displayAnswer = translateAnswer(result.answer, t);
+
   return (
     <div
       className={cn(
@@ -63,16 +68,16 @@ function ResultRow({
         <div className="mt-1 flex items-center gap-2">
           {result.correct ? (
             <span className="text-sm font-semibold text-dota-green">
-              {result.answer}
+              {displayAnswer}
             </span>
           ) : (
             <>
               <span className="text-sm text-dota-red line-through">
-                {result.guess}
+                {displayGuess}
               </span>
               <span className="text-dota-text-dim">&rarr;</span>
               <span className="text-sm font-semibold text-dota-text">
-                {result.answer}
+                {displayAnswer}
               </span>
             </>
           )}

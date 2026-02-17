@@ -1,28 +1,25 @@
 /**
  * Server-side puzzle data loader.
- * Reads puzzles.json once and caches in memory.
+ * Always reads puzzles.json from disk so re-seeding takes effect
+ * without needing to rebuild.
  */
 import { readFileSync, existsSync } from "fs";
 import { resolve } from "path";
 import type { Puzzle } from "./game-types";
 
-let cachedPuzzles: Puzzle[] | null = null;
+const PUZZLES_FILE = resolve(process.cwd(), "src/data/puzzles.json");
 
 export function getAllPuzzles(): Puzzle[] {
-  if (!cachedPuzzles) {
-    const filePath = resolve(process.cwd(), "src/data/puzzles.json");
-    if (!existsSync(filePath)) {
-      console.error(`Puzzles file not found at: ${filePath} (cwd: ${process.cwd()})`);
-      throw new Error(`Puzzles file not found: ${filePath}`);
-    }
-    try {
-      cachedPuzzles = JSON.parse(readFileSync(filePath, "utf-8"));
-    } catch (err) {
-      console.error(`Failed to parse puzzles file at: ${filePath}`, err);
-      throw new Error(`Failed to parse puzzles file: ${filePath}`);
-    }
+  if (!existsSync(PUZZLES_FILE)) {
+    console.error(`Puzzles file not found at: ${PUZZLES_FILE} (cwd: ${process.cwd()})`);
+    throw new Error(`Puzzles file not found: ${PUZZLES_FILE}`);
   }
-  return cachedPuzzles!;
+  try {
+    return JSON.parse(readFileSync(PUZZLES_FILE, "utf-8"));
+  } catch (err) {
+    console.error(`Failed to parse puzzles file at: ${PUZZLES_FILE}`, err);
+    throw new Error(`Failed to parse puzzles file: ${PUZZLES_FILE}`);
+  }
 }
 
 export function getPuzzleById(id: string): Puzzle | undefined {

@@ -60,11 +60,11 @@ export async function POST(request: Request) {
         correct = guess === answer;
         break;
       case 2:
-        answer = puzzle.rankBracket;
+        answer = puzzle.kdaBucket;
         correct = guess === answer;
         break;
       case 3:
-        answer = puzzle.kdaBucket;
+        answer = puzzle.rankBracket;
         correct = guess === answer;
         break;
       default:

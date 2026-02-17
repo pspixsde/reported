@@ -1,10 +1,12 @@
 "use client";
 
+import Image from "next/image";
 import { cn } from "@/lib/cn";
 import { useGameStore } from "@/stores/game-store";
 import { useTranslation } from "@/i18n";
-import { RANK_BRACKETS, KDA_BUCKETS } from "@/lib/game-types";
+import { RANK_BRACKETS, rankNameToNumber } from "@/lib/game-types";
 import type { GuessLevel } from "@/lib/game-types";
+import { translateAnswer } from "@/lib/translate-answer";
 
 interface GuessPanelProps {
   className?: string;
@@ -29,13 +31,13 @@ export function GuessPanel({ className }: GuessPanelProps) {
 
       <div className="mt-4">
         {currentLevel === 1 && (
-          <Level1Guess onGuess={submitGuess} disabled={loading} />
+          <WinLossGuess onGuess={submitGuess} disabled={loading} />
         )}
         {currentLevel === 2 && (
-          <Level2Guess onGuess={submitGuess} disabled={loading} />
+          <KdaQuizGuess onGuess={submitGuess} disabled={loading} />
         )}
         {currentLevel === 3 && (
-          <Level3Guess onGuess={submitGuess} disabled={loading} />
+          <RankGuess onGuess={submitGuess} disabled={loading} />
         )}
       </div>
     </div>
@@ -46,7 +48,7 @@ export function GuessPanel({ className }: GuessPanelProps) {
 
 function LevelIndicator({ current }: { current: GuessLevel }) {
   const { t } = useTranslation();
-  const labels = [t("guess.winloss"), t("guess.rank"), t("guess.kda")];
+  const labels = [t("guess.winloss"), t("guess.kda"), t("guess.rank")];
   return (
     <div className="flex items-center gap-2">
       {labels.map((label, i) => {
@@ -92,7 +94,7 @@ function LevelIndicator({ current }: { current: GuessLevel }) {
 
 // ── Level 1: Win or Loss ──
 
-function Level1Guess({
+function WinLossGuess({
   onGuess,
   disabled,
 }: {
@@ -135,9 +137,9 @@ function Level1Guess({
   );
 }
 
-// ── Level 2: Rank Bracket ──
+// ── Level 2: KDA Quiz (4 options) ──
 
-function Level2Guess({
+function KdaQuizGuess({
   onGuess,
   disabled,
 }: {
@@ -145,6 +147,9 @@ function Level2Guess({
   disabled: boolean;
 }) {
   const { t } = useTranslation();
+  const puzzle = useGameStore((s) => s.puzzle);
+  const kdaOptions = puzzle?.kdaOptions ?? [];
+
   return (
     <div>
       <p className="mb-3 text-sm text-dota-text-dim">
@@ -160,16 +165,16 @@ function Level2Guess({
             ),
           )}
       </p>
-      <div className="grid grid-cols-4 gap-2">
-        {RANK_BRACKETS.map((bracket) => (
+      <div className="grid grid-cols-2 gap-2">
+        {kdaOptions.map((bucket) => (
           <GuessButton
-            key={bracket}
-            onClick={() => onGuess(bracket)}
+            key={bucket}
+            onClick={() => onGuess(bucket)}
             disabled={disabled}
             variant="neutral"
             size="sm"
           >
-            {bracket}
+            {bucket}
           </GuessButton>
         ))}
       </div>
@@ -177,9 +182,9 @@ function Level2Guess({
   );
 }
 
-// ── Level 3: KDA Range ──
+// ── Level 3: Rank Bracket (with medal images) ──
 
-function Level3Guess({
+function RankGuess({
   onGuess,
   disabled,
 }: {
@@ -202,18 +207,33 @@ function Level3Guess({
             ),
           )}
       </p>
-      <div className="grid grid-cols-2 gap-2">
-        {KDA_BUCKETS.map((bucket) => (
-          <GuessButton
-            key={bucket}
-            onClick={() => onGuess(bucket)}
-            disabled={disabled}
-            variant="neutral"
-            size="sm"
-          >
-            {bucket}
-          </GuessButton>
-        ))}
+      <div className="grid grid-cols-4 gap-2">
+        {RANK_BRACKETS.map((bracket) => {
+          const rankNum = rankNameToNumber[bracket];
+          return (
+            <button
+              key={bracket}
+              onClick={() => onGuess(bracket)}
+              disabled={disabled}
+              className={cn(
+                "flex flex-col items-center gap-1 rounded-lg border px-2 py-2 text-xs font-medium transition-all",
+                "disabled:cursor-not-allowed disabled:opacity-50",
+                "active:scale-[0.97]",
+                "border-dota-border bg-dota-card text-dota-text hover:border-dota-gold/40 hover:bg-dota-gold/10 hover:text-dota-gold",
+              )}
+            >
+              <Image
+                src={`https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/rank_icons/rank_icon_${rankNum}.png`}
+                alt={bracket}
+                width={32}
+                height={32}
+                className="h-8 w-8"
+                unoptimized
+              />
+              <span>{translateAnswer(bracket, t)}</span>
+            </button>
+          );
+        })}
       </div>
     </div>
   );

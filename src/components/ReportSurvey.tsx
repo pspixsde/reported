@@ -13,10 +13,29 @@ export function ReportSurvey({ className }: ReportSurveyProps) {
   const { t } = useTranslation();
   const puzzle = useGameStore((s) => s.puzzle);
   const completed = useGameStore((s) => s.completed);
-  const [answered, setAnswered] = useState(false);
+  const surveyedPuzzleIds = useGameStore((s) => s.surveyedPuzzleIds);
+  const markSurveyed = useGameStore((s) => s.markSurveyed);
   const [submitting, setSubmitting] = useState(false);
+  const [justAnswered, setJustAnswered] = useState(false);
 
-  if (!completed || !puzzle || answered) return null;
+  if (!completed || !puzzle) return null;
+  if (surveyedPuzzleIds.includes(puzzle.id) && !justAnswered) return null;
+
+  if (justAnswered) {
+    return (
+      <div
+        className={cn(
+          "w-full max-w-md rounded-lg border border-dota-border bg-dota-surface p-4",
+          "animate-[fadeSlideIn_0.3s_ease-out]",
+          className,
+        )}
+      >
+        <p className="text-center text-sm text-dota-text-dim">
+          {t("survey.thanks")}
+        </p>
+      </div>
+    );
+  }
 
   async function handleVote(response: "yes" | "no") {
     setSubmitting(true);
@@ -29,7 +48,8 @@ export function ReportSurvey({ className }: ReportSurveyProps) {
     } catch {
       // Non-blocking — don't show errors for survey
     }
-    setAnswered(true);
+    markSurveyed(puzzle!.id);
+    setJustAnswered(true);
     setSubmitting(false);
   }
 

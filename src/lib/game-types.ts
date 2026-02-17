@@ -14,6 +14,9 @@ export interface Puzzle {
   win: boolean;
   rankBracket: RankBracket;
   kdaBucket: string;     // e.g. "4-7 / 0-3 / 5-9"
+  kills: number;
+  deaths: number;
+  assists: number;
 }
 
 /** Puzzle data sent to the client (answers stripped) */
@@ -27,6 +30,7 @@ export interface PuzzlePublic {
   denies: number;
   duration: number;
   patch: string;
+  kdaOptions: string[];  // 4 shuffled KDA bucket options (1 real + 3 fake)
 }
 
 // ── Rank brackets ──
@@ -100,14 +104,12 @@ export type GameMode = "daily" | "puzzles";
 
 // ── Puzzles mode ──
 
-/** Number of levels in Puzzles mode */
-export const PUZZLES_LEVEL_COUNT = 4;
+/** Total puzzles in the Puzzles mode grid */
+export const PUZZLES_TOTAL = 20;
 
-/** Number of puzzles per level */
-export const PUZZLES_PER_LEVEL = 5;
-
-/** Total puzzles used in Puzzles mode */
-export const PUZZLES_TOTAL = PUZZLES_LEVEL_COUNT * PUZZLES_PER_LEVEL; // 20
+/** Grid layout for Puzzles mode */
+export const PUZZLES_GRID_COLS = 10;
+export const PUZZLES_GRID_ROWS = 2;
 
 export type GuessLevel = 1 | 2 | 3;
 

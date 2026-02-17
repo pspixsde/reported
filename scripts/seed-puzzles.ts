@@ -21,14 +21,19 @@ const ITEMS_PATH = resolve(DATA_DIR, "items.json");
 const POPULARITY_CACHE_PATH = resolve(DATA_DIR, "hero-item-popularity.json");
 
 // ── Config ──
-const TARGET_PUZZLES = 150;
-const MAX_BATCHES = 60;
+const TARGET_PUZZLES = 50;
+const MAX_BATCHES = 120;
 const RATE_LIMIT_MS = 1100;
 const MIN_ITEM_COST = 1000;
-const UNUSUAL_THRESHOLD = 0.4;
-const MATCHES_TO_DETAIL = 15;
+const UNUSUAL_THRESHOLD = 0.65;
+const MATCHES_TO_DETAIL = 25;
 // Penalty subtracted per top-5 popular item in a build
-const POPULAR_PENALTY = 0.1;
+const POPULAR_PENALTY = 0.4;
+// Minimum final net worth for a player to be considered as a puzzle
+const MIN_NET_WORTH = 7000;
+// Items excluded from weirdness scoring (e.g. Meteor Hammer — used to end
+// games when the enemy gives up, not an indicator of a weird build)
+const EXCLUDED_ITEM_IDS = new Set([223]); // 223 = Meteor Hammer
 
 // Patch filtering — only collect from ranked matches on 7.40+
 const TARGET_PATCH_ID = 59;        // OpenDota numeric ID for 7.40
@@ -118,6 +123,9 @@ interface Puzzle {
   win: boolean;
   rankBracket: string;
   kdaBucket: string;
+  kills: number;
+  deaths: number;
+  assists: number;
 }
 
 // ── Helpers ──
@@ -279,6 +287,7 @@ function unusualScore(
 
   for (const itemId of playerItems) {
     if (itemId === 0) continue;
+    if (EXCLUDED_ITEM_IDS.has(itemId)) continue; // skip excluded items entirely
     const item = items[itemId];
     if (!item || (item.cost !== null && item.cost < MIN_ITEM_COST)) continue;
 
@@ -393,6 +402,9 @@ async function main() {
 
         if (playerItems.length < 3) continue;
 
+        // Filter: minimum net worth
+        if ((player.net_worth || 0) < MIN_NET_WORTH) continue;
+
         const score = unusualScore(
           player.hero_id,
           playerItems,
@@ -420,6 +432,9 @@ async function main() {
           win: player.win === 1,
           rankBracket: rankTierToName(pmAvgRankTier),
           kdaBucket: classifyKda(player.kills, player.deaths, player.assists),
+          kills: player.kills || 0,
+          deaths: player.deaths || 0,
+          assists: player.assists || 0,
         });
 
         existingIds.add(puzzleId);

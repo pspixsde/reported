@@ -1,5 +1,46 @@
 # Changelog
 
+## v0.4.0 — 2026-02-17
+
+### Fixed
+
+- **Puzzle no longer ends when leaving early**: in-progress daily and puzzles-mode state (current guess level, results) is now persisted to localStorage; navigating to the main menu and returning restores your position
+- **"Daily Challenge Stats" alignment**: title and stat boxes are now properly centered on the main menu, including in Russian
+- **Win/Loss and Rank answers translated**: result feedback now shows "Победа"/"Поражение" and rank names (Герольд, Архонт, etc.) in Russian instead of raw English strings
+- **"Would you report this build?" no longer repeats**: surveyed puzzle IDs are persisted; re-entering a completed daily puzzle won't re-show the survey
+
+### Changed
+
+- **Puzzle pool reduced from 150 to 50** with much stricter build filtering: `UNUSUAL_THRESHOLD` raised to 0.65, `POPULAR_PENALTY` raised to 0.4 per top-5 popular item, minimum player net worth of 7,000 gold; Meteor Hammer excluded from weirdness scoring (used to end games, not a weird build choice)
+- **KDA guessing reworked to 4-option quiz**: instead of 20 KDA buckets, players now pick from 4 options (1 real + 3 fake, deterministically generated per puzzle); KDA is now Level 2 (easier), Rank Bracket is now Level 3 (harder)
+- **Rank bracket buttons now show medal images**: Dota 2 rank medal icons from Steam CDN displayed alongside rank names
+- **Puzzles mode reworked to flat grid**: replaced 4 levels of 5 puzzles with a 2×10 grid of 20 individually selectable puzzles; completed puzzles show score and are locked; users can attempt any puzzle in any order
+- Server-side puzzle loader no longer caches in memory — re-seeding `puzzles.json` takes effect on next request without rebuilding
+- Game store localStorage key bumped to `reported-game-v4`; all prior progress is reset on upgrade
+- Seed script pulls more matches per run (`MAX_BATCHES` 120, `MATCHES_TO_DETAIL` 25) to compensate for stricter filtering
+
+### Added
+
+- **Hard Mode** toggle in Settings: hides net worth and creep stats on the puzzle card; "REPORTED" logo turns red in header and main menu
+- `hardMode` setting in Zustand settings store, persisted to localStorage
+- `translateAnswer()` helper for locale-aware display of Win/Loss and rank bracket strings
+- `kdaOptions` field on `PuzzlePublic` (4 shuffled KDA bucket options generated server-side)
+- `kills`, `deaths`, `assists` fields on `Puzzle` data model (stored in `puzzles.json`)
+- Per-puzzle completion tracking (`completedPuzzles`, `puzzleScores`) replacing per-level tracking
+- `surveyedPuzzleIds` persisted array to deduplicate the report survey
+- Daily in-progress persistence fields (`dailyCurrentLevel`, `dailyPuzzleId`)
+- Puzzles in-progress persistence fields (`puzzlesInProgressIndex`, `puzzlesInProgressLevel`, `puzzlesInProgressResults`)
+- Translation keys for rank brackets, Win/Loss answers, hard mode, and updated puzzle grid UI
+
+### Removed
+
+- Old 4-level Puzzles mode (`PUZZLES_LEVEL_COUNT`, `PUZZLES_PER_LEVEL`, `getPuzzleLevelAssignments`, `completedLevels`, `levelScores`, `advanceToNextPuzzle`, `returnToLevelSelect`)
+- 20-option KDA bucket grid (replaced by 4-option quiz)
+- "Next Puzzle" and "Level Complete!" buttons from ScoreCard
+- In-memory puzzle cache in `puzzles-server.ts`
+
+---
+
 ## v0.3.0 — 2026-02-17
 
 ### Fixed
