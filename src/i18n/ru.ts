@@ -28,8 +28,8 @@ const ru: Record<TranslationKey, string> = {
 
   // ── Settings ──
   "settings.title": "Настройки",
-  "settings.hardMode": "Сложный режим",
-  "settings.hardMode.desc": "Без золота и крипов. Красный логотип.",
+  "settings.easyMode": "Лёгкий режим",
+  "settings.easyMode.desc": "Показывает золото и крипов. Зелёный логотип.",
   "settings.colorblind": "Режим дальтонизма",
   "settings.colorblind.desc": "Синий/оранжевый вместо зелёного/красного",
 
@@ -44,24 +44,29 @@ const ru: Record<TranslationKey, string> = {
   "puzzle.items": "Предметы",
   "puzzle.gold": "{value} золота",
   "puzzle.cs": "{lastHits} / {denies} CS",
+  "puzzle.hiddenHero": "??? (Угадайте героя!)",
 
   // ── Guess panel ──
   "guess.winloss": "Победа/Поражение",
   "guess.rank": "Ранг",
   "guess.kda": "KDA",
+  "guess.hero": "Герой",
   "guess.level1.prompt":
     "Этот игрок <b>выиграл</b> или <b>проиграл</b> этот матч?",
   "guess.win": "Победа",
   "guess.loss": "Поражение",
   "guess.level2.prompt":
-    "Каков был <b>K / D / A</b> диапазон игрока?",
+    "Каков был <b>K / D / A</b> игрока?",
   "guess.level3.prompt":
     "В каком <b>ранговом диапазоне</b> проходил этот матч?",
+  "guess.hero.prompt":
+    "На каком <b>герое</b> была эта сборка?",
 
   // ── Result feedback ──
   "result.winloss": "Победа/Поражение",
   "result.rank": "Ранговый диапазон",
-  "result.kda": "Диапазон KDA",
+  "result.kda": "KDA",
+  "result.hero": "Герой",
   "result.level": "Уровень {n} — {label}",
 
   // ── Score card ──
@@ -82,6 +87,16 @@ const ru: Record<TranslationKey, string> = {
   "levels.title": "Пазлы",
   "levels.desc": "{completed}/{total} пройдено",
   "levels.back": "Назад в меню",
+  "levels.hardMode.on": "Сложный режим: ВКЛ",
+  "levels.hardMode.off": "Сложный режим: ВЫКЛ",
+  "levels.stats.title": "Статистика пазлов",
+  "levels.stats.played": "Сыграно",
+  "levels.stats.accuracy": "Точность",
+
+  // ── Puzzle navigation ──
+  "nav.prevPuzzle": "Предыдущий пазл",
+  "nav.nextPuzzle": "Следующий пазл",
+  "nav.backToGrid": "Сетка",
 
   // ── Loading ──
   "loading.puzzle": "Загрузка пазла...",

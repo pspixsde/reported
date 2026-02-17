@@ -30,7 +30,8 @@ export interface PuzzlePublic {
   denies: number;
   duration: number;
   patch: string;
-  kdaOptions: string[];  // 4 shuffled KDA bucket options (1 real + 3 fake)
+  kdaOptions: string[];   // 4 shuffled literal KDA options (1 real + 3 fake)
+  heroOptions?: number[]; // 4 shuffled hero IDs for hard mode (1 real + 3 fake)
 }
 
 // ── Rank brackets ──
@@ -71,32 +72,17 @@ export const rankNameToNumber: Record<RankBracket, number> = {
   Immortal: 8,
 };
 
-// ── KDA Buckets ──
-
-export const KDA_BUCKETS = [
-  "0-3 / 0-3 / 0-4",
-  "0-3 / 0-3 / 5-9",
-  "0-3 / 4-7 / 0-4",
-  "0-3 / 4-7 / 5-9",
-  "0-3 / 8+ / 0-4",
-  "0-3 / 8+ / 5-9",
-  "4-7 / 0-3 / 5-9",
-  "4-7 / 0-3 / 10-14",
-  "4-7 / 4-7 / 5-9",
-  "4-7 / 4-7 / 10-14",
-  "4-7 / 8+ / 5-9",
-  "4-7 / 8+ / 10-14",
-  "8-12 / 0-3 / 10-14",
-  "8-12 / 0-3 / 15+",
-  "8-12 / 4-7 / 10-14",
-  "8-12 / 4-7 / 15+",
-  "8-12 / 8+ / 10-14",
-  "8-12 / 8+ / 15+",
-  "13+ / 0-3 / 15+",
-  "13+ / 4-7 / 15+",
-] as const;
-
-export type KdaBucket = (typeof KDA_BUCKETS)[number];
+/** Rank medal emoticon images from the Dota 2 wiki */
+export const RANK_MEDAL_URLS: Record<RankBracket, string> = {
+  Herald: "https://static.wikia.nocookie.net/dota2_gamepedia/images/8/87/Emoticon_Ranked_Herald.png/revision/latest?cb=20190212051846",
+  Guardian: "https://static.wikia.nocookie.net/dota2_gamepedia/images/4/43/Emoticon_Ranked_Guardian.png/revision/latest?cb=20190212051853",
+  Crusader: "https://static.wikia.nocookie.net/dota2_gamepedia/images/2/2d/Emoticon_Ranked_Crusader.png/revision/latest?cb=20190212051853",
+  Archon: "https://static.wikia.nocookie.net/dota2_gamepedia/images/1/13/Emoticon_Ranked_Archon.png/revision/latest?cb=20190212051853",
+  Legend: "https://static.wikia.nocookie.net/dota2_gamepedia/images/1/18/Emoticon_Ranked_Legend.png/revision/latest?cb=20190212051853",
+  Ancient: "https://static.wikia.nocookie.net/dota2_gamepedia/images/d/d8/Emoticon_Ranked_Ancient.png/revision/latest?cb=20190212051853",
+  Divine: "https://static.wikia.nocookie.net/dota2_gamepedia/images/6/6d/Emoticon_Ranked_Divine.png/revision/latest?cb=20190212051853",
+  Immortal: "https://static.wikia.nocookie.net/dota2_gamepedia/images/3/3e/Emoticon_Ranked_Immortal.png/revision/latest?cb=20190212051853",
+};
 
 // ── Game state ──
 
@@ -104,14 +90,23 @@ export type GameMode = "daily" | "puzzles";
 
 // ── Puzzles mode ──
 
-/** Total puzzles in the Puzzles mode grid */
+/** Total puzzles per mode grid (regular or hard) */
 export const PUZZLES_TOTAL = 20;
+/** Total hard-mode puzzles */
+export const HARD_PUZZLES_TOTAL = 20;
+/** Daily challenge puzzle buffer size */
+export const DAILY_POOL_SIZE = 10;
+
+/** Index offsets into puzzles.json (50 puzzles: 0-19 regular, 20-39 hard, 40-49 daily) */
+export const REGULAR_POOL_START = 0;
+export const HARD_POOL_START = 20;
+export const DAILY_POOL_START = 40;
 
 /** Grid layout for Puzzles mode */
 export const PUZZLES_GRID_COLS = 10;
 export const PUZZLES_GRID_ROWS = 2;
 
-export type GuessLevel = 1 | 2 | 3;
+export type GuessLevel = 1 | 2 | 3 | 4;
 
 export interface LevelResult {
   guess: string;

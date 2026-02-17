@@ -13,14 +13,15 @@ interface ResultFeedbackProps {
 export function ResultFeedback({ className }: ResultFeedbackProps) {
   const { t } = useTranslation();
   const results = useGameStore((s) => s.results);
+  const mode = useGameStore((s) => s.mode);
+  const puzzlesHardMode = useGameStore((s) => s.puzzlesHardMode);
 
   if (results.length === 0) return null;
 
-  const levelLabels = [
-    t("result.winloss"),
-    t("result.kda"),
-    t("result.rank"),
-  ];
+  const hard = puzzlesHardMode && mode === "puzzles";
+  const levelLabels = hard
+    ? [t("result.hero"), t("result.winloss"), t("result.kda"), t("result.rank")]
+    : [t("result.winloss"), t("result.kda"), t("result.rank")];
 
   return (
     <div className={cn("w-full max-w-md space-y-2", className)}>
@@ -30,6 +31,7 @@ export function ResultFeedback({ className }: ResultFeedbackProps) {
           label={levelLabels[i]}
           result={result}
           index={i}
+          isHeroLevel={hard && i === 0}
         />
       ))}
     </div>
@@ -40,15 +42,29 @@ function ResultRow({
   label,
   result,
   index,
+  isHeroLevel,
 }: {
   label: string;
   result: LevelResult;
   index: number;
+  isHeroLevel?: boolean;
 }) {
   const { t } = useTranslation();
+  const heroes = useGameStore((s) => s.heroes);
 
-  const displayGuess = translateAnswer(result.guess, t);
-  const displayAnswer = translateAnswer(result.answer, t);
+  // For hero guess level, resolve hero IDs to names
+  let displayGuess = translateAnswer(result.guess, t);
+  let displayAnswer = translateAnswer(result.answer, t);
+  if (isHeroLevel && heroes) {
+    const guessId = Number(result.guess);
+    const answerId = Number(result.answer);
+    if (!isNaN(guessId) && heroes[guessId]) {
+      displayGuess = heroes[guessId].localized_name;
+    }
+    if (!isNaN(answerId) && heroes[answerId]) {
+      displayAnswer = heroes[answerId].localized_name;
+    }
+  }
 
   return (
     <div

@@ -17,7 +17,7 @@ export function Header({ className }: HeaderProps) {
   const streak = useGameStore((s) => s.streak);
   const gamesPlayed = useGameStore((s) => s.gamesPlayed);
   const resetGame = useGameStore((s) => s.resetGame);
-  const hardMode = useSettingsStore((s) => s.hardMode);
+  const easyMode = useSettingsStore((s) => s.easyMode);
 
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
@@ -41,8 +41,8 @@ export function Header({ className }: HeaderProps) {
           onClick={resetGame}
           className={cn(
             "text-2xl font-bold tracking-tight transition-colors",
-            hardMode
-              ? "text-dota-red hover:text-dota-red/70"
+            easyMode
+              ? "text-dota-green hover:text-dota-green/70"
               : "text-dota-gold hover:text-dota-gold-dim",
           )}
         >
@@ -101,13 +101,13 @@ export function Header({ className }: HeaderProps) {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-dota-text">
-                {t("settings.hardMode")}
+                {t("settings.easyMode")}
               </p>
               <p className="text-xs text-dota-text-dim">
-                {t("settings.hardMode.desc")}
+                {t("settings.easyMode.desc")}
               </p>
             </div>
-            <HardModeToggle />
+            <EasyModeToggle />
           </div>
           <div className="flex items-center justify-between">
             <div>
@@ -205,24 +205,24 @@ function CogIcon() {
   );
 }
 
-function HardModeToggle() {
-  const hardMode = useSettingsStore((s) => s.hardMode);
-  const setHardMode = useSettingsStore((s) => s.setHardMode);
+function EasyModeToggle() {
+  const easyMode = useSettingsStore((s) => s.easyMode);
+  const setEasyMode = useSettingsStore((s) => s.setEasyMode);
 
   return (
     <button
-      onClick={() => setHardMode(!hardMode)}
+      onClick={() => setEasyMode(!easyMode)}
       className={cn(
         "relative inline-flex h-6 w-11 items-center rounded-full transition-colors",
-        hardMode ? "bg-dota-red" : "bg-dota-border",
+        easyMode ? "bg-dota-green" : "bg-dota-border",
       )}
       role="switch"
-      aria-checked={hardMode}
+      aria-checked={easyMode}
     >
       <span
         className={cn(
           "inline-block h-4 w-4 transform rounded-full bg-white transition-transform",
-          hardMode ? "translate-x-6" : "translate-x-1",
+          easyMode ? "translate-x-6" : "translate-x-1",
         )}
       />
     </button>

@@ -13,7 +13,7 @@ export async function GET() {
       return NextResponse.json({ error: "No puzzles available" }, { status: 500 });
     }
 
-    const index = dailyPuzzleIndex(puzzles.length);
+    const index = dailyPuzzleIndex();
     const puzzle = puzzles[index];
     return NextResponse.json(stripAnswers(puzzle));
   } catch (err) {
@@ -60,7 +60,7 @@ export async function POST(request: Request) {
         correct = guess === answer;
         break;
       case 2:
-        answer = puzzle.kdaBucket;
+        answer = `${puzzle.kills}/${puzzle.deaths}/${puzzle.assists}`;
         correct = guess === answer;
         break;
       case 3:

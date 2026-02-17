@@ -8,10 +8,10 @@ export type Locale = "en" | "ru";
 interface SettingsStoreState {
   locale: Locale;
   colorblindMode: boolean;
-  hardMode: boolean;
+  easyMode: boolean;
   setLocale: (locale: Locale) => void;
   setColorblindMode: (enabled: boolean) => void;
-  setHardMode: (enabled: boolean) => void;
+  setEasyMode: (enabled: boolean) => void;
 }
 
 export const useSettingsStore = create<SettingsStoreState>()(
@@ -19,11 +19,11 @@ export const useSettingsStore = create<SettingsStoreState>()(
     (set) => ({
       locale: "en",
       colorblindMode: false,
-      hardMode: false,
+      easyMode: false,
 
       setLocale: (locale: Locale) => set({ locale }),
       setColorblindMode: (enabled: boolean) => set({ colorblindMode: enabled }),
-      setHardMode: (enabled: boolean) => set({ hardMode: enabled }),
+      setEasyMode: (enabled: boolean) => set({ easyMode: enabled }),
     }),
     {
       name: "reported-settings",
