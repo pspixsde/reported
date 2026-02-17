@@ -2,11 +2,13 @@
 
 import { useEffect } from "react";
 import { useGameStore } from "@/stores/game-store";
+import { useTranslation } from "@/i18n";
 import { Header } from "@/components/Header";
 import { PuzzleCard } from "@/components/PuzzleCard";
 import { GuessPanel } from "@/components/GuessPanel";
 import { ResultFeedback } from "@/components/ResultFeedback";
 import { ScoreCard } from "@/components/ScoreCard";
+import { ReportSurvey } from "@/components/ReportSurvey";
 import { LevelSelect } from "@/components/LevelSelect";
 import { Footer } from "@/components/Footer";
 import type { GameMode } from "@/lib/game-types";
@@ -49,6 +51,7 @@ export default function Home() {
             <PuzzleCard />
             <ResultFeedback />
             {!completed && <GuessPanel />}
+            {completed && <ReportSurvey />}
             {completed && <ScoreCard />}
           </div>
         )}
@@ -60,6 +63,7 @@ export default function Home() {
 }
 
 function ModeSelect() {
+  const { t } = useTranslation();
   const startGame = useGameStore((s) => s.startGame);
   const dailyCompleted = useGameStore((s) => s.dailyCompleted);
   const dailyDate = useGameStore((s) => s.dailyDate);
@@ -81,16 +85,13 @@ function ModeSelect() {
     <div className="flex max-w-lg flex-col items-center text-center">
       {/* Logo / title */}
       <h1 className="text-5xl font-black tracking-tight text-dota-gold sm:text-6xl">
-        REPORTED
+        {t("app.title")}
       </h1>
-      <p className="mt-3 max-w-sm text-dota-text-dim">
-        Guess the outcome of real Dota 2 matches featuring unusual,
-        off-meta builds. Can you read the game?
-      </p>
+      <p className="mt-3 max-w-sm text-dota-text-dim">{t("app.tagline")}</p>
 
       {/* Patch badge */}
       <span className="mt-2 rounded bg-dota-card px-2.5 py-0.5 text-xs font-medium text-dota-text-dim">
-        Patch 7.40b
+        Patch 7.40+
       </span>
 
       {/* Mode cards */}
@@ -103,13 +104,15 @@ function ModeSelect() {
         >
           <div className="absolute -right-4 -top-4 h-24 w-24 rounded-full bg-dota-gold/5 transition-transform group-hover:scale-150" />
           <div className="relative">
-            <h3 className="text-lg font-bold text-dota-gold">Daily Challenge</h3>
+            <h3 className="text-lg font-bold text-dota-gold">
+              {t("mode.daily.title")}
+            </h3>
             <p className="mt-1 text-sm text-dota-text-dim">
-              One puzzle per day. Same for everyone.
+              {t("mode.daily.desc")}
             </p>
             {dailyDoneToday && (
               <p className="mt-2 text-xs font-medium text-dota-green">
-                Completed today — {dailyScore}/3
+                {t("mode.daily.completed", { score: dailyScore ?? 0 })}
               </p>
             )}
           </div>
@@ -123,13 +126,15 @@ function ModeSelect() {
         >
           <div className="absolute -right-4 -top-4 h-24 w-24 rounded-full bg-dota-blue/5 transition-transform group-hover:scale-150" />
           <div className="relative">
-            <h3 className="text-lg font-bold text-dota-blue">Puzzles</h3>
+            <h3 className="text-lg font-bold text-dota-blue">
+              {t("mode.puzzles.title")}
+            </h3>
             <p className="mt-1 text-sm text-dota-text-dim">
-              4 levels of 5 puzzles. Complete them all.
+              {t("mode.puzzles.desc")}
             </p>
             {completedLevels.length > 0 && (
               <p className="mt-2 text-xs font-medium text-dota-blue">
-                {completedLevels.length}/4 levels complete
+                {t("mode.puzzles.progress", { count: completedLevels.length })}
               </p>
             )}
           </div>
@@ -140,12 +145,12 @@ function ModeSelect() {
       {gamesPlayed > 0 && (
         <div className="mt-8">
           <p className="mb-2 text-xs font-medium uppercase tracking-wider text-dota-text-dim">
-            Daily Challenge Stats
+            {t("stats.title")}
           </p>
           <div className="flex items-center gap-6 text-sm text-dota-text-dim">
             <div className="text-center">
               <p className="text-2xl font-bold text-dota-text">{gamesPlayed}</p>
-              <p>Played</p>
+              <p>{t("stats.played")}</p>
             </div>
             <div className="text-center">
               <p className="text-2xl font-bold text-dota-text">
@@ -154,7 +159,7 @@ function ModeSelect() {
                   : 0}
                 %
               </p>
-              <p>Accuracy</p>
+              <p>{t("stats.accuracy")}</p>
             </div>
           </div>
         </div>
@@ -162,7 +167,7 @@ function ModeSelect() {
 
       {!constantsLoaded && (
         <p className="mt-4 text-sm text-dota-text-dim animate-pulse">
-          Loading game data...
+          {t("app.loading")}
         </p>
       )}
     </div>
@@ -170,10 +175,11 @@ function ModeSelect() {
 }
 
 function LoadingSpinner() {
+  const { t } = useTranslation();
   return (
     <div className="flex flex-col items-center gap-3 py-12">
       <div className="h-8 w-8 animate-spin rounded-full border-2 border-dota-border border-t-dota-gold" />
-      <p className="text-sm text-dota-text-dim">Loading puzzle...</p>
+      <p className="text-sm text-dota-text-dim">{t("loading.puzzle")}</p>
     </div>
   );
 }

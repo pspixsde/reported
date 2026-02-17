@@ -22,6 +22,12 @@ body {
   font-family: var(--font-sans);
 }
 
+/* Colorblind-safe overrides: blue for success, orange for error */
+.colorblind {
+  --color-dota-green: #36a2eb;
+  --color-dota-red: #ff9f40;
+}
+
 /* Animations */
 @keyframes fadeSlideIn {
   from {

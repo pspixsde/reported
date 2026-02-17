@@ -2,6 +2,7 @@
 
 import { cn } from "@/lib/cn";
 import { useGameStore } from "@/stores/game-store";
+import { useTranslation } from "@/i18n";
 import { RANK_BRACKETS, KDA_BUCKETS } from "@/lib/game-types";
 import type { GuessLevel } from "@/lib/game-types";
 
@@ -44,7 +45,8 @@ export function GuessPanel({ className }: GuessPanelProps) {
 // ── Level indicator ──
 
 function LevelIndicator({ current }: { current: GuessLevel }) {
-  const labels = ["Win/Loss", "Rank", "KDA"];
+  const { t } = useTranslation();
+  const labels = [t("guess.winloss"), t("guess.rank"), t("guess.kda")];
   return (
     <div className="flex items-center gap-2">
       {labels.map((label, i) => {
@@ -97,11 +99,21 @@ function Level1Guess({
   onGuess: (g: string) => void;
   disabled: boolean;
 }) {
+  const { t } = useTranslation();
   return (
     <div>
       <p className="mb-3 text-sm text-dota-text-dim">
-        Did this player <span className="font-semibold text-dota-text">win</span> or{" "}
-        <span className="font-semibold text-dota-text">lose</span> this match?
+        {t("guess.level1.prompt")
+          .split(/<b>|<\/b>/)
+          .map((part, i) =>
+            i % 2 === 1 ? (
+              <span key={i} className="font-semibold text-dota-text">
+                {part}
+              </span>
+            ) : (
+              <span key={i}>{part}</span>
+            ),
+          )}
       </p>
       <div className="flex gap-3">
         <GuessButton
@@ -109,14 +121,14 @@ function Level1Guess({
           disabled={disabled}
           variant="green"
         >
-          Win
+          {t("guess.win")}
         </GuessButton>
         <GuessButton
           onClick={() => onGuess("Loss")}
           disabled={disabled}
           variant="red"
         >
-          Loss
+          {t("guess.loss")}
         </GuessButton>
       </div>
     </div>
@@ -132,11 +144,21 @@ function Level2Guess({
   onGuess: (g: string) => void;
   disabled: boolean;
 }) {
+  const { t } = useTranslation();
   return (
     <div>
       <p className="mb-3 text-sm text-dota-text-dim">
-        What <span className="font-semibold text-dota-text">rank bracket</span> was
-        this match played in?
+        {t("guess.level2.prompt")
+          .split(/<b>|<\/b>/)
+          .map((part, i) =>
+            i % 2 === 1 ? (
+              <span key={i} className="font-semibold text-dota-text">
+                {part}
+              </span>
+            ) : (
+              <span key={i}>{part}</span>
+            ),
+          )}
       </p>
       <div className="grid grid-cols-4 gap-2">
         {RANK_BRACKETS.map((bracket) => (
@@ -164,11 +186,21 @@ function Level3Guess({
   onGuess: (g: string) => void;
   disabled: boolean;
 }) {
+  const { t } = useTranslation();
   return (
     <div>
       <p className="mb-3 text-sm text-dota-text-dim">
-        What was the player&apos;s{" "}
-        <span className="font-semibold text-dota-text">K / D / A</span> range?
+        {t("guess.level3.prompt")
+          .split(/<b>|<\/b>/)
+          .map((part, i) =>
+            i % 2 === 1 ? (
+              <span key={i} className="font-semibold text-dota-text">
+                {part}
+              </span>
+            ) : (
+              <span key={i}>{part}</span>
+            ),
+          )}
       </p>
       <div className="grid grid-cols-2 gap-2">
         {KDA_BUCKETS.map((bucket) => (

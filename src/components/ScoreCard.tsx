@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { cn } from "@/lib/cn";
 import { useGameStore } from "@/stores/game-store";
+import { useTranslation } from "@/i18n";
 import { CountdownTimer } from "./CountdownTimer";
 import { PUZZLES_PER_LEVEL } from "@/lib/game-types";
 
@@ -11,6 +12,7 @@ interface ScoreCardProps {
 }
 
 export function ScoreCard({ className }: ScoreCardProps) {
+  const { t } = useTranslation();
   const [copied, setCopied] = useState(false);
   const completed = useGameStore((s) => s.completed);
   const score = useGameStore((s) => s.score);
@@ -30,12 +32,7 @@ export function ScoreCard({ className }: ScoreCardProps) {
     puzzle?.hero ||
     "Unknown";
 
-  const scoreMessages: Record<number, string> = {
-    0: "Griefing! Better luck next time.",
-    1: "Not bad, but still reported.",
-    2: "Close! Almost got away with it.",
-    3: "Perfect read! This player is clean.",
-  };
+  const scoreKey = `score.${score}` as "score.0" | "score.1" | "score.2" | "score.3";
 
   const shareText = generateShareText(score, results.map((r) => r.correct));
 
@@ -62,15 +59,13 @@ export function ScoreCard({ className }: ScoreCardProps) {
     >
       {/* Score */}
       <div className="mb-2 text-5xl font-black text-dota-gold">{score}/3</div>
-      <p className="text-sm text-dota-text-dim">
-        {scoreMessages[score] || "GG!"}
-      </p>
+      <p className="text-sm text-dota-text-dim">{t(scoreKey)}</p>
       <p className="mt-1 text-xs text-dota-text-dim">
-        Hero: <span className="font-medium text-dota-text">{heroName}</span>
+        {t("score.hero", { name: heroName })}
       </p>
       {puzzle && (
         <p className="mt-1 text-xs text-dota-text-dim">
-          Match ID:{" "}
+          {t("score.matchId")}{" "}
           <a
             href={`https://www.opendota.com/matches/${puzzle.id.split("-")[0]}`}
             target="_blank"
@@ -85,7 +80,10 @@ export function ScoreCard({ className }: ScoreCardProps) {
       {/* Puzzle progress within level */}
       {mode === "puzzles" && (
         <p className="mt-2 text-xs text-dota-text-dim">
-          Puzzle {currentPuzzleIndex + 1} of {PUZZLES_PER_LEVEL}
+          {t("score.puzzleOf", {
+            current: currentPuzzleIndex + 1,
+            total: PUZZLES_PER_LEVEL,
+          })}
         </p>
       )}
 
@@ -101,7 +99,7 @@ export function ScoreCard({ className }: ScoreCardProps) {
                 : "bg-dota-gold text-dota-bg hover:bg-dota-gold-dim",
             )}
           >
-            {copied ? "Copied!" : "Copy Results"}
+            {copied ? t("score.copied") : t("score.copy")}
           </button>
         )}
 
@@ -110,7 +108,7 @@ export function ScoreCard({ className }: ScoreCardProps) {
             onClick={advanceToNextPuzzle}
             className="rounded-lg bg-dota-gold px-4 py-2.5 text-sm font-semibold text-dota-bg transition-all hover:bg-dota-gold-dim"
           >
-            Next Puzzle
+            {t("score.next")}
           </button>
         )}
 
@@ -119,7 +117,7 @@ export function ScoreCard({ className }: ScoreCardProps) {
             onClick={returnToLevelSelect}
             className="rounded-lg bg-dota-green px-4 py-2.5 text-sm font-semibold text-dota-bg transition-all hover:bg-dota-green/80"
           >
-            Level Complete!
+            {t("score.levelComplete")}
           </button>
         )}
 
@@ -127,7 +125,7 @@ export function ScoreCard({ className }: ScoreCardProps) {
           onClick={resetGame}
           className="text-sm text-dota-text-dim transition-colors hover:text-dota-text"
         >
-          Back to Menu
+          {t("score.backToMenu")}
         </button>
       </div>
 
@@ -153,6 +151,6 @@ function generateShareText(score: number, correctResults: boolean[]): string {
     emojis,
     `${today}`,
     "",
-    "https://reported.gg", // placeholder
+    "https://reported.gg",
   ].join("\n");
 }

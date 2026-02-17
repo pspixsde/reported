@@ -2,6 +2,7 @@
 
 import { cn } from "@/lib/cn";
 import { useGameStore } from "@/stores/game-store";
+import { useTranslation } from "@/i18n";
 import type { LevelResult } from "@/lib/game-types";
 
 interface ResultFeedbackProps {
@@ -9,11 +10,16 @@ interface ResultFeedbackProps {
 }
 
 export function ResultFeedback({ className }: ResultFeedbackProps) {
+  const { t } = useTranslation();
   const results = useGameStore((s) => s.results);
 
   if (results.length === 0) return null;
 
-  const levelLabels = ["Win/Loss", "Rank Bracket", "KDA Range"];
+  const levelLabels = [
+    t("result.winloss"),
+    t("result.rank"),
+    t("result.kda"),
+  ];
 
   return (
     <div className={cn("w-full max-w-md space-y-2", className)}>
@@ -38,6 +44,7 @@ function ResultRow({
   result: LevelResult;
   index: number;
 }) {
+  const { t } = useTranslation();
   return (
     <div
       className={cn(
@@ -51,7 +58,7 @@ function ResultRow({
     >
       <div>
         <p className="text-xs font-medium uppercase tracking-wider text-dota-text-dim">
-          Level {index + 1} — {label}
+          {t("result.level", { n: index + 1, label })}
         </p>
         <div className="mt-1 flex items-center gap-2">
           {result.correct ? (
