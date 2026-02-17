@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { useGameStore } from "@/stores/game-store";
+import { useSettingsStore } from "@/stores/settings-store";
 import { useTranslation } from "@/i18n";
 import { Header } from "@/components/Header";
 import { PuzzleCard } from "@/components/PuzzleCard";
@@ -20,7 +21,7 @@ export default function Home() {
   const error = useGameStore((s) => s.error);
   const completed = useGameStore((s) => s.completed);
   const loadConstants = useGameStore((s) => s.loadConstants);
-  const puzzlesLevelSelect = useGameStore((s) => s.puzzlesLevelSelect);
+  const puzzlesGridVisible = useGameStore((s) => s.puzzlesGridVisible);
 
   // Load constants on mount
   useEffect(() => {
@@ -40,10 +41,10 @@ export default function Home() {
 
         {!mode && !loading && <ModeSelect />}
 
-        {loading && !puzzle && !puzzlesLevelSelect && <LoadingSpinner />}
+        {loading && !puzzle && !puzzlesGridVisible && <LoadingSpinner />}
 
-        {/* Puzzles mode: level select */}
-        {mode === "puzzles" && puzzlesLevelSelect && !puzzle && <LevelSelect />}
+        {/* Puzzles mode: puzzle grid */}
+        {mode === "puzzles" && puzzlesGridVisible && !puzzle && <LevelSelect />}
 
         {/* Active game (daily or puzzles) */}
         {mode && puzzle && (
@@ -71,7 +72,8 @@ function ModeSelect() {
   const constantsLoaded = useGameStore((s) => s.constantsLoaded);
   const gamesPlayed = useGameStore((s) => s.gamesPlayed);
   const totalScore = useGameStore((s) => s.totalScore);
-  const completedLevels = useGameStore((s) => s.completedLevels);
+  const completedPuzzles = useGameStore((s) => s.completedPuzzles);
+  const hardMode = useSettingsStore((s) => s.hardMode);
 
   const today = new Date().toISOString().slice(0, 10);
   const dailyDoneToday = dailyCompleted && dailyDate === today;
@@ -84,7 +86,7 @@ function ModeSelect() {
   return (
     <div className="flex max-w-lg flex-col items-center text-center">
       {/* Logo / title */}
-      <h1 className="text-5xl font-black tracking-tight text-dota-gold sm:text-6xl">
+      <h1 className={`text-5xl font-black tracking-tight sm:text-6xl ${hardMode ? "text-dota-red" : "text-dota-gold"}`}>
         {t("app.title")}
       </h1>
       <p className="mt-3 max-w-sm text-dota-text-dim">{t("app.tagline")}</p>
@@ -132,9 +134,9 @@ function ModeSelect() {
             <p className="mt-1 text-sm text-dota-text-dim">
               {t("mode.puzzles.desc")}
             </p>
-            {completedLevels.length > 0 && (
+            {completedPuzzles.length > 0 && (
               <p className="mt-2 text-xs font-medium text-dota-blue">
-                {t("mode.puzzles.progress", { count: completedLevels.length })}
+                {t("mode.puzzles.progress", { completed: completedPuzzles.length, total: 20 })}
               </p>
             )}
           </div>
@@ -143,11 +145,11 @@ function ModeSelect() {
 
       {/* Daily Challenge Stats */}
       {gamesPlayed > 0 && (
-        <div className="mt-8">
+        <div className="mt-8 text-center">
           <p className="mb-2 text-xs font-medium uppercase tracking-wider text-dota-text-dim">
             {t("stats.title")}
           </p>
-          <div className="flex items-center gap-6 text-sm text-dota-text-dim">
+          <div className="flex items-center justify-center gap-6 text-sm text-dota-text-dim">
             <div className="text-center">
               <p className="text-2xl font-bold text-dota-text">{gamesPlayed}</p>
               <p>{t("stats.played")}</p>

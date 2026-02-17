@@ -10,8 +10,8 @@ const en = {
   "mode.daily.desc": "One puzzle per day. Same for everyone.",
   "mode.daily.completed": "Completed today — {score}/3",
   "mode.puzzles.title": "Puzzles",
-  "mode.puzzles.desc": "4 levels of 5 puzzles. Complete them all.",
-  "mode.puzzles.progress": "{count}/4 levels complete",
+  "mode.puzzles.desc": "20 puzzles. Complete them all.",
+  "mode.puzzles.progress": "{completed}/{total} puzzles complete",
 
   // ── Stats ──
   "stats.title": "Daily Challenge Stats",
@@ -26,6 +26,8 @@ const en = {
 
   // ── Settings ──
   "settings.title": "Settings",
+  "settings.hardMode": "Hard Mode",
+  "settings.hardMode.desc": "No net worth, no creep stats. Red logo.",
   "settings.colorblind": "Colorblind Mode",
   "settings.colorblind.desc": "Use blue/orange instead of green/red",
 
@@ -50,8 +52,9 @@ const en = {
   "guess.win": "Win",
   "guess.loss": "Loss",
   "guess.level2.prompt":
+    "What was the player's <b>K / D / A</b> range?",
+  "guess.level3.prompt":
     "What <b>rank bracket</b> was this match played in?",
-  "guess.level3.prompt": "What was the player's <b>K / D / A</b> range?",
 
   // ── Result feedback ──
   "result.winloss": "Win/Loss",
@@ -69,17 +72,13 @@ const en = {
   "score.puzzleOf": "Puzzle {current} of {total}",
   "score.copy": "Copy Results",
   "score.copied": "Copied!",
-  "score.next": "Next Puzzle",
-  "score.levelComplete": "Level Complete!",
+  "score.backToPuzzles": "Back to Puzzles",
   "score.backToMenu": "Back to Menu",
   "score.nextDaily": "Next daily puzzle in",
 
-  // ── Level select ──
+  // ── Puzzle grid ──
   "levels.title": "Puzzles",
-  "levels.desc": "{count} puzzles per level. Complete them all!",
-  "levels.level": "Level {n}",
-  "levels.puzzles": "{count} puzzles",
-  "levels.score": "Score: {score}/{total}",
+  "levels.desc": "{completed}/{total} completed",
   "levels.back": "Back to Menu",
 
   // ── Loading ──
@@ -98,6 +97,18 @@ const en = {
   "privacy.title": "Privacy Policy",
   "privacy.text":
     "We don't collect personal data or run ads. Your game progress is stored locally in your browser. A full privacy policy will be published here if that ever changes.",
+
+  // ── Answer translations ──
+  "answer.Win": "Win",
+  "answer.Loss": "Loss",
+  "answer.Herald": "Herald",
+  "answer.Guardian": "Guardian",
+  "answer.Crusader": "Crusader",
+  "answer.Archon": "Archon",
+  "answer.Legend": "Legend",
+  "answer.Ancient": "Ancient",
+  "answer.Divine": "Divine",
+  "answer.Immortal": "Immortal",
 
   // ── Survey ──
   "survey.question": "Would you report this build?",

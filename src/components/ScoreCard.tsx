@@ -5,7 +5,6 @@ import { cn } from "@/lib/cn";
 import { useGameStore } from "@/stores/game-store";
 import { useTranslation } from "@/i18n";
 import { CountdownTimer } from "./CountdownTimer";
-import { PUZZLES_PER_LEVEL } from "@/lib/game-types";
 
 interface ScoreCardProps {
   className?: string;
@@ -21,9 +20,7 @@ export function ScoreCard({ className }: ScoreCardProps) {
   const puzzle = useGameStore((s) => s.puzzle);
   const heroes = useGameStore((s) => s.heroes);
   const resetGame = useGameStore((s) => s.resetGame);
-  const currentPuzzleIndex = useGameStore((s) => s.currentPuzzleIndex);
-  const advanceToNextPuzzle = useGameStore((s) => s.advanceToNextPuzzle);
-  const returnToLevelSelect = useGameStore((s) => s.returnToLevelSelect);
+  const returnToPuzzleGrid = useGameStore((s) => s.returnToPuzzleGrid);
 
   if (!completed) return null;
 
@@ -45,9 +42,6 @@ export function ScoreCard({ className }: ScoreCardProps) {
       // Fallback
     }
   }
-
-  const isLastPuzzleInLevel =
-    mode === "puzzles" && currentPuzzleIndex >= PUZZLES_PER_LEVEL - 1;
 
   return (
     <div
@@ -77,16 +71,6 @@ export function ScoreCard({ className }: ScoreCardProps) {
         </p>
       )}
 
-      {/* Puzzle progress within level */}
-      {mode === "puzzles" && (
-        <p className="mt-2 text-xs text-dota-text-dim">
-          {t("score.puzzleOf", {
-            current: currentPuzzleIndex + 1,
-            total: PUZZLES_PER_LEVEL,
-          })}
-        </p>
-      )}
-
       {/* Action buttons */}
       <div className="mt-6 flex flex-col gap-2">
         {mode === "daily" && (
@@ -103,21 +87,12 @@ export function ScoreCard({ className }: ScoreCardProps) {
           </button>
         )}
 
-        {mode === "puzzles" && !isLastPuzzleInLevel && (
+        {mode === "puzzles" && (
           <button
-            onClick={advanceToNextPuzzle}
+            onClick={returnToPuzzleGrid}
             className="rounded-lg bg-dota-gold px-4 py-2.5 text-sm font-semibold text-dota-bg transition-all hover:bg-dota-gold-dim"
           >
-            {t("score.next")}
-          </button>
-        )}
-
-        {mode === "puzzles" && isLastPuzzleInLevel && (
-          <button
-            onClick={returnToLevelSelect}
-            className="rounded-lg bg-dota-green px-4 py-2.5 text-sm font-semibold text-dota-bg transition-all hover:bg-dota-green/80"
-          >
-            {t("score.levelComplete")}
+            {t("score.backToPuzzles")}
           </button>
         )}
 
