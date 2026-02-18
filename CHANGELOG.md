@@ -17,6 +17,7 @@
 - **Language selector** now always displays language names in their native language (e.g. "Русский" instead of "Russian")
 - **Puzzle counts extended**: 30 puzzles per mode (up from 20), 70 total collected (up from 50)
 - **MIN_NET_WORTH** raised from 7,000 to 7,500 in `seed-puzzles.ts`
+- **UNUSUAL_THRESHOLD** raised from 0.65 to 0.7 in `seed-puzzles.ts`
 - **Seed script team limit**: at most one unusual build per team per match is collected, preventing two puzzles from the same side of a game
 - **Seed script progress reset** is now opt-in: the localStorage persist key bump only happens when `--reset-progress` is passed, so re-running the script no longer auto-resets all user progress
 - **README** rewritten for the public repository
@@ -24,10 +25,14 @@
 
 ### Added
 
+- **Upstash Redis (KV) storage**: global stats, survey data, and puzzle data are now stored in Upstash Redis for production (Vercel); local development falls back to file-based storage automatically
+- **Puzzle data secured**: `puzzles.json` (containing answers), stats, survey, and popularity files are gitignored — puzzle solutions are no longer exposed in the public repository
+- **Seed script uploads to KV**: `seed-puzzles` now uploads puzzles to Redis when KV credentials are available, so production reads from KV instead of the filesystem
 - **Portuguese language support**: full translation of all UI strings, Portuguese flag in language selector
 - **"Ranked Only" badge** on the main menu alongside "Patch 7.40+"
 - **Social links** (GitHub + Ko-fi) on the main menu and below puzzle results
 - Puzzle grid highlights the in-progress puzzle with a gold indicator
+- `.env.example` documenting required environment variables
 
 ## v0.6.0 — 2026-02-18
 

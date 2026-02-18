@@ -7,7 +7,7 @@ import { recordGuess } from "@/lib/stats-server";
 /**
  * GET /api/puzzle/level?index=0&hard=false
  * Returns a specific puzzle from the Puzzles mode grid (without answers).
- * Pass hard=true for hard-mode pool (indices 20-39 with heroOptions).
+ * Pass hard=true for hard-mode pool (with heroOptions).
  */
 export async function GET(request: Request) {
   try {
@@ -31,7 +31,7 @@ export async function GET(request: Request) {
       );
     }
 
-    const puzzles = getAllPuzzles();
+    const puzzles = await getAllPuzzles();
     if (puzzles.length === 0) {
       return NextResponse.json(
         { error: "No puzzles available" },
@@ -81,7 +81,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const puzzle = getPuzzleById(puzzleId);
+    const puzzle = await getPuzzleById(puzzleId);
     if (!puzzle) {
       return NextResponse.json(
         { error: "Puzzle not found" },
@@ -93,7 +93,6 @@ export async function POST(request: Request) {
     let correct: boolean;
 
     if (hard) {
-      // Hard mode: 4 levels — Hero, Win/Loss, KDA, Rank
       switch (level) {
         case 1:
           answer = String(puzzle.heroId);
@@ -118,7 +117,6 @@ export async function POST(request: Request) {
           );
       }
     } else {
-      // Normal mode: 3 levels — Win/Loss, KDA, Rank
       switch (level) {
         case 1:
           answer = puzzle.win ? "Win" : "Loss";
@@ -143,7 +141,7 @@ export async function POST(request: Request) {
     const maxLevel = hard ? 4 : 3;
     const isComplete = level >= maxLevel;
     const score = isComplete ? (body.runningScore ?? 0) + (correct ? 1 : 0) : undefined;
-    recordGuess(puzzleId, level, correct, score);
+    await recordGuess(puzzleId, level, correct, score);
 
     return NextResponse.json({ correct, answer });
   } catch {

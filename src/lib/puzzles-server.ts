@@ -1,30 +1,46 @@
 /**
  * Server-side puzzle data loader.
- * Always reads puzzles.json from disk so re-seeding takes effect
- * without needing to rebuild.
+ * Uses Upstash Redis (KV) in production, falls back to local file for development.
  */
 import { readFileSync, existsSync } from "fs";
 import { resolve } from "path";
 import type { Puzzle } from "./game-types";
+import { getRedis } from "./redis";
 
 const PUZZLES_FILE = resolve(process.cwd(), "src/data/puzzles.json");
 const HEROES_FILE = resolve(process.cwd(), "src/data/heroes.json");
 
-export function getAllPuzzles(): Puzzle[] {
+const KV_PUZZLES_KEY = "puzzles:all";
+
+// ── In-memory cache (avoids re-fetching on every request within the same lambda) ──
+let cachedPuzzles: Puzzle[] | null = null;
+
+export async function getAllPuzzles(): Promise<Puzzle[]> {
+  if (cachedPuzzles) return cachedPuzzles;
+
+  const redis = getRedis();
+
+  if (redis) {
+    const data = await redis.get<Puzzle[]>(KV_PUZZLES_KEY);
+    if (data && data.length > 0) {
+      cachedPuzzles = data;
+      return data;
+    }
+  }
+
+  // File fallback (local development)
   if (!existsSync(PUZZLES_FILE)) {
-    console.error(`Puzzles file not found at: ${PUZZLES_FILE} (cwd: ${process.cwd()})`);
-    throw new Error(`Puzzles file not found: ${PUZZLES_FILE}`);
+    throw new Error(`Puzzles not found in KV or at ${PUZZLES_FILE}. Run seed:puzzles first.`);
   }
-  try {
-    return JSON.parse(readFileSync(PUZZLES_FILE, "utf-8"));
-  } catch (err) {
-    console.error(`Failed to parse puzzles file at: ${PUZZLES_FILE}`, err);
-    throw new Error(`Failed to parse puzzles file: ${PUZZLES_FILE}`);
-  }
+
+  const puzzles: Puzzle[] = JSON.parse(readFileSync(PUZZLES_FILE, "utf-8"));
+  cachedPuzzles = puzzles;
+  return puzzles;
 }
 
-export function getPuzzleById(id: string): Puzzle | undefined {
-  return getAllPuzzles().find((p) => p.id === id);
+export async function getPuzzleById(id: string): Promise<Puzzle | undefined> {
+  const puzzles = await getAllPuzzles();
+  return puzzles.find((p) => p.id === id);
 }
 
 /** Return all hero IDs from the heroes.json constants file. */

@@ -19,7 +19,7 @@ export async function GET(request: Request) {
       );
     }
 
-    const stats = getPuzzleStats(puzzleId, date);
+    const stats = await getPuzzleStats(puzzleId, date);
 
     if (!stats) {
       return NextResponse.json({
