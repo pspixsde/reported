@@ -76,6 +76,7 @@ scripts/         — data seeding scripts
 | `npm run build` | Production build |
 | `npm run seed:constants` | Fetch hero/item data from OpenDota |
 | `npm run seed:puzzles` | Fetch ranked puzzles from latest patch |
+| `npm run seed:puzzles -- --reset-progress` | Fetch puzzles and reset all user progress |
 
 ## Credits
 
