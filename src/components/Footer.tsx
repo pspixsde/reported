@@ -11,20 +11,24 @@ export function Footer() {
 
   return (
     <>
-      <footer className="flex items-center justify-center gap-4 border-t border-dota-border px-4 py-4 text-xs text-dota-text-dim">
-        <button
-          onClick={() => setAboutOpen(true)}
-          className="transition-colors hover:text-dota-text"
-        >
-          {t("about.title")}
-        </button>
-        <span className="text-dota-border">|</span>
-        <button
-          onClick={() => setPrivacyOpen(true)}
-          className="transition-colors hover:text-dota-text"
-        >
-          {t("privacy.title")}
-        </button>
+      <footer className="flex items-center justify-between border-t border-dota-border px-4 py-4 text-xs text-dota-text-dim">
+        <span className="w-16" />
+        <div className="flex items-center gap-4">
+          <button
+            onClick={() => setAboutOpen(true)}
+            className="transition-colors hover:text-dota-text"
+          >
+            {t("about.title")}
+          </button>
+          <span className="text-dota-border">|</span>
+          <button
+            onClick={() => setPrivacyOpen(true)}
+            className="transition-colors hover:text-dota-text"
+          >
+            {t("privacy.title")}
+          </button>
+        </div>
+        <span className="w-16 text-right text-dota-border">v1.0.1</span>
       </footer>
 
       {/* About Us modal */}

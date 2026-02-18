@@ -4,6 +4,8 @@ A Wordle-inspired guessing game for Dota 2 players. You're shown a real ranked m
 
 **Live at [reported-dota.org](https://reported-dota.org)**
 
+Found a bug or have a suggestion? [Open an issue](https://github.com/pspixsde/reported/issues) — all feedback is welcome.
+
 ## How to Play
 
 You see real match data — items, match duration, and more — from a ranked game with an unusual build. Then you guess:

@@ -1,5 +1,30 @@
 # Changelog
 
+## v1.0.1 — 2026-02-18
+
+### Fixed
+
+- **Rank medal images now self-hosted**: replaced unreliable Fandom wiki hotlinks with locally served PNGs in `public/ranks/`, fixing images not loading for some users
+- Removed stale `static.wikia.nocookie.net` remote pattern from `next.config.ts`
+
+### Changed
+
+- **Version number shown in footer**: app version displayed in the bottom-right corner
+- **README** updated with link to GitHub Issues for bug reports and feedback
+
+### Added
+
+- **Favicon and apple-touch-icon**: gold "R" on dark navy, appears in browser tabs and iOS bookmarks
+- **Open Graph metadata**: proper title, description, and site name for social media link previews (Discord, Twitter, etc.)
+- **Vercel Web Analytics** integrated for anonymous page view tracking
+
+### Removed
+
+- Unused `/play` redirect route
+- `zod` dependency (was never imported)
+
+---
+
 ## v1.0.0 — 2026-02-18
 
 First public release — live at [reported-dota.org](https://reported-dota.org).
