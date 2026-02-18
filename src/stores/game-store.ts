@@ -593,7 +593,7 @@ export const useGameStore = create<GameStoreState>()(
       },
     }),
     {
-      name: "reported-game-v7",
+      name: "reported-game-v8",
       partialize: (state) => ({
         // Daily persistence
         dailyDate: state.dailyDate,

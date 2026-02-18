@@ -8,7 +8,7 @@ const ru: Record<TranslationKey, string> = {
   "app.loading": "Загрузка данных игры...",
 
   // ── Mode select ──
-  "mode.daily.title": "Ежедневный вызов",
+  "mode.daily.title": "Ежедневный челлендж",
   "mode.daily.desc": "Один пазл в день. Одинаковый для всех.",
   "mode.daily.completed": "Завершено сегодня",
   "mode.puzzles.title": "Пазлы",
@@ -60,27 +60,27 @@ const ru: Record<TranslationKey, string> = {
   "guess.level2.prompt":
     "Каков был <b>K / D / A</b> игрока?",
   "guess.level3.prompt":
-    "В каком <b>ранговом диапазоне</b> проходил этот матч?",
+    "В каком <b>ранге</b> проходил этот матч?",
   "guess.hero.prompt":
     "На каком <b>герое</b> была эта сборка?",
 
   // ── Result feedback ──
   "result.winloss": "Победа/Поражение",
-  "result.rank": "Ранговый диапазон",
+  "result.rank": "Ранг",
   "result.kda": "KDA",
   "result.hero": "Герой",
   "result.level": "Уровень {n} — {label}",
 
   // ── Score card ──
-  "score.0": "Гриф! Повезёт в следующий раз.",
+  "score.0": "Руин! Повезёт в следующий раз.",
   "score.1": "Неплохо, но всё ещё зарепорчен.",
   "score.2": "Близко! Почти сошло с рук.",
-  "score.3": "Идеальное чтение! Этот игрок чист.",
-  "score.hard.0": "Гриф! Повезёт в следующий раз.",
+  "score.3": "Идеально! Этот игрок хорош.",
+  "score.hard.0": "Руин! Повезёт в следующий раз.",
   "score.hard.1": "Не лучший результат, но могло быть хуже.",
   "score.hard.2": "Неплохо, но всё ещё зарепорчен.",
   "score.hard.3": "Близко! Почти сошло с рук.",
-  "score.hard.4": "Идеальное чтение! Этот игрок чист.",
+  "score.hard.4": "Идеально! Этот игрок хорош.",
   "score.hero": "Герой: {name}",
   "score.matchId": "ID матча:",
   "score.puzzleOf": "Пазл {current} из {total}",
@@ -125,10 +125,10 @@ const ru: Record<TranslationKey, string> = {
   // ── Answer translations ──
   "answer.Win": "Победа",
   "answer.Loss": "Поражение",
-  "answer.Herald": "Герольд",
+  "answer.Herald": "Рекрут",
   "answer.Guardian": "Страж",
-  "answer.Crusader": "Крестоносец",
-  "answer.Archon": "Архонт",
+  "answer.Crusader": "Рыцарь",
+  "answer.Archon": "Герой",
   "answer.Legend": "Легенда",
   "answer.Ancient": "Властелин",
   "answer.Divine": "Божество",
