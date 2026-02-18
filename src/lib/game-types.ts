@@ -95,9 +95,9 @@ export const PUZZLES_TOTAL = 30;
 /** Total hard-mode puzzles */
 export const HARD_PUZZLES_TOTAL = 30;
 /** Daily challenge puzzle buffer size */
-export const DAILY_POOL_SIZE = 10;
+export const DAILY_POOL_SIZE = 30;
 
-/** Index offsets into puzzles.json (70 puzzles: 0-29 regular, 30-59 hard, 60-69 daily) */
+/** Index offsets into puzzles.json (90 puzzles: 0-29 regular, 30-59 hard, 60-89 daily) */
 export const REGULAR_POOL_START = 0;
 export const HARD_POOL_START = 30;
 export const DAILY_POOL_START = 60;

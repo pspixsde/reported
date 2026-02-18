@@ -39,7 +39,7 @@ const GAME_STORE_PATH = resolve(__dirname, "../src/stores/game-store.ts");
 const GLOBAL_STATS_PATH = resolve(DATA_DIR, "puzzle-global-stats.json");
 
 // ── Config ──
-const TARGET_PUZZLES = 70;
+const TARGET_PUZZLES = 90;
 const MAX_BATCHES = 120;
 const RATE_LIMIT_MS = 1100;
 const MIN_ITEM_COST = 1200;
