@@ -5,6 +5,7 @@ import { cn } from "@/lib/cn";
 import { useGameStore } from "@/stores/game-store";
 import { useTranslation } from "@/i18n";
 import { CountdownTimer } from "./CountdownTimer";
+import { SocialLinks } from "./SocialLinks";
 
 interface ScoreCardProps {
   className?: string;
@@ -18,7 +19,6 @@ export function ScoreCard({ className }: ScoreCardProps) {
   const results = useGameStore((s) => s.results);
   const mode = useGameStore((s) => s.mode);
   const puzzle = useGameStore((s) => s.puzzle);
-  const heroes = useGameStore((s) => s.heroes);
   const resetGame = useGameStore((s) => s.resetGame);
   const returnToPuzzleGrid = useGameStore((s) => s.returnToPuzzleGrid);
   const maxScore = useGameStore((s) => s.maxScore);
@@ -27,11 +27,6 @@ export function ScoreCard({ className }: ScoreCardProps) {
   if (!completed) return null;
 
   const max = maxScore();
-
-  const heroName =
-    (puzzle && heroes?.[puzzle.heroId]?.localized_name) ||
-    puzzle?.hero ||
-    "Unknown";
 
   const scoreKey = max === 4
     ? (`score.hard.${score}` as "score.hard.0" | "score.hard.1" | "score.hard.2" | "score.hard.3" | "score.hard.4")
@@ -68,9 +63,6 @@ export function ScoreCard({ className }: ScoreCardProps) {
           })}
         </p>
       )}
-      <p className="mt-1 text-xs text-dota-text-dim">
-        {t("score.hero", { name: heroName })}
-      </p>
       {puzzle && (
         <p className="mt-1 text-xs text-dota-text-dim">
           {t("score.matchId")}{" "}
@@ -124,6 +116,10 @@ export function ScoreCard({ className }: ScoreCardProps) {
           <CountdownTimer />
         </div>
       )}
+
+      <div className="mt-6 border-t border-dota-border pt-4">
+        <SocialLinks />
+      </div>
     </div>
   );
 }
@@ -140,6 +136,6 @@ function generateShareText(score: number, maxScore: number, correctResults: bool
     emojis,
     `${today}`,
     "",
-    "https://reported.gg",
+    "https://reported-dota.org",
   ].join("\n");
 }

@@ -19,6 +19,7 @@ export function PuzzleCard({ className }: PuzzleCardProps) {
   const mode = useGameStore((s) => s.mode);
   const puzzlesHardMode = useGameStore((s) => s.puzzlesHardMode);
   const completed = useGameStore((s) => s.completed);
+  const currentLevel = useGameStore((s) => s.currentLevel);
   const easyMode = useSettingsStore((s) => s.easyMode);
 
   if (!puzzle) return null;
@@ -26,7 +27,7 @@ export function PuzzleCard({ className }: PuzzleCardProps) {
   const hero = heroes?.[puzzle.heroId];
   const heroDisplayName = hero?.localized_name || puzzle.hero;
   const isHardPuzzle = puzzlesHardMode && mode === "puzzles";
-  const hideHero = isHardPuzzle && !completed;
+  const hideHero = isHardPuzzle && currentLevel === 1 && !completed;
 
   return (
     <div

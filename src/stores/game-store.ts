@@ -393,12 +393,14 @@ export const useGameStore = create<GameStoreState>()(
                 : {}),
               ...(mode === "puzzles" && !hard
                 ? {
+                    puzzlesInProgressIndex: get().currentPuzzleIndex,
                     puzzlesInProgressLevel: nextLevel,
                     puzzlesInProgressResults: newResults,
                   }
                 : {}),
               ...(mode === "puzzles" && hard
                 ? {
+                    hardPuzzlesInProgressIndex: get().currentPuzzleIndex,
                     hardPuzzlesInProgressLevel: nextLevel,
                     hardPuzzlesInProgressResults: newResults,
                   }
@@ -517,18 +519,6 @@ export const useGameStore = create<GameStoreState>()(
             });
             get().fetchPuzzleStats(puzzle.id);
           } else {
-            const progressUpdate = hard
-              ? {
-                  hardPuzzlesInProgressIndex: index,
-                  hardPuzzlesInProgressLevel: 1 as GuessLevel,
-                  hardPuzzlesInProgressResults: [] as LevelResult[],
-                }
-              : {
-                  puzzlesInProgressIndex: index,
-                  puzzlesInProgressLevel: 1 as GuessLevel,
-                  puzzlesInProgressResults: [] as LevelResult[],
-                };
-
             set({
               mode: "puzzles",
               puzzle,
@@ -540,7 +530,6 @@ export const useGameStore = create<GameStoreState>()(
               score: 0,
               loading: false,
               error: null,
-              ...progressUpdate,
             });
             get().fetchPuzzleStats(puzzle.id);
           }
@@ -604,7 +593,7 @@ export const useGameStore = create<GameStoreState>()(
       },
     }),
     {
-      name: "reported-game-v6",
+      name: "reported-game-v7",
       partialize: (state) => ({
         // Daily persistence
         dailyDate: state.dailyDate,

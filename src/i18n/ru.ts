@@ -10,9 +10,9 @@ const ru: Record<TranslationKey, string> = {
   // ── Mode select ──
   "mode.daily.title": "Ежедневный вызов",
   "mode.daily.desc": "Один пазл в день. Одинаковый для всех.",
-  "mode.daily.completed": "Завершено сегодня — {score}/3",
+  "mode.daily.completed": "Завершено сегодня",
   "mode.puzzles.title": "Пазлы",
-  "mode.puzzles.desc": "20 пазлов. Пройдите все.",
+  "mode.puzzles.desc": "30 пазлов. Пройдите все.",
   "mode.puzzles.progress": "{completed}/{total} пазлов пройдено",
 
   // ── Stats ──
@@ -38,6 +38,7 @@ const ru: Record<TranslationKey, string> = {
   "lang.en": "Английский",
   "lang.ru": "Русский",
   "lang.es": "Испанский",
+  "lang.pt": "Португальский",
   "lang.selected": "Выбран",
   "lang.more": "Выберите предпочитаемый язык.",
 
@@ -45,7 +46,7 @@ const ru: Record<TranslationKey, string> = {
   "puzzle.items": "Предметы",
   "puzzle.gold": "{value} золота",
   "puzzle.cs": "{lastHits} / {denies} CS",
-  "puzzle.hiddenHero": "??? (Угадайте героя!)",
+  "puzzle.hiddenHero": "???",
 
   // ── Guess panel ──
   "guess.winloss": "Победа/Поражение",
@@ -143,7 +144,7 @@ const ru: Record<TranslationKey, string> = {
   // ── Global stats ──
   "stats.levelCorrect": "{percent}% игроков угадали правильно",
   "stats.levelCorrect.daily": "{percent}% игроков угадали правильно сегодня",
-  "stats.avgScore": "Средний результат: {avg}/{max}",
+  "stats.avgScore": "Средний глобальный результат: {avg}/{max}",
 };
 
 export default ru;

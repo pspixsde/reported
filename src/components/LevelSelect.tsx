@@ -27,6 +27,10 @@ export function LevelSelect({ className }: PuzzleGridProps) {
   const hardPuzzlesGamesPlayed = useGameStore((s) => s.hardPuzzlesGamesPlayed);
   const hardPuzzlesTotalScore = useGameStore((s) => s.hardPuzzlesTotalScore);
 
+  const inProgressIndex = useGameStore((s) =>
+    puzzlesHardMode ? s.hardPuzzlesInProgressIndex : s.puzzlesInProgressIndex,
+  );
+
   const activeCompleted = puzzlesHardMode ? completedHardPuzzles : completedPuzzles;
   const activeScores = puzzlesHardMode ? hardPuzzleScores : puzzleScores;
   const activeGamesPlayed = puzzlesHardMode ? hardPuzzlesGamesPlayed : puzzlesGamesPlayed;
@@ -62,6 +66,7 @@ export function LevelSelect({ className }: PuzzleGridProps) {
       >
         {puzzles.map((idx) => {
           const isCompleted = activeCompleted.includes(idx);
+          const isInProgress = !isCompleted && inProgressIndex === idx;
           const score = activeScores[idx];
 
           return (
@@ -78,9 +83,11 @@ export function LevelSelect({ className }: PuzzleGridProps) {
                   ? puzzlesHardMode
                     ? "border-dota-red/40 bg-dota-red/10 text-dota-red"
                     : "border-dota-green/40 bg-dota-green/10 text-dota-green"
-                  : puzzlesHardMode
-                    ? "border-dota-red/20 bg-dota-card text-dota-text hover:border-dota-red/40 hover:bg-dota-red/10 hover:text-dota-red disabled:opacity-50"
-                    : "border-dota-border bg-dota-card text-dota-text hover:border-dota-gold/40 hover:bg-dota-gold/10 hover:text-dota-gold disabled:opacity-50",
+                  : isInProgress
+                    ? "border-dota-gold/40 bg-dota-gold/10 text-dota-gold"
+                    : puzzlesHardMode
+                      ? "border-dota-red/20 bg-dota-card text-dota-text hover:border-dota-red/40 hover:bg-dota-red/10 hover:text-dota-red disabled:opacity-50"
+                      : "border-dota-border bg-dota-card text-dota-text hover:border-dota-gold/40 hover:bg-dota-gold/10 hover:text-dota-gold disabled:opacity-50",
               )}
             >
               <span>{idx + 1}</span>
@@ -93,6 +100,11 @@ export function LevelSelect({ className }: PuzzleGridProps) {
                   puzzlesHardMode ? "bg-dota-red" : "bg-dota-green",
                 )}>
                   ✓
+                </span>
+              )}
+              {isInProgress && (
+                <span className="absolute -right-0.5 -top-0.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-dota-gold text-[8px] font-bold text-dota-bg">
+                  ●
                 </span>
               )}
             </button>

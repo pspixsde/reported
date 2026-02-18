@@ -13,6 +13,7 @@ import { ReportSurvey } from "@/components/ReportSurvey";
 import { LevelSelect } from "@/components/LevelSelect";
 import { PuzzleNavigation } from "@/components/PuzzleNavigation";
 import { Footer } from "@/components/Footer";
+import { SocialLinks } from "@/components/SocialLinks";
 import type { GameMode } from "@/lib/game-types";
 import { PUZZLES_TOTAL } from "@/lib/game-types";
 
@@ -95,10 +96,15 @@ function ModeSelect() {
       </h1>
       <p className="mt-3 max-w-sm text-dota-text-dim">{t("app.tagline")}</p>
 
-      {/* Patch badge */}
-      <span className="mt-2 rounded bg-dota-card px-2.5 py-0.5 text-xs font-medium text-dota-text-dim">
-        Patch 7.40+
-      </span>
+      {/* Patch badges */}
+      <div className="mt-2 flex items-center gap-2">
+        <span className="rounded bg-dota-card px-2.5 py-0.5 text-xs font-medium text-dota-text-dim">
+          Patch 7.40+
+        </span>
+        <span className="rounded bg-dota-card px-2.5 py-0.5 text-xs font-medium text-dota-text-dim">
+          Ranked Only
+        </span>
+      </div>
 
       {/* Mode cards */}
       <div className="mt-8 grid w-full gap-4 sm:grid-cols-2">
@@ -118,7 +124,7 @@ function ModeSelect() {
             </p>
             {dailyDoneToday && (
               <p className="mt-2 text-xs font-medium text-dota-green">
-                {t("mode.daily.completed", { score: dailyScore ?? 0 })}
+                {t("mode.daily.completed")}
               </p>
             )}
           </div>
@@ -140,7 +146,7 @@ function ModeSelect() {
             </p>
             {completedPuzzles.length > 0 && (
               <p className="mt-2 text-xs font-medium text-dota-blue">
-                {t("mode.puzzles.progress", { completed: completedPuzzles.length, total: 20 })}
+                {t("mode.puzzles.progress", { completed: completedPuzzles.length, total: PUZZLES_TOTAL })}
               </p>
             )}
           </div>
@@ -170,6 +176,10 @@ function ModeSelect() {
           </div>
         </div>
       )}
+
+      <div className="mt-8">
+        <SocialLinks />
+      </div>
 
       {!constantsLoaded && (
         <p className="mt-4 text-sm text-dota-text-dim animate-pulse">

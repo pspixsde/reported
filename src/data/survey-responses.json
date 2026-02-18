@@ -68,5 +68,50 @@
     "puzzleId": "8695462719-44",
     "response": "yes",
     "timestamp": "2026-02-18T00:41:26.235Z"
+  },
+  {
+    "puzzleId": "8695465740-119",
+    "response": "yes",
+    "timestamp": "2026-02-18T00:44:57.928Z"
+  },
+  {
+    "puzzleId": "8695463937-123",
+    "response": "yes",
+    "timestamp": "2026-02-18T08:58:31.296Z"
+  },
+  {
+    "puzzleId": "8695464263-9",
+    "response": "no",
+    "timestamp": "2026-02-18T09:35:10.752Z"
+  },
+  {
+    "puzzleId": "8695466106-20",
+    "response": "yes",
+    "timestamp": "2026-02-18T09:45:46.304Z"
+  },
+  {
+    "puzzleId": "8695465685-68",
+    "response": "yes",
+    "timestamp": "2026-02-18T09:47:52.672Z"
+  },
+  {
+    "puzzleId": "8695465305-72",
+    "response": "no",
+    "timestamp": "2026-02-18T09:48:27.316Z"
+  },
+  {
+    "puzzleId": "8695834588-74",
+    "response": "yes",
+    "timestamp": "2026-02-18T11:01:28.487Z"
+  },
+  {
+    "puzzleId": "8695832600-9",
+    "response": "yes",
+    "timestamp": "2026-02-18T11:29:55.752Z"
+  },
+  {
+    "puzzleId": "8695840720-4",
+    "response": "no",
+    "timestamp": "2026-02-18T11:34:23.211Z"
   }
 ]
