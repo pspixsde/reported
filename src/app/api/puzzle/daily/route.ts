@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getAllPuzzles, getPuzzleById } from "@/lib/puzzles-server";
-import { dailyPuzzleIndex, stripAnswers } from "@/lib/puzzle-utils";
+import { dailyPuzzleIndex, stripAnswers, todayUTC } from "@/lib/puzzle-utils";
+import { recordGuess } from "@/lib/stats-server";
 
 /**
  * GET /api/puzzle/daily
@@ -73,6 +74,12 @@ export async function POST(request: Request) {
           { status: 400 },
         );
     }
+
+    const today = todayUTC();
+    const maxLevel = 3;
+    const isComplete = level >= maxLevel;
+    const score = isComplete ? (body.runningScore ?? 0) + (correct ? 1 : 0) : undefined;
+    recordGuess(puzzleId, level, correct, score, today);
 
     return NextResponse.json({ correct, answer });
   } catch {

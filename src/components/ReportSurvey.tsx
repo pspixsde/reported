@@ -17,6 +17,7 @@ export function ReportSurvey({ className }: ReportSurveyProps) {
   const markSurveyed = useGameStore((s) => s.markSurveyed);
   const [submitting, setSubmitting] = useState(false);
   const [justAnswered, setJustAnswered] = useState(false);
+  const [reportPercent, setReportPercent] = useState<number | null>(null);
 
   if (!completed || !puzzle) return null;
   if (surveyedPuzzleIds.includes(puzzle.id) && !justAnswered) return null;
@@ -33,6 +34,11 @@ export function ReportSurvey({ className }: ReportSurveyProps) {
         <p className="text-center text-sm text-dota-text-dim">
           {t("survey.thanks")}
         </p>
+        {reportPercent !== null && (
+          <p className="mt-1 text-center text-xs text-dota-text-dim">
+            {t("survey.reportPercent", { percent: reportPercent })}
+          </p>
+        )}
       </div>
     );
   }
@@ -40,11 +46,17 @@ export function ReportSurvey({ className }: ReportSurveyProps) {
   async function handleVote(response: "yes" | "no") {
     setSubmitting(true);
     try {
-      await fetch("/api/survey/report", {
+      const res = await fetch("/api/survey/report", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ puzzleId: puzzle!.id, response }),
       });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.reportPercent !== undefined) {
+          setReportPercent(data.reportPercent);
+        }
+      }
     } catch {
       // Non-blocking — don't show errors for survey
     }

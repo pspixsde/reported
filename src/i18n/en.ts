@@ -26,8 +26,8 @@ const en = {
 
   // ── Settings ──
   "settings.title": "Settings",
-  "settings.easyMode": "Easy Mode",
-  "settings.easyMode.desc": "Shows net worth and creep stats. Green logo.",
+  "settings.easyMode": "More Stats",
+  "settings.easyMode.desc": "Shows net worth and creep stats.",
   "settings.colorblind": "Colorblind Mode",
   "settings.colorblind.desc": "Use blue/orange instead of green/red",
 
@@ -35,6 +35,7 @@ const en = {
   "lang.title": "Language",
   "lang.en": "English",
   "lang.ru": "Russian",
+  "lang.es": "Spanish",
   "lang.selected": "Selected",
   "lang.more": "Select your preferred language.",
 
@@ -72,6 +73,11 @@ const en = {
   "score.1": "Not bad, but still reported.",
   "score.2": "Close! Almost got away with it.",
   "score.3": "Perfect read! This player is clean.",
+  "score.hard.0": "Griefing! Better luck next time.",
+  "score.hard.1": "Not great, but could be worse.",
+  "score.hard.2": "Not bad, but still reported.",
+  "score.hard.3": "Close! Almost got away with it.",
+  "score.hard.4": "Perfect read! This player is clean.",
   "score.hero": "Hero: {name}",
   "score.matchId": "Match ID:",
   "score.puzzleOf": "Puzzle {current} of {total}",
@@ -130,6 +136,12 @@ const en = {
   "survey.yes": "Yes, Report",
   "survey.no": "No, It's Fine",
   "survey.thanks": "Thanks for your feedback!",
+  "survey.reportPercent": "{percent}% of players would report this build.",
+
+  // ── Global stats ──
+  "stats.levelCorrect": "{percent}% of players guessed this right",
+  "stats.levelCorrect.daily": "{percent}% of players guessed this right today",
+  "stats.avgScore": "Average score: {avg}/{max}",
 } as const;
 
 export type TranslationKey = keyof typeof en;

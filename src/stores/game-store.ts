@@ -70,6 +70,9 @@ interface GameStoreState {
   // Survey tracking
   surveyedPuzzleIds: string[];
 
+  // Global stats for current puzzle
+  puzzleGlobalStats: PuzzleGlobalStats | null;
+
   // Constants (hero/item lookup)
   heroes: Record<number, HeroConstant> | null;
   items: Record<number, ItemConstant> | null;
@@ -88,10 +91,19 @@ interface GameStoreState {
   navigateToPuzzle: (index: number) => Promise<void>;
   // Survey actions
   markSurveyed: (puzzleId: string) => void;
+  // Global stats actions
+  fetchPuzzleStats: (puzzleId: string, daily?: boolean) => Promise<void>;
 
   // Computed helpers
   maxScore: () => number;
   isHardModeActive: () => boolean;
+}
+
+export interface PuzzleGlobalStats {
+  levels: Record<string, { correct: number; total: number }>;
+  totalScore: number;
+  completions: number;
+  survey: { yes: number; no: number };
 }
 
 function todayUTC(): string {
@@ -150,6 +162,9 @@ export const useGameStore = create<GameStoreState>()(
       // Survey tracking
       surveyedPuzzleIds: [],
 
+      // Global stats
+      puzzleGlobalStats: null,
+
       heroes: null,
       items: null,
       constantsLoaded: false,
@@ -202,6 +217,7 @@ export const useGameStore = create<GameStoreState>()(
               loading: false,
               error: null,
             });
+            get().fetchPuzzleStats(puzzle.id, true);
           } catch {
             set({ loading: false, error: "Failed to load daily puzzle." });
           }
@@ -232,6 +248,7 @@ export const useGameStore = create<GameStoreState>()(
               loading: false,
               error: null,
             });
+            get().fetchPuzzleStats(puzzle.id, true);
             return;
           }
 
@@ -249,6 +266,7 @@ export const useGameStore = create<GameStoreState>()(
             dailyCurrentLevel: 1,
             dailyResults: [],
           });
+          get().fetchPuzzleStats(puzzle.id, true);
         } catch (err) {
           console.error("Error starting game:", err);
           set({
@@ -282,6 +300,7 @@ export const useGameStore = create<GameStoreState>()(
               puzzleId: puzzle.id,
               level: currentLevel,
               guess,
+              runningScore: get().score,
               ...(hard ? { hard: true } : {}),
             }),
           });
@@ -405,6 +424,7 @@ export const useGameStore = create<GameStoreState>()(
           error: null,
           puzzlesGridVisible: false,
           currentPuzzleIndex: null,
+          puzzleGlobalStats: null,
         });
       },
 
@@ -456,6 +476,7 @@ export const useGameStore = create<GameStoreState>()(
               loading: false,
               error: null,
             });
+            get().fetchPuzzleStats(puzzle.id);
           } catch (err) {
             console.error("Error loading completed puzzle:", err);
             set({ loading: false, error: "Failed to load puzzle." });
@@ -494,6 +515,7 @@ export const useGameStore = create<GameStoreState>()(
               loading: false,
               error: null,
             });
+            get().fetchPuzzleStats(puzzle.id);
           } else {
             const progressUpdate = hard
               ? {
@@ -520,6 +542,7 @@ export const useGameStore = create<GameStoreState>()(
               error: null,
               ...progressUpdate,
             });
+            get().fetchPuzzleStats(puzzle.id);
           }
         } catch (err) {
           console.error("Error selecting puzzle:", err);
@@ -566,9 +589,22 @@ export const useGameStore = create<GameStoreState>()(
           set({ surveyedPuzzleIds: [...state.surveyedPuzzleIds, puzzleId] });
         }
       },
+
+      fetchPuzzleStats: async (puzzleId: string, daily?: boolean) => {
+        try {
+          const params = new URLSearchParams({ puzzleId });
+          if (daily) params.set("date", todayUTC());
+          const res = await fetch(`/api/stats/puzzle?${params}`);
+          if (!res.ok) return;
+          const stats = await res.json();
+          set({ puzzleGlobalStats: stats });
+        } catch {
+          // Non-blocking — don't show errors for stats
+        }
+      },
     }),
     {
-      name: "reported-game-v5",
+      name: "reported-game-v6",
       partialize: (state) => ({
         // Daily persistence
         dailyDate: state.dailyDate,

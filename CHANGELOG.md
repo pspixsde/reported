@@ -1,5 +1,41 @@
 # Changelog
 
+## v0.6.0 — 2026-02-18
+
+### Fixed
+
+- **Hard mode level indicator no longer overflows**: the "1 Hero — 2 Win/Loss — 3 KDA — 4 Rank" progress line in hard mode now uses tighter spacing (reduced gap, padding, and separator width) so it stays within the box; normal 3-level mode spacing is unchanged
+
+### Changed
+
+- **"Easy Mode" renamed to "More Stats"** in Settings; description no longer mentions "Green logo." (EN, RU, ES)
+- **KDA options are more distinct**: fake KDA values now vary by ±2–7 per component (up from ±1–4) with a minimum-distance check (at least 3 total absolute difference) between all options, preventing near-identical choices
+- **Seed script (`seed-puzzles.ts`) tuning**:
+  - Minimum match duration raised from 15 to 20 minutes
+  - `MIN_ITEM_COST` raised from 1,000 to 1,200 gold
+  - Hero item popularity now stores the top 30 items per hero (up from 20)
+  - Unusual build scoring updated: top 10 items penalized (was top 5), items ranked 11–30 neutral (was 6–20), items outside top 30 unusual (was top 20)
+- **Hard mode score messages reworked** for the 0–4 system: added "Not great, but could be worse." at score 1 and shifted existing messages; normal 0–3 messages unchanged
+- **Seed script now auto-resets user progress**: running `seed-puzzles` bumps the game store localStorage version key (e.g. `v6` → `v7`) and clears `puzzle-global-stats.json`, ensuring all users start fresh with the new puzzle set
+- Game store localStorage key bumped to `reported-game-v6`; all prior progress is reset on upgrade
+
+### Added
+
+- **Global puzzle stats**: server-tracked statistics visible to all users
+  - While guessing each level, a small stat shows what % of players guessed it right (with "today" suffix for daily puzzles)
+  - After completing a puzzle, the average user score is shown below the player's score
+  - After voting in "Would you report this build?", the report percentage is now shown alongside the thank-you message
+  - New `puzzle-global-stats.json` data file with per-puzzle, per-level, and daily-partitioned stats
+  - New `GET /api/stats/puzzle` endpoint; guess and survey endpoints now record stats server-side
+  - `stats-server.ts` shared helper library for reading/writing global stats
+  - `puzzleGlobalStats` state and `fetchPuzzleStats` action in game store
+- **Spanish language support**: full translation of all UI strings (~150 keys), Spanish flag icon in language selector
+- `score.hard.0`–`score.hard.4` translation keys for 4-level hard mode scoring (EN, RU, ES)
+- `lang.es` translation key in all locale files
+- `survey.reportPercent`, `stats.levelCorrect`, `stats.levelCorrect.daily`, `stats.avgScore` i18n keys (EN, RU, ES)
+
+---
+
 ## v0.5.0 — 2026-02-17
 
 ### Fixed

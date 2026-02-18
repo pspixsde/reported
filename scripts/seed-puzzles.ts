@@ -19,15 +19,17 @@ const PUZZLES_PATH = resolve(DATA_DIR, "puzzles.json");
 const HEROES_PATH = resolve(DATA_DIR, "heroes.json");
 const ITEMS_PATH = resolve(DATA_DIR, "items.json");
 const POPULARITY_CACHE_PATH = resolve(DATA_DIR, "hero-item-popularity.json");
+const GAME_STORE_PATH = resolve(__dirname, "../src/stores/game-store.ts");
+const GLOBAL_STATS_PATH = resolve(DATA_DIR, "puzzle-global-stats.json");
 
 // ── Config ──
 const TARGET_PUZZLES = 50;
 const MAX_BATCHES = 120;
 const RATE_LIMIT_MS = 1100;
-const MIN_ITEM_COST = 1000;
+const MIN_ITEM_COST = 1200;
 const UNUSUAL_THRESHOLD = 0.65;
 const MATCHES_TO_DETAIL = 25;
-// Penalty subtracted per top-5 popular item in a build
+// Penalty subtracted per top-10 popular item in a build
 const POPULAR_PENALTY = 0.4;
 // Items above this cost get amplified weirdness weight
 const EXPENSIVE_ITEM_COST = 4000;
@@ -190,7 +192,7 @@ type PopularityRankMap = Record<number, Record<string, number>>;
  * /heroes/{id}/itemPopularity endpoint.
  *
  * Merges mid_game_items and late_game_items (most relevant for
- * final inventory), ranks the top 20 per hero.
+ * final inventory), ranks the top 30 per hero.
  */
 async function fetchPopularityFromAPI(
   heroes: Record<number, HeroData>,
@@ -224,10 +226,10 @@ async function fetchPopularityFromAPI(
       }
     }
 
-    // Rank top 20 items by total count
+    // Rank top 30 items by total count
     const sorted = Object.entries(merged).sort((a, b) => b[1] - a[1]);
     const ranks: Record<string, number> = {};
-    for (let i = 0; i < Math.min(sorted.length, 20); i++) {
+    for (let i = 0; i < Math.min(sorted.length, 30); i++) {
       ranks[sorted[i][0]] = i + 1;
     }
     map[heroId] = ranks;
@@ -271,9 +273,9 @@ function loadPopularityCache(): PopularityRankMap | null {
 
 /**
  * Weighted unusual score:
- *   - Items NOT in the top 20 for the hero: +1 (unusual)
- *   - Items ranked 6-20: 0 (neutral)
- *   - Items ranked 1-5 (most popular): -POPULAR_PENALTY each (penalized)
+ *   - Items NOT in the top 30 for the hero: +1 (unusual)
+ *   - Items ranked 11-30: 0 (neutral)
+ *   - Items ranked 1-10 (most popular): -POPULAR_PENALTY each (penalized)
  *
  * score = (unusual_points - popular_penalty) / significant_items
  */
@@ -301,13 +303,13 @@ function unusualScore(
     const expensiveWeight = cost > EXPENSIVE_ITEM_COST ? EXPENSIVE_MULTIPLIER : 1.0;
 
     if (rank === undefined) {
-      // Not in top 20 — unusual; expensive unusual items matter more
+      // Not in top 30 — unusual; expensive unusual items matter more
       unusualPoints += 1 * expensiveWeight;
-    } else if (rank <= 5) {
-      // Top 5 most popular — penalize
+    } else if (rank <= 10) {
+      // Top 10 most popular — penalize
       unusualPoints -= POPULAR_PENALTY;
     }
-    // Rank 6-20: neutral (0)
+    // Rank 11-30: neutral (0)
   }
 
   return significant > 0 ? unusualPoints / significant : 0;
@@ -391,7 +393,7 @@ async function main() {
       if (detail.game_mode === TURBO_GAME_MODE) continue;
 
       // Filter: skip very short matches
-      if (detail.duration < 900) continue;
+      if (detail.duration < 1200) continue;
 
       // Use avg_rank_tier from the publicMatches response (more reliable than detail)
       const pmAvgRankTier = pm.avg_rank_tier;
@@ -463,6 +465,36 @@ async function main() {
       `Try increasing MAX_BATCHES or lowering UNUSUAL_THRESHOLD.`,
     );
   }
+
+  // Reset global stats (old puzzle IDs no longer valid)
+  writeFileSync(GLOBAL_STATS_PATH, "{}");
+  console.log("  Reset puzzle-global-stats.json");
+
+  // Bump the localStorage persist key so all user progress resets
+  bumpGameStoreVersion();
+}
+
+/**
+ * Increment the version number in the game store persist key
+ * (e.g. "reported-game-v6" -> "reported-game-v7") so that all
+ * users' localStorage progress is automatically discarded on
+ * next visit after new puzzles are seeded.
+ */
+function bumpGameStoreVersion(): void {
+  const src = readFileSync(GAME_STORE_PATH, "utf-8");
+  const match = src.match(/name:\s*"reported-game-v(\d+)"/);
+  if (!match) {
+    console.warn("  Could not find persist key in game-store.ts — skipping version bump.");
+    return;
+  }
+  const oldVersion = parseInt(match[1], 10);
+  const newVersion = oldVersion + 1;
+  const updated = src.replace(
+    `name: "reported-game-v${oldVersion}"`,
+    `name: "reported-game-v${newVersion}"`,
+  );
+  writeFileSync(GAME_STORE_PATH, updated);
+  console.log(`  Bumped persist key: reported-game-v${oldVersion} -> reported-game-v${newVersion} (user progress will reset)`);
 }
 
 main().catch((err) => {

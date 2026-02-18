@@ -3,7 +3,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-export type Locale = "en" | "ru";
+export type Locale = "en" | "ru" | "es";
 
 interface SettingsStoreState {
   locale: Locale;
