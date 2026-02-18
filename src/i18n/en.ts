@@ -8,9 +8,9 @@ const en = {
   // ── Mode select ──
   "mode.daily.title": "Daily Challenge",
   "mode.daily.desc": "One puzzle per day. Same for everyone.",
-  "mode.daily.completed": "Completed today — {score}/3",
+  "mode.daily.completed": "Completed today",
   "mode.puzzles.title": "Puzzles",
-  "mode.puzzles.desc": "20 puzzles. Complete them all.",
+  "mode.puzzles.desc": "30 puzzles. Complete them all.",
   "mode.puzzles.progress": "{completed}/{total} puzzles complete",
 
   // ── Stats ──
@@ -36,6 +36,7 @@ const en = {
   "lang.en": "English",
   "lang.ru": "Russian",
   "lang.es": "Spanish",
+  "lang.pt": "Portuguese",
   "lang.selected": "Selected",
   "lang.more": "Select your preferred language.",
 
@@ -43,7 +44,7 @@ const en = {
   "puzzle.items": "Items",
   "puzzle.gold": "{value} gold",
   "puzzle.cs": "{lastHits} / {denies} CS",
-  "puzzle.hiddenHero": "??? (Guess the hero!)",
+  "puzzle.hiddenHero": "???",
 
   // ── Guess panel ──
   "guess.winloss": "Win/Loss",
@@ -141,7 +142,7 @@ const en = {
   // ── Global stats ──
   "stats.levelCorrect": "{percent}% of players guessed this right",
   "stats.levelCorrect.daily": "{percent}% of players guessed this right today",
-  "stats.avgScore": "Average score: {avg}/{max}",
+  "stats.avgScore": "Average Global Score: {avg}/{max}",
 } as const;
 
 export type TranslationKey = keyof typeof en;

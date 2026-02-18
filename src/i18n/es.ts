@@ -10,9 +10,9 @@ const es: Record<TranslationKey, string> = {
   // ── Mode select ──
   "mode.daily.title": "Desafío diario",
   "mode.daily.desc": "Un puzle por día. Igual para todos.",
-  "mode.daily.completed": "Completado hoy — {score}/3",
+  "mode.daily.completed": "Completado hoy",
   "mode.puzzles.title": "Puzles",
-  "mode.puzzles.desc": "20 puzles. Complétalos todos.",
+  "mode.puzzles.desc": "30 puzles. Complétalos todos.",
   "mode.puzzles.progress": "{completed}/{total} puzles completados",
 
   // ── Stats ──
@@ -38,6 +38,7 @@ const es: Record<TranslationKey, string> = {
   "lang.en": "Inglés",
   "lang.ru": "Ruso",
   "lang.es": "Español",
+  "lang.pt": "Portugués",
   "lang.selected": "Seleccionado",
   "lang.more": "Selecciona tu idioma preferido.",
 
@@ -45,7 +46,7 @@ const es: Record<TranslationKey, string> = {
   "puzzle.items": "Objetos",
   "puzzle.gold": "{value} de oro",
   "puzzle.cs": "{lastHits} / {denies} CS",
-  "puzzle.hiddenHero": "??? (¡Adivina el héroe!)",
+  "puzzle.hiddenHero": "???",
 
   // ── Guess panel ──
   "guess.winloss": "Victoria/Derrota",
@@ -143,7 +144,7 @@ const es: Record<TranslationKey, string> = {
   // ── Global stats ──
   "stats.levelCorrect": "{percent}% de los jugadores adivinaron correctamente",
   "stats.levelCorrect.daily": "{percent}% de los jugadores adivinaron correctamente hoy",
-  "stats.avgScore": "Puntuación media: {avg}/{max}",
+  "stats.avgScore": "Puntuación global media: {avg}/{max}",
 };
 
 export default es;

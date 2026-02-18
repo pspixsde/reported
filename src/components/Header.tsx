@@ -143,9 +143,10 @@ function LanguageSelector({ onClose }: { onClose: () => void }) {
   const setLocale = useSettingsStore((s) => s.setLocale);
 
   const languages: { code: Locale; label: string; flag: React.ReactNode }[] = [
-    { code: "en", label: t("lang.en"), flag: <EnglishFlagIcon /> },
-    { code: "ru", label: t("lang.ru"), flag: <RussianFlagIcon /> },
-    { code: "es", label: t("lang.es"), flag: <SpanishFlagIcon /> },
+    { code: "en", label: "English", flag: <EnglishFlagIcon /> },
+    { code: "ru", label: "Русский", flag: <RussianFlagIcon /> },
+    { code: "es", label: "Español", flag: <SpanishFlagIcon /> },
+    { code: "pt", label: "Português", flag: <PortugueseFlagIcon /> },
   ];
 
   function handleSelect(code: Locale) {
@@ -258,6 +259,7 @@ function LanguageFlagIcon() {
   const locale = useSettingsStore((s) => s.locale);
   if (locale === "ru") return <RussianFlagIcon />;
   if (locale === "es") return <SpanishFlagIcon />;
+  if (locale === "pt") return <PortugueseFlagIcon />;
   return <EnglishFlagIcon />;
 }
 
@@ -302,6 +304,17 @@ function SpanishFlagIcon() {
       <rect width="60" height="7.5" fill="#AA151B" />
       <rect y="7.5" width="60" height="15" fill="#F1BF00" />
       <rect y="22.5" width="60" height="7.5" fill="#AA151B" />
+    </svg>
+  );
+}
+
+function PortugueseFlagIcon() {
+  return (
+    <svg className="h-5 w-5 overflow-hidden rounded-sm" viewBox="0 0 60 30">
+      <rect width="24" height="30" fill="#006600" />
+      <rect x="24" width="36" height="30" fill="#FF0000" />
+      <circle cx="24" cy="15" r="7" fill="#FFCC00" />
+      <circle cx="24" cy="15" r="5" fill="#003399" />
     </svg>
   );
 }

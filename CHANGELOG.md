@@ -1,5 +1,34 @@
 # Changelog
 
+## v0.6.1 — 2026-02-18
+
+### Fixed
+
+- **Hard mode hero reveal**: hero portrait and name are now revealed immediately after completing level 1 (hero guess), rather than staying hidden until the entire puzzle is finished
+- **Puzzle in-progress resume**: leaving a puzzle mid-level and returning now correctly resumes from where you stopped; opening a different puzzle no longer silently discards the previous puzzle's progress
+- **"Copy Results" link** updated to `reported-dota.org`
+
+### Changed
+
+- **Hidden hero text** in hard mode simplified from "??? (Guess the hero!)" to "???"
+- **"Hero: name"** line removed from the results/score card
+- **"Average score"** label renamed to **"Average Global Score"** in results
+- **"Completed today"** in the daily challenge card no longer shows the score
+- **Language selector** now always displays language names in their native language (e.g. "Русский" instead of "Russian")
+- **Puzzle counts extended**: 30 puzzles per mode (up from 20), 70 total collected (up from 50)
+- **MIN_NET_WORTH** raised from 7,000 to 7,500 in `seed-puzzles.ts`
+- **Seed script team limit**: at most one unusual build per team per match is collected, preventing two puzzles from the same side of a game
+- **Seed script progress reset** is now opt-in: the localStorage persist key bump only happens when `--reset-progress` is passed, so re-running the script no longer auto-resets all user progress
+- **README** rewritten for the public repository
+- In-progress puzzles now show a visual indicator on the puzzle grid
+
+### Added
+
+- **Portuguese language support**: full translation of all UI strings, Portuguese flag in language selector
+- **"Ranked Only" badge** on the main menu alongside "Patch 7.40+"
+- **Social links** (GitHub + Ko-fi) on the main menu and below puzzle results
+- Puzzle grid highlights the in-progress puzzle with a gold indicator
+
 ## v0.6.0 — 2026-02-18
 
 ### Fixed

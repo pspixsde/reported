@@ -23,7 +23,7 @@ const GAME_STORE_PATH = resolve(__dirname, "../src/stores/game-store.ts");
 const GLOBAL_STATS_PATH = resolve(DATA_DIR, "puzzle-global-stats.json");
 
 // ── Config ──
-const TARGET_PUZZLES = 50;
+const TARGET_PUZZLES = 70;
 const MAX_BATCHES = 120;
 const RATE_LIMIT_MS = 1100;
 const MIN_ITEM_COST = 1200;
@@ -36,7 +36,7 @@ const EXPENSIVE_ITEM_COST = 4000;
 // Multiplier for unusual items costing more than EXPENSIVE_ITEM_COST
 const EXPENSIVE_MULTIPLIER = 1.5;
 // Minimum final net worth for a player to be considered as a puzzle
-const MIN_NET_WORTH = 7000;
+const MIN_NET_WORTH = 7500;
 // Items excluded from weirdness scoring (e.g. Meteor Hammer — used to end
 // games when the enemy gives up, not an indicator of a weird build)
 const EXCLUDED_ITEM_IDS = new Set([223]); // 223 = Meteor Hammer
@@ -398,11 +398,18 @@ async function main() {
       // Use avg_rank_tier from the publicMatches response (more reliable than detail)
       const pmAvgRankTier = pm.avg_rank_tier;
 
+      // Track which teams already contributed a puzzle in this match
+      // (player_slot 0-127 = Radiant, 128-255 = Dire)
+      const matchTeamCollected = new Set<"radiant" | "dire">();
+
       for (const player of detail.players) {
         if (puzzles.length >= TARGET_PUZZLES) break;
 
         const hero = heroes[player.hero_id];
         if (!hero) continue;
+
+        const team: "radiant" | "dire" = player.player_slot < 128 ? "radiant" : "dire";
+        if (matchTeamCollected.has(team)) continue;
 
         const playerItems = [
           player.item_0, player.item_1, player.item_2,
@@ -447,6 +454,7 @@ async function main() {
         });
 
         existingIds.add(puzzleId);
+        matchTeamCollected.add(team);
         console.log(
           `  [${puzzles.length}] ${hero.localized_name} (NW: ${player.net_worth}) score=${score.toFixed(2)}`,
         );
@@ -470,8 +478,12 @@ async function main() {
   writeFileSync(GLOBAL_STATS_PATH, "{}");
   console.log("  Reset puzzle-global-stats.json");
 
-  // Bump the localStorage persist key so all user progress resets
-  bumpGameStoreVersion();
+  // Only bump the localStorage persist key when explicitly requested
+  if (process.argv.includes("--reset-progress")) {
+    bumpGameStoreVersion();
+  } else {
+    console.log("  Skipped persist key bump (pass --reset-progress to reset user progress)");
+  }
 }
 
 /**

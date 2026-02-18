@@ -91,20 +91,20 @@ export type GameMode = "daily" | "puzzles";
 // ── Puzzles mode ──
 
 /** Total puzzles per mode grid (regular or hard) */
-export const PUZZLES_TOTAL = 20;
+export const PUZZLES_TOTAL = 30;
 /** Total hard-mode puzzles */
-export const HARD_PUZZLES_TOTAL = 20;
+export const HARD_PUZZLES_TOTAL = 30;
 /** Daily challenge puzzle buffer size */
 export const DAILY_POOL_SIZE = 10;
 
-/** Index offsets into puzzles.json (50 puzzles: 0-19 regular, 20-39 hard, 40-49 daily) */
+/** Index offsets into puzzles.json (70 puzzles: 0-29 regular, 30-59 hard, 60-69 daily) */
 export const REGULAR_POOL_START = 0;
-export const HARD_POOL_START = 20;
-export const DAILY_POOL_START = 40;
+export const HARD_POOL_START = 30;
+export const DAILY_POOL_START = 60;
 
 /** Grid layout for Puzzles mode */
 export const PUZZLES_GRID_COLS = 10;
-export const PUZZLES_GRID_ROWS = 2;
+export const PUZZLES_GRID_ROWS = 3;
 
 export type GuessLevel = 1 | 2 | 3 | 4;
 

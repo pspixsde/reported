@@ -1,10 +1,11 @@
 import en from "./en";
 import ru from "./ru";
 import es from "./es";
+import pt from "./pt";
 import type { TranslationKey } from "./en";
 import { useSettingsStore, type Locale } from "@/stores/settings-store";
 
-const translations: Record<Locale, Record<TranslationKey, string>> = { en, ru, es };
+const translations: Record<Locale, Record<TranslationKey, string>> = { en, ru, es, pt };
 
 /**
  * Simple interpolation: replaces {key} placeholders in a string.
