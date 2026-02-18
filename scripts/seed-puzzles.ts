@@ -27,7 +27,7 @@ const TARGET_PUZZLES = 70;
 const MAX_BATCHES = 120;
 const RATE_LIMIT_MS = 1100;
 const MIN_ITEM_COST = 1200;
-const UNUSUAL_THRESHOLD = 0.65;
+const UNUSUAL_THRESHOLD = 0.7;
 const MATCHES_TO_DETAIL = 25;
 // Penalty subtracted per top-10 popular item in a build
 const POPULAR_PENALTY = 0.4;
