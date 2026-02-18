@@ -1,5 +1,6 @@
 import { readFileSync, writeFileSync, existsSync } from "fs";
 import { resolve } from "path";
+import { getRedis } from "./redis";
 
 const STATS_PATH = resolve(process.cwd(), "src/data/puzzle-global-stats.json");
 
@@ -24,7 +25,9 @@ interface PuzzleStats {
 
 type StatsMap = Record<string, PuzzleStats>;
 
-function loadStats(): StatsMap {
+// ── File-based fallback (local dev) ──
+
+function loadStatsFile(): StatsMap {
   if (!existsSync(STATS_PATH)) return {};
   try {
     return JSON.parse(readFileSync(STATS_PATH, "utf-8"));
@@ -33,7 +36,7 @@ function loadStats(): StatsMap {
   }
 }
 
-function saveStats(stats: StatsMap): void {
+function saveStatsFile(stats: StatsMap): void {
   writeFileSync(STATS_PATH, JSON.stringify(stats, null, 2));
 }
 
@@ -56,101 +59,129 @@ function ensureLevel(ps: PuzzleStats, level: string): LevelStat {
   return ps.levels[level];
 }
 
-/**
- * Record a single level guess result.
- * If `score` is provided, also record a puzzle completion.
- * If `date` is provided, also record into the daily partition.
- */
-export function recordGuess(
+// ── KV key helpers ──
+
+function statsKey(puzzleId: string): string {
+  return `stats:${puzzleId}`;
+}
+
+// ── Default empty stats ──
+
+function emptyStats(): PuzzleStats {
+  return { levels: {}, totalScore: 0, completions: 0, survey: { yes: 0, no: 0 } };
+}
+
+// ── Public API (async, works with KV or file fallback) ──
+
+export async function recordGuess(
   puzzleId: string,
   level: number,
   correct: boolean,
   score?: number,
   date?: string,
-): void {
-  const stats = loadStats();
-  const ps = ensurePuzzle(stats, puzzleId);
-  const ls = ensureLevel(ps, String(level));
+): Promise<void> {
+  const redis = getRedis();
 
+  if (!redis) {
+    // File fallback
+    const stats = loadStatsFile();
+    const ps = ensurePuzzle(stats, puzzleId);
+    const ls = ensureLevel(ps, String(level));
+    ls.total++;
+    if (correct) ls.correct++;
+    if (score !== undefined) { ps.totalScore += score; ps.completions++; }
+    if (date) {
+      if (!ps.daily) ps.daily = {};
+      if (!ps.daily[date]) ps.daily[date] = { levels: {}, totalScore: 0, completions: 0 };
+      const day = ps.daily[date];
+      if (!day.levels[String(level)]) day.levels[String(level)] = { correct: 0, total: 0 };
+      const dls = day.levels[String(level)];
+      dls.total++;
+      if (correct) dls.correct++;
+      if (score !== undefined) { day.totalScore += score; day.completions++; }
+    }
+    saveStatsFile(stats);
+    return;
+  }
+
+  // KV path
+  const key = statsKey(puzzleId);
+  const ps: PuzzleStats = (await redis.get(key)) ?? emptyStats();
+
+  if (!ps.levels[String(level)]) ps.levels[String(level)] = { correct: 0, total: 0 };
+  const ls = ps.levels[String(level)];
   ls.total++;
   if (correct) ls.correct++;
-
-  if (score !== undefined) {
-    ps.totalScore += score;
-    ps.completions++;
-  }
+  if (score !== undefined) { ps.totalScore += score; ps.completions++; }
 
   if (date) {
     if (!ps.daily) ps.daily = {};
-    if (!ps.daily[date]) {
-      ps.daily[date] = { levels: {}, totalScore: 0, completions: 0 };
-    }
+    if (!ps.daily[date]) ps.daily[date] = { levels: {}, totalScore: 0, completions: 0 };
     const day = ps.daily[date];
-    if (!day.levels[String(level)]) {
-      day.levels[String(level)] = { correct: 0, total: 0 };
-    }
+    if (!day.levels[String(level)]) day.levels[String(level)] = { correct: 0, total: 0 };
     const dls = day.levels[String(level)];
     dls.total++;
     if (correct) dls.correct++;
-
-    if (score !== undefined) {
-      day.totalScore += score;
-      day.completions++;
-    }
+    if (score !== undefined) { day.totalScore += score; day.completions++; }
   }
 
-  saveStats(stats);
+  await redis.set(key, ps);
 }
 
-/**
- * Record a survey response and return the report percentage.
- */
-export function recordSurvey(
+export async function recordSurvey(
   puzzleId: string,
   response: "yes" | "no",
-): number {
-  const stats = loadStats();
-  const ps = ensurePuzzle(stats, puzzleId);
+): Promise<number> {
+  const redis = getRedis();
 
-  if (response === "yes") ps.survey.yes++;
-  else ps.survey.no++;
+  if (!redis) {
+    const stats = loadStatsFile();
+    const ps = ensurePuzzle(stats, puzzleId);
+    if (response === "yes") ps.survey.yes++; else ps.survey.no++;
+    saveStatsFile(stats);
+    const total = ps.survey.yes + ps.survey.no;
+    return total > 0 ? Math.round((ps.survey.yes / total) * 100) : 0;
+  }
 
-  saveStats(stats);
+  const key = statsKey(puzzleId);
+  const ps: PuzzleStats = (await redis.get(key)) ?? emptyStats();
+  if (!ps.survey) ps.survey = { yes: 0, no: 0 };
+  if (response === "yes") ps.survey.yes++; else ps.survey.no++;
+  await redis.set(key, ps);
 
   const total = ps.survey.yes + ps.survey.no;
   return total > 0 ? Math.round((ps.survey.yes / total) * 100) : 0;
 }
 
-/**
- * Get stats for a puzzle. If `date` is provided, return daily-partitioned stats.
- */
-export function getPuzzleStats(
+export async function getPuzzleStats(
   puzzleId: string,
   date?: string,
-): {
+): Promise<{
   levels: Record<string, LevelStat>;
   totalScore: number;
   completions: number;
   survey: { yes: number; no: number };
-} | null {
-  const stats = loadStats();
-  const ps = stats[puzzleId];
+} | null> {
+  const redis = getRedis();
+
+  if (!redis) {
+    const stats = loadStatsFile();
+    const ps = stats[puzzleId];
+    if (!ps) return null;
+    if (date && ps.daily?.[date]) {
+      const day = ps.daily[date];
+      return { levels: day.levels, totalScore: day.totalScore, completions: day.completions, survey: ps.survey };
+    }
+    return { levels: ps.levels, totalScore: ps.totalScore, completions: ps.completions, survey: ps.survey };
+  }
+
+  const ps: PuzzleStats | null = await redis.get(statsKey(puzzleId));
   if (!ps) return null;
 
   if (date && ps.daily?.[date]) {
     const day = ps.daily[date];
-    return {
-      levels: day.levels,
-      totalScore: day.totalScore,
-      completions: day.completions,
-      survey: ps.survey,
-    };
+    return { levels: day.levels, totalScore: day.totalScore, completions: day.completions, survey: ps.survey };
   }
 
-  return {
-    levels: ps.levels,
-    totalScore: ps.totalScore,
-    completions: ps.completions,
-    survey: ps.survey,
-  };
+  return { levels: ps.levels, totalScore: ps.totalScore, completions: ps.completions, survey: ps.survey };
 }

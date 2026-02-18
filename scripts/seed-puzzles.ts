@@ -6,12 +6,28 @@
  *      endpoint (aggregated data from millions of matches) and build a
  *      per-hero "normal items" baseline (hero-item-popularity.json)
  *   2. Fetch ranked match details, score builds against the baseline,
- *      and collect 150 unusual-build puzzles
+ *      and collect unusual-build puzzles
+ *   3. Upload puzzles to Upstash Redis (KV) for production use
  *
  * Run with: npm run seed:puzzles
  */
 import { readFileSync, writeFileSync, existsSync } from "fs";
 import { resolve } from "path";
+import { Redis } from "@upstash/redis";
+
+// Load .env.local for KV credentials (not auto-loaded outside Next.js)
+const ENV_PATH = resolve(__dirname, "../.env.local");
+if (existsSync(ENV_PATH)) {
+  for (const line of readFileSync(ENV_PATH, "utf-8").split("\n")) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith("#")) continue;
+    const eqIdx = trimmed.indexOf("=");
+    if (eqIdx === -1) continue;
+    const key = trimmed.slice(0, eqIdx).trim();
+    const val = trimmed.slice(eqIdx + 1).trim();
+    if (!process.env[key]) process.env[key] = val;
+  }
+}
 
 const BASE_URL = "https://api.opendota.com/api";
 const DATA_DIR = resolve(__dirname, "../src/data");
@@ -474,9 +490,12 @@ async function main() {
     );
   }
 
-  // Reset global stats (old puzzle IDs no longer valid)
+  // Upload puzzles to KV for production
+  await uploadPuzzlesToKV(puzzles);
+
+  // Reset local stats file (for dev fallback)
   writeFileSync(GLOBAL_STATS_PATH, "{}");
-  console.log("  Reset puzzle-global-stats.json");
+  console.log("  Reset local puzzle-global-stats.json");
 
   // Only bump the localStorage persist key when explicitly requested
   if (process.argv.includes("--reset-progress")) {
@@ -484,6 +503,24 @@ async function main() {
   } else {
     console.log("  Skipped persist key bump (pass --reset-progress to reset user progress)");
   }
+}
+
+/**
+ * Upload all puzzles to Upstash Redis (KV) so the production app
+ * can read them without needing puzzles.json in the repo.
+ */
+async function uploadPuzzlesToKV(puzzles: Puzzle[]): Promise<void> {
+  const url = process.env.KV_REST_API_URL;
+  const token = process.env.KV_REST_API_TOKEN;
+
+  if (!url || !token) {
+    console.log("  No KV credentials found — skipped KV upload (local file only)");
+    return;
+  }
+
+  const redis = new Redis({ url, token });
+  await redis.set("puzzles:all", puzzles);
+  console.log(`  Uploaded ${puzzles.length} puzzles to KV (key: puzzles:all)`);
 }
 
 /**

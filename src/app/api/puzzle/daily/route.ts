@@ -9,7 +9,7 @@ import { recordGuess } from "@/lib/stats-server";
  */
 export async function GET() {
   try {
-    const puzzles = getAllPuzzles();
+    const puzzles = await getAllPuzzles();
     if (puzzles.length === 0) {
       return NextResponse.json({ error: "No puzzles available" }, { status: 500 });
     }
@@ -44,7 +44,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const puzzle = getPuzzleById(puzzleId);
+    const puzzle = await getPuzzleById(puzzleId);
     if (!puzzle) {
       return NextResponse.json(
         { error: "Puzzle not found" },
@@ -79,7 +79,7 @@ export async function POST(request: Request) {
     const maxLevel = 3;
     const isComplete = level >= maxLevel;
     const score = isComplete ? (body.runningScore ?? 0) + (correct ? 1 : 0) : undefined;
-    recordGuess(puzzleId, level, correct, score, today);
+    await recordGuess(puzzleId, level, correct, score, today);
 
     return NextResponse.json({ correct, answer });
   } catch {

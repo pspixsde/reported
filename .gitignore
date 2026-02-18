@@ -31,6 +31,12 @@ yarn-error.log*
 # env files
 .env*.local
 
+# puzzle data (contains answers — must not be in public repo)
+src/data/puzzles.json
+src/data/puzzle-global-stats.json
+src/data/survey-responses.json
+src/data/hero-item-popularity.json
+
 # vercel
 .vercel
 
