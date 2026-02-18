@@ -6,6 +6,13 @@ export const metadata: Metadata = {
   title: "Reported - Dota 2 Build Guessing Game",
   description:
     "A Wordle-like game for Dota 2 players. Guess outcomes from unusual builds during queue time.",
+  metadataBase: new URL("https://reported-dota.org"),
+  openGraph: {
+    title: "Reported - Dota 2 Build Guessing Game",
+    description: "Guess the outcome of real Dota 2 matches featuring unusual, off-meta builds.",
+    siteName: "Reported",
+    type: "website",
+  },
 };
 
 export default function RootLayout({

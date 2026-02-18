@@ -72,16 +72,16 @@ export const rankNameToNumber: Record<RankBracket, number> = {
   Immortal: 8,
 };
 
-/** Rank medal emoticon images from the Dota 2 wiki */
+/** Rank medal images (self-hosted in public/ranks/) */
 export const RANK_MEDAL_URLS: Record<RankBracket, string> = {
-  Herald: "https://static.wikia.nocookie.net/dota2_gamepedia/images/8/87/Emoticon_Ranked_Herald.png/revision/latest?cb=20190212051846",
-  Guardian: "https://static.wikia.nocookie.net/dota2_gamepedia/images/4/43/Emoticon_Ranked_Guardian.png/revision/latest?cb=20190212051853",
-  Crusader: "https://static.wikia.nocookie.net/dota2_gamepedia/images/2/2d/Emoticon_Ranked_Crusader.png/revision/latest?cb=20190212051853",
-  Archon: "https://static.wikia.nocookie.net/dota2_gamepedia/images/1/13/Emoticon_Ranked_Archon.png/revision/latest?cb=20190212051853",
-  Legend: "https://static.wikia.nocookie.net/dota2_gamepedia/images/1/18/Emoticon_Ranked_Legend.png/revision/latest?cb=20190212051853",
-  Ancient: "https://static.wikia.nocookie.net/dota2_gamepedia/images/d/d8/Emoticon_Ranked_Ancient.png/revision/latest?cb=20190212051853",
-  Divine: "https://static.wikia.nocookie.net/dota2_gamepedia/images/6/6d/Emoticon_Ranked_Divine.png/revision/latest?cb=20190212051853",
-  Immortal: "https://static.wikia.nocookie.net/dota2_gamepedia/images/3/3e/Emoticon_Ranked_Immortal.png/revision/latest?cb=20190212051853",
+  Herald: "/ranks/herald.png",
+  Guardian: "/ranks/guardian.png",
+  Crusader: "/ranks/crusader.png",
+  Archon: "/ranks/archon.png",
+  Legend: "/ranks/legend.png",
+  Ancient: "/ranks/ancient.png",
+  Divine: "/ranks/divine.png",
+  Immortal: "/ranks/immortal.png",
 };
 
 // ── Game state ──

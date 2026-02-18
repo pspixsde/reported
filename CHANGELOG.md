@@ -1,5 +1,25 @@
 # Changelog
 
+## v1.0.0 — 2026-02-18
+
+First public release — live at [reported-dota.org](https://reported-dota.org).
+
+### Highlights
+
+- Deployed to **Vercel** with custom domain
+- Puzzle data and global stats powered by **Upstash Redis** (no sensitive data in the public repo)
+- All puzzle answers removed from version control for security
+- Zero personal data collected — fully privacy-respecting
+
+### Infrastructure
+
+- Production storage migrated from local JSON files to Upstash Redis (KV)
+- Seed script uploads puzzles to KV automatically when credentials are available
+- Local development falls back to file-based storage seamlessly
+- `.env.example` added for easy onboarding
+
+---
+
 ## v0.6.1 — 2026-02-18
 
 ### Fixed
