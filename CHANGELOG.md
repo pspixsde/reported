@@ -15,7 +15,7 @@
 - **"Average score"** label renamed to **"Average Global Score"** in results
 - **"Completed today"** in the daily challenge card no longer shows the score
 - **Language selector** now always displays language names in their native language (e.g. "Русский" instead of "Russian")
-- **Puzzle counts extended**: 30 puzzles per mode (up from 20), 70 total collected (up from 50)
+- **Puzzle counts extended**: 30 puzzles per mode (up from 20), daily pool expanded to 30 (up from 10), 90 total collected (up from 50)
 - **MIN_NET_WORTH** raised from 7,000 to 7,500 in `seed-puzzles.ts`
 - **UNUSUAL_THRESHOLD** raised from 0.65 to 0.7 in `seed-puzzles.ts`
 - **Seed script team limit**: at most one unusual build per team per match is collected, preventing two puzzles from the same side of a game
