@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/react";
 import { SettingsProvider } from "@/components/SettingsProvider";
 import "./globals.css";
 
@@ -24,6 +25,7 @@ export default function RootLayout({
     <html lang="en">
       <body className="min-h-screen antialiased">
         <SettingsProvider>{children}</SettingsProvider>
+        <Analytics />
       </body>
     </html>
   );
