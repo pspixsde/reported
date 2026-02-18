@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { readFileSync, writeFileSync, existsSync } from "fs";
 import { resolve } from "path";
+import { recordSurvey } from "@/lib/stats-server";
 
 const SURVEY_PATH = resolve(process.cwd(), "src/data/survey-responses.json");
 
@@ -49,7 +50,9 @@ export async function POST(request: Request) {
     responses.push(entry);
     writeFileSync(SURVEY_PATH, JSON.stringify(responses, null, 2));
 
-    return NextResponse.json({ ok: true });
+    const reportPercent = recordSurvey(puzzleId, response as "yes" | "no");
+
+    return NextResponse.json({ ok: true, reportPercent });
   } catch {
     return NextResponse.json(
       { error: "Failed to save survey response" },

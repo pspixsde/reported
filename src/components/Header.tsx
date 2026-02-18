@@ -145,6 +145,7 @@ function LanguageSelector({ onClose }: { onClose: () => void }) {
   const languages: { code: Locale; label: string; flag: React.ReactNode }[] = [
     { code: "en", label: t("lang.en"), flag: <EnglishFlagIcon /> },
     { code: "ru", label: t("lang.ru"), flag: <RussianFlagIcon /> },
+    { code: "es", label: t("lang.es"), flag: <SpanishFlagIcon /> },
   ];
 
   function handleSelect(code: Locale) {
@@ -255,7 +256,9 @@ function ColorblindToggle() {
 
 function LanguageFlagIcon() {
   const locale = useSettingsStore((s) => s.locale);
-  return locale === "ru" ? <RussianFlagIcon /> : <EnglishFlagIcon />;
+  if (locale === "ru") return <RussianFlagIcon />;
+  if (locale === "es") return <SpanishFlagIcon />;
+  return <EnglishFlagIcon />;
 }
 
 function EnglishFlagIcon() {
@@ -289,6 +292,16 @@ function RussianFlagIcon() {
       <rect width="60" height="10" fill="#fff" />
       <rect y="10" width="60" height="10" fill="#0039A6" />
       <rect y="20" width="60" height="10" fill="#D52B1E" />
+    </svg>
+  );
+}
+
+function SpanishFlagIcon() {
+  return (
+    <svg className="h-5 w-5 overflow-hidden rounded-sm" viewBox="0 0 60 30">
+      <rect width="60" height="7.5" fill="#AA151B" />
+      <rect y="7.5" width="60" height="15" fill="#F1BF00" />
+      <rect y="22.5" width="60" height="7.5" fill="#AA151B" />
     </svg>
   );
 }

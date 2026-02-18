@@ -28,8 +28,8 @@ const ru: Record<TranslationKey, string> = {
 
   // ── Settings ──
   "settings.title": "Настройки",
-  "settings.easyMode": "Лёгкий режим",
-  "settings.easyMode.desc": "Показывает золото и крипов. Зелёный логотип.",
+  "settings.easyMode": "Больше статистики",
+  "settings.easyMode.desc": "Показывает золото и крипов.",
   "settings.colorblind": "Режим дальтонизма",
   "settings.colorblind.desc": "Синий/оранжевый вместо зелёного/красного",
 
@@ -37,6 +37,7 @@ const ru: Record<TranslationKey, string> = {
   "lang.title": "Язык",
   "lang.en": "Английский",
   "lang.ru": "Русский",
+  "lang.es": "Испанский",
   "lang.selected": "Выбран",
   "lang.more": "Выберите предпочитаемый язык.",
 
@@ -74,6 +75,11 @@ const ru: Record<TranslationKey, string> = {
   "score.1": "Неплохо, но всё ещё зарепорчен.",
   "score.2": "Близко! Почти сошло с рук.",
   "score.3": "Идеальное чтение! Этот игрок чист.",
+  "score.hard.0": "Гриф! Повезёт в следующий раз.",
+  "score.hard.1": "Не лучший результат, но могло быть хуже.",
+  "score.hard.2": "Неплохо, но всё ещё зарепорчен.",
+  "score.hard.3": "Близко! Почти сошло с рук.",
+  "score.hard.4": "Идеальное чтение! Этот игрок чист.",
   "score.hero": "Герой: {name}",
   "score.matchId": "ID матча:",
   "score.puzzleOf": "Пазл {current} из {total}",
@@ -132,6 +138,12 @@ const ru: Record<TranslationKey, string> = {
   "survey.yes": "Да, репорт",
   "survey.no": "Нет, всё нормально",
   "survey.thanks": "Спасибо за отзыв!",
+  "survey.reportPercent": "{percent}% игроков зарепортили бы эту сборку.",
+
+  // ── Global stats ──
+  "stats.levelCorrect": "{percent}% игроков угадали правильно",
+  "stats.levelCorrect.daily": "{percent}% игроков угадали правильно сегодня",
+  "stats.avgScore": "Средний результат: {avg}/{max}",
 };
 
 export default ru;

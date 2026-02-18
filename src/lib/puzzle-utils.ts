@@ -67,16 +67,27 @@ function generateKdaOptions(puzzle: Puzzle): string[] {
   const fakes: string[] = [];
   const seen = new Set<string>([real]);
 
+  function totalDiff(k: number, d: number, a: number, rk: number, rd: number, ra: number): number {
+    return Math.abs(k - rk) + Math.abs(d - rd) + Math.abs(a - ra);
+  }
+
   while (fakes.length < 3) {
-    // Vary each component by ±1..5, clamped to >= 0
-    const k = Math.max(0, puzzle.kills + Math.floor(nextRng() * 9) - 4);
-    const d = Math.max(0, puzzle.deaths + Math.floor(nextRng() * 9) - 4);
-    const a = Math.max(0, puzzle.assists + Math.floor(nextRng() * 9) - 4);
+    const k = Math.max(0, puzzle.kills + Math.floor(nextRng() * 15) - 7);
+    const d = Math.max(0, puzzle.deaths + Math.floor(nextRng() * 15) - 7);
+    const a = Math.max(0, puzzle.assists + Math.floor(nextRng() * 15) - 7);
     const fake = `${k}/${d}/${a}`;
-    if (!seen.has(fake)) {
-      fakes.push(fake);
-      seen.add(fake);
-    }
+
+    if (seen.has(fake)) continue;
+    if (totalDiff(k, d, a, puzzle.kills, puzzle.deaths, puzzle.assists) < 3) continue;
+
+    const tooClose = fakes.some((f) => {
+      const [fk, fd, fa] = f.split("/").map(Number);
+      return totalDiff(k, d, a, fk, fd, fa) < 3;
+    });
+    if (tooClose) continue;
+
+    fakes.push(fake);
+    seen.add(fake);
   }
 
   // Combine and shuffle deterministically

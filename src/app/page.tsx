@@ -55,6 +55,7 @@ export default function Home() {
             <PuzzleCard />
             <ResultFeedback />
             {!completed && <GuessPanel />}
+            {!completed && <LevelGlobalStat />}
             {completed && <ReportSurvey />}
             {completed && <ScoreCard />}
           </div>
@@ -176,6 +177,27 @@ function ModeSelect() {
         </p>
       )}
     </div>
+  );
+}
+
+function LevelGlobalStat() {
+  const { t } = useTranslation();
+  const currentLevel = useGameStore((s) => s.currentLevel);
+  const mode = useGameStore((s) => s.mode);
+  const stats = useGameStore((s) => s.puzzleGlobalStats);
+
+  if (!stats) return null;
+
+  const levelStat = stats.levels[String(currentLevel)];
+  if (!levelStat || levelStat.total === 0) return null;
+
+  const percent = Math.round((levelStat.correct / levelStat.total) * 100);
+  const isDaily = mode === "daily";
+
+  return (
+    <p className="text-center text-xs text-dota-text-dim">
+      {t(isDaily ? "stats.levelCorrect.daily" : "stats.levelCorrect", { percent })}
+    </p>
   );
 }
 

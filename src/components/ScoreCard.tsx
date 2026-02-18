@@ -22,6 +22,7 @@ export function ScoreCard({ className }: ScoreCardProps) {
   const resetGame = useGameStore((s) => s.resetGame);
   const returnToPuzzleGrid = useGameStore((s) => s.returnToPuzzleGrid);
   const maxScore = useGameStore((s) => s.maxScore);
+  const globalStats = useGameStore((s) => s.puzzleGlobalStats);
 
   if (!completed) return null;
 
@@ -32,7 +33,9 @@ export function ScoreCard({ className }: ScoreCardProps) {
     puzzle?.hero ||
     "Unknown";
 
-  const scoreKey = `score.${Math.min(score, 3)}` as "score.0" | "score.1" | "score.2" | "score.3";
+  const scoreKey = max === 4
+    ? (`score.hard.${score}` as "score.hard.0" | "score.hard.1" | "score.hard.2" | "score.hard.3" | "score.hard.4")
+    : (`score.${Math.min(score, 3)}` as "score.0" | "score.1" | "score.2" | "score.3");
 
   const shareText = generateShareText(score, max, results.map((r) => r.correct));
 
@@ -57,6 +60,14 @@ export function ScoreCard({ className }: ScoreCardProps) {
       {/* Score */}
       <div className="mb-2 text-5xl font-black text-dota-gold">{score}/{max}</div>
       <p className="text-sm text-dota-text-dim">{t(scoreKey)}</p>
+      {globalStats && globalStats.completions > 0 && (
+        <p className="mt-1 text-xs text-dota-text-dim">
+          {t("stats.avgScore", {
+            avg: (globalStats.totalScore / globalStats.completions).toFixed(1),
+            max,
+          })}
+        </p>
+      )}
       <p className="mt-1 text-xs text-dota-text-dim">
         {t("score.hero", { name: heroName })}
       </p>

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getAllPuzzles, getPuzzleById, getAllHeroIds } from "@/lib/puzzles-server";
 import { getPuzzleAssignments, stripAnswers, generateHeroOptions } from "@/lib/puzzle-utils";
 import { PUZZLES_TOTAL } from "@/lib/game-types";
+import { recordGuess } from "@/lib/stats-server";
 
 /**
  * GET /api/puzzle/level?index=0&hard=false
@@ -138,6 +139,11 @@ export async function POST(request: Request) {
           );
       }
     }
+
+    const maxLevel = hard ? 4 : 3;
+    const isComplete = level >= maxLevel;
+    const score = isComplete ? (body.runningScore ?? 0) + (correct ? 1 : 0) : undefined;
+    recordGuess(puzzleId, level, correct, score);
 
     return NextResponse.json({ correct, answer });
   } catch {

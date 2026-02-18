@@ -28,5 +28,45 @@
     "puzzleId": "8694904999-72",
     "response": "no",
     "timestamp": "2026-02-17T15:40:33.220Z"
+  },
+  {
+    "puzzleId": "8694903651-1",
+    "response": "yes",
+    "timestamp": "2026-02-17T18:41:10.318Z"
+  },
+  {
+    "puzzleId": "8694915707-14",
+    "response": "yes",
+    "timestamp": "2026-02-17T18:42:46.474Z"
+  },
+  {
+    "puzzleId": "8694908546-93",
+    "response": "yes",
+    "timestamp": "2026-02-17T19:25:37.776Z"
+  },
+  {
+    "puzzleId": "8694905061-10",
+    "response": "yes",
+    "timestamp": "2026-02-17T19:28:20.720Z"
+  },
+  {
+    "puzzleId": "8694908583-25",
+    "response": "no",
+    "timestamp": "2026-02-17T22:00:07.235Z"
+  },
+  {
+    "puzzleId": "8694908546-25",
+    "response": "no",
+    "timestamp": "2026-02-17T23:27:42.445Z"
+  },
+  {
+    "puzzleId": "8694903648-11",
+    "response": "no",
+    "timestamp": "2026-02-18T00:19:36.534Z"
+  },
+  {
+    "puzzleId": "8695462719-44",
+    "response": "yes",
+    "timestamp": "2026-02-18T00:41:26.235Z"
   }
 ]

@@ -86,24 +86,26 @@ function LevelIndicator({
     : [t("guess.winloss"), t("guess.kda"), t("guess.rank")];
 
   return (
-    <div className="flex items-center gap-2">
+    <div className={cn("flex items-center overflow-hidden", hard ? "gap-1" : "gap-2")}>
       {labels.slice(0, total).map((label, i) => {
         const level = (i + 1) as GuessLevel;
         const isActive = level === current;
         const isPast = level < current;
         return (
-          <div key={label} className="flex items-center gap-2">
+          <div key={label} className={cn("flex items-center", hard ? "gap-1" : "gap-2")}>
             {i > 0 && (
               <div
                 className={cn(
-                  "h-px w-4",
+                  "h-px",
+                  hard ? "w-3" : "w-4",
                   isPast ? "bg-dota-gold" : "bg-dota-border",
                 )}
               />
             )}
             <div
               className={cn(
-                "flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium transition-colors",
+                "flex items-center gap-1.5 rounded-full py-1 text-xs font-medium transition-colors",
+                hard ? "px-2" : "px-3",
                 isActive && "bg-dota-gold/20 text-dota-gold",
                 isPast && "bg-dota-green/20 text-dota-green",
                 !isActive && !isPast && "text-dota-text-dim",
