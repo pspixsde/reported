@@ -263,6 +263,8 @@ export const useGameStore = create<GameStoreState>()(
             error: null,
             dailyDate: todayUTC(),
             dailyPuzzleId: puzzle.id,
+            dailyCompleted: false,
+            dailyScore: null,
             dailyCurrentLevel: 1,
             dailyResults: [],
           });
