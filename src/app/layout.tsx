@@ -14,6 +14,11 @@ export const metadata: Metadata = {
     siteName: "Reported",
     type: "website",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Reported - Dota 2 Build Guessing Game",
+    description: "Guess the outcome of real Dota 2 matches featuring unusual, off-meta builds.",
+  },
 };
 
 export default function RootLayout({
