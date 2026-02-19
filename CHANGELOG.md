@@ -5,18 +5,24 @@
 ### Fixed
 
 - **Rank medal images now self-hosted**: replaced unreliable Fandom wiki hotlinks with locally served PNGs in `public/ranks/`, fixing images not loading for some users
+- **Daily puzzle false-completion bug**: starting a new day's puzzle no longer shows it as already completed with 0/3 due to stale `dailyCompleted` state from the previous day
 - Removed stale `static.wikia.nocookie.net` remote pattern from `next.config.ts`
 
 ### Changed
 
+- **SEO-optimized meta tags**: title, description, and keywords updated to target search terms like "dota 2 daily puzzle", "rank guessing", "off-meta builds"
 - **Version number shown in footer**: app version displayed in the bottom-right corner
 - **README** updated with link to GitHub Issues for bug reports and feedback
 
 ### Added
 
 - **Favicon and apple-touch-icon**: gold "R" on dark navy, appears in browser tabs and iOS bookmarks
-- **Open Graph metadata**: proper title, description, and site name for social media link previews (Discord, Twitter, etc.)
+- **Open Graph preview card image**: 1200x630 banner for rich link previews on Reddit, Discord, Twitter, etc.
+- **Twitter card metadata**: `summary_large_image` card type for full-width previews
+- **Open Graph metadata**: title, description, and site name for social media link previews
 - **Vercel Web Analytics** integrated for anonymous page view tracking
+- **Google Search Console verification** meta tag
+- **`sitemap.xml`** for search engine indexing
 
 ### Removed
 
