@@ -5,9 +5,11 @@
 ## v1.0.1
 
 - Fixed rank medal images not showing for some players
+- Fixed a bug where the daily puzzle could show as already completed when it shouldn't
 - App version now visible in the footer
 - Added a website icon (browser tab and mobile bookmarks)
-- Links shared on Discord/Twitter now show a proper preview
+- Links shared on Reddit, Discord, and Twitter now show a rich preview card with image
+- Improved search engine visibility — the site is now easier to find on Google
 
 ---
 
