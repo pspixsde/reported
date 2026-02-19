@@ -19,6 +19,9 @@ export const metadata: Metadata = {
     title: "Reported - Dota 2 Build Guessing Game",
     description: "Guess the outcome of real Dota 2 matches featuring unusual, off-meta builds.",
   },
+  verification: {
+    google: "rCIk9Eon855LvgPnx3lDI0pna4B7jS7umYx0UzXQZUs",
+  },
 };
 
 export default function RootLayout({
