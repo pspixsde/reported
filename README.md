@@ -1,6 +1,6 @@
 # REPORTED
 
-A Wordle-inspired guessing game for Dota 2 players. You're shown a real ranked match featuring an unusual, off-meta build and challenged to guess the outcome.
+A free web-based guessing game for Dota 2 players. You're shown a real ranked match featuring an unusual, off-meta build and challenged to guess the outcome.
 
 **Live at [reported-dota.org](https://reported-dota.org)**
 
