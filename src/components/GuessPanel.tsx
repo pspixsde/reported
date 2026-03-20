@@ -7,6 +7,7 @@ import { useTranslation } from "@/i18n";
 import { RANK_BRACKETS, RANK_MEDAL_URLS } from "@/lib/game-types";
 import type { GuessLevel } from "@/lib/game-types";
 import { translateAnswer } from "@/lib/translate-answer";
+import { FacetBadge } from "./FacetBadge";
 
 interface GuessPanelProps {
   className?: string;
@@ -161,12 +162,13 @@ function HeroGuess({
           )}
       </p>
       <div className="grid grid-cols-2 gap-2">
-        {heroOptions.map((heroId) => {
+        {heroOptions.map((heroId, idx) => {
           const hero = heroes?.[heroId];
           const name = hero?.localized_name || `Hero ${heroId}`;
           const imgPath = hero?.img
             ? `https://cdn.cloudflare.steamstatic.com${hero.img}`
             : undefined;
+          const facet = puzzle?.facetOptions?.[idx] ?? null;
           return (
             <button
               key={heroId}
@@ -189,7 +191,10 @@ function HeroGuess({
                   unoptimized
                 />
               )}
-              <span className="truncate">{name}</span>
+              <div className="min-w-0">
+                <span className="block truncate">{name}</span>
+                <FacetBadge facet={facet} className="mt-1" />
+              </div>
             </button>
           );
         })}

@@ -1,8 +1,36 @@
 import { NextResponse } from "next/server";
-import { getAllPuzzles, getPuzzleById, getAllHeroIds } from "@/lib/puzzles-server";
+import {
+  getAllPuzzles,
+  getPuzzleById,
+  getAllHeroIds,
+  getHeroNameById,
+} from "@/lib/puzzles-server";
 import { getPuzzleAssignments, stripAnswers, generateHeroOptions } from "@/lib/puzzle-utils";
+import { getFacetsForHero } from "@/lib/hero-abilities-server";
+import type { FacetInfo } from "@/lib/game-types";
 import { PUZZLES_TOTAL } from "@/lib/game-types";
 import { recordGuess } from "@/lib/stats-server";
+
+function hashString(input: string): number {
+  let hash = 5381;
+  for (let i = 0; i < input.length; i++) {
+    hash = (hash * 33) ^ input.charCodeAt(i);
+  }
+  return hash >>> 0;
+}
+
+function pickDeterministicFacet(
+  puzzleId: string,
+  heroId: number,
+  heroName: string | undefined,
+  fallback?: FacetInfo,
+): FacetInfo | null {
+  if (!heroName) return fallback ?? null;
+  const facets = getFacetsForHero(heroName);
+  if (facets.length === 0) return fallback ?? null;
+  const idx = hashString(`${puzzleId}-${heroId}-facet`) % facets.length;
+  return facets[idx];
+}
 
 /**
  * GET /api/puzzle/level?index=0&hard=false
@@ -46,7 +74,18 @@ export async function GET(request: Request) {
     if (hard) {
       const allHeroIds = getAllHeroIds();
       const heroOpts = generateHeroOptions(puzzle, allHeroIds);
-      return NextResponse.json(stripAnswers(puzzle, heroOpts));
+      const base = stripAnswers(puzzle, heroOpts);
+      base.facetOptions = heroOpts.map((heroId) => {
+        if (heroId === puzzle.heroId) {
+          return puzzle.facet ?? pickDeterministicFacet(puzzle.id, heroId, puzzle.hero);
+        }
+        return pickDeterministicFacet(
+          puzzle.id,
+          heroId,
+          getHeroNameById(heroId),
+        );
+      });
+      return NextResponse.json(base);
     }
 
     return NextResponse.json(stripAnswers(puzzle));

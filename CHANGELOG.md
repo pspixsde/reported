@@ -1,5 +1,61 @@
 # Changelog
 
+## v1.1.0 — 2026-03-19
+
+### Fixed
+
+- **Daily global stats day-boundary bug**: `GET /api/stats/puzzle` now returns empty daily stats when a daily partition for today does not exist yet, preventing the first player of a new day from seeing yesterday/all-time values in "today" stats
+- **KDA answer exploit hardening**: KDA option generation was redesigned to reduce deterministic outlier elimination patterns and now re-rolls options if the real answer is trivially isolatable by min/max filtering
+- **Back-to-menu navigation**: back buttons now navigate to `/` after resetting state, preventing re-entry into gameplay loops on mode pages
+- **Aghanim effect detection reliability**: seed pipeline now derives Scepter/Shard effects from OpenDota `aghanims_scepter` / `aghanims_shard` fields with additional Scepter inventory fallback, fixing missing effect badges in puzzle cards
+
+### Changed
+
+- **Puzzles mode restructured to 40 total on one screen**: puzzle pools were resized to 20 standard + 20 hard, both now shown together on the same grid page with separate section headings, colors, scoring, and independent numbering
+- **Hard mode toggle removed from grid**: hard/standard selection now happens by clicking directly in the corresponding section instead of toggling mode first
+- **Puzzle pool layout updated** in `game-types.ts`: regular pool `0-19`, hard pool `20-39`, daily pool `40-69`; seed target changed from `90` to `70`
+- **Route architecture upgraded from single-page flow to real routes**: gameplay now uses dedicated App Router pages at `/daily` and `/puzzles`, while `/` is the landing page
+- **Sitemap expanded** to include `/`, `/daily`, `/puzzles`, and `/clash`
+- **Main menu mode copy updated**: puzzles description now reads "20 standard and 20 hard puzzles. Complete them all."
+- **Puzzle refresh messaging simplified**: monthly countdown was replaced with static copy ("New puzzles every month!")
+- **Streak system removed** from UI and persisted state
+- **Local progress store version bumped** from `reported-game-v8` to `reported-game-v10` to avoid incompatible persisted state across puzzle/clash schema updates
+- **README updates**: Ko-fi support badge/link added and puzzles copy now reflects the 20+20 layout
+- **Main menu layout refreshed**: mode cards now use a two-row composition with a double-width Daily Challenge card above Puzzles and Build Clash
+- **Main menu stats simplified**: home screen now always shows only Daily Challenge Stats (Build Clash stats removed from the menu panel)
+- **Back-to-menu controls restyled**: all "Back to Menu" actions now use consistent button styling instead of text links
+- **Visual polish pass**: upgraded background treatment, stronger glass/card presentation, and richer Clash duel presentation
+- **Facet payload pass-through fixed**: Daily and standard Puzzles API payloads now include facet data so badges render consistently
+- **Build Clash guess/result copy polished**: internal A/B values were replaced by Player 1 / Player 2 presentation in guesses and post-level feedback, including cleaner rank assignment output
+- **Puzzles grid summary simplified**: removed per-section completion counters and split stats; the screen now shows a single overall progress counter and one combined stats block after the hard grid
+- **Build Clash level 2 reveal improved**: after submitting the better-KDA guess, results now reveal both players' full K/D/A and computed KDA ratio
+- **Build Clash rank swap animation refined**: level 3 swap now uses a single-pass transition to remove the previous double-swap visual artifact
+- **Build Clash rank UI alignment improved**: Player 1/Player 2 labels are now fixed outside the swap boxes, and only medal icons animate during swaps
+- **Weaver item popularity exception**: Gleipnir is now explicitly treated as a popular item for Weaver in the cached popularity map
+
+### Added
+
+- **Help modal in footer**: new "Help" button (alongside About/Privacy) with a user-friendly quick manual covering modes, levels, scoring, settings, and auto-save (EN/RU/ES/PT)
+- **Build Clash mode**: a third daily mode at `/clash` featuring paired off-meta builds and 3 guess levels (winner, better KDA ratio, rank assignment)
+- **Build Clash data seeding**: seed pipeline now generates 30 paired clash puzzles with constraints (`NW >= 9000`, max 4k net-worth gap, max 10m duration gap, rank gap >= 2, opposite outcomes)
+- **Facet support end-to-end**:
+  - seed pipeline now fetches hero facets from OpenDota constants and stores facet metadata in puzzle payloads
+  - new facet badge UI in Daily/Puzzles cards
+  - hard-mode hero options now include per-option facet data
+  - Build Clash cards render facet title/icon/color for both builds
+- **Vercel Speed Insights** integration via `@vercel/speed-insights` and `<SpeedInsights />` in root layout
+- **Google site name structured data**: `WebSite` JSON-LD added to root layout for stronger site-name signals in Search
+- **Bing indexing support improvements**:
+  - new `src/app/robots.ts` to serve `robots.txt` with sitemap reference
+  - optional Bing verification meta (`msvalidate.01`) via `NEXT_PUBLIC_BING_VERIFICATION`
+  - `.env.example` now documents Bing verification env variable
+- **Per-route SEO metadata** for `/daily`, `/puzzles`, and `/clash` pages
+- **Build Clash interaction upgrades**:
+  - VS badge and duel divider between both builds
+  - rank-assignment level now uses a centered swap control with animated medal/card swapping
+
+---
+
 ## v1.0.1 — 2026-02-18
 
 ### Fixed

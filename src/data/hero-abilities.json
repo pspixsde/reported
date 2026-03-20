@@ -1,0 +1,1906 @@
+{
+  "npc_dota_hero_antimage": [
+    {
+      "name": "antimage_magebanes_mirror",
+      "title": "Magebane's Mirror",
+      "icon": "ricochet",
+      "color": "Purple"
+    },
+    {
+      "name": "antimage_mana_thirst",
+      "title": "Mana Thirst",
+      "icon": "mana",
+      "color": "Blue"
+    }
+  ],
+  "npc_dota_hero_axe": [
+    {
+      "name": "axe_one_man_army",
+      "title": "One Man Army",
+      "icon": "strength",
+      "color": "Red"
+    },
+    {
+      "name": "axe_call_out",
+      "title": "Call Out",
+      "icon": "armor",
+      "color": "Red"
+    }
+  ],
+  "npc_dota_hero_bane": [
+    {
+      "name": "bane_dream_stalker",
+      "title": "Dream Stalker",
+      "icon": "damage",
+      "color": "Gray"
+    },
+    {
+      "name": "bane_sleepwalk",
+      "title": "Sleepwalk",
+      "icon": "movement",
+      "color": "Purple"
+    }
+  ],
+  "npc_dota_hero_bloodseeker": [
+    {
+      "name": "bloodseeker_arterial_spray",
+      "title": "Arterial Spray",
+      "icon": "movement",
+      "color": "Red"
+    },
+    {
+      "name": "bloodseeker_old_blood",
+      "title": "Old Blood",
+      "icon": "debuff",
+      "color": "Gray"
+    }
+  ],
+  "npc_dota_hero_crystal_maiden": [
+    {
+      "name": "crystal_maiden_glacial_guard",
+      "title": "Glacial Guard",
+      "icon": "armor",
+      "color": "Gray"
+    },
+    {
+      "name": "crystal_maiden_arcane_overflow",
+      "title": "Arcane Overflow",
+      "icon": "mana",
+      "color": "Blue"
+    }
+  ],
+  "npc_dota_hero_drow_ranger": [
+    {
+      "name": "drow_ranger_high_ground",
+      "title": "Vantage Point",
+      "icon": "damage",
+      "color": "Gray"
+    },
+    {
+      "name": "drow_ranger_sidestep",
+      "title": "Sidestep",
+      "icon": "multi_arrow",
+      "color": "Blue"
+    }
+  ],
+  "npc_dota_hero_earthshaker": [
+    {
+      "name": "earthshaker_tectonic_buildup",
+      "title": "Tectonic Buildup",
+      "icon": "area_of_effect",
+      "color": "Red"
+    },
+    {
+      "name": "earthshaker_reverberating_ridge",
+      "title": "Resonating Ridge",
+      "icon": "ricochet",
+      "color": "Gray"
+    }
+  ],
+  "npc_dota_hero_juggernaut": [
+    {
+      "name": "juggernaut_bladestorm",
+      "title": "Bladestorm",
+      "icon": "spinning",
+      "color": "Yellow"
+    },
+    {
+      "name": "juggernaut_agigain",
+      "title": "Bladeform",
+      "icon": "agility",
+      "color": "Red"
+    }
+  ],
+  "npc_dota_hero_mirana": [
+    {
+      "name": "mirana_starstruck",
+      "title": "Starstruck",
+      "icon": "no_vision",
+      "color": "Blue"
+    },
+    {
+      "name": "mirana_leaps_and_bounds",
+      "title": "Leaps and Bounds",
+      "icon": "slow",
+      "color": "Gray"
+    }
+  ],
+  "npc_dota_hero_nevermore": [
+    {
+      "name": "nevermore_lasting_presence",
+      "title": "Lasting Presence",
+      "icon": "armor_broken",
+      "color": "Gray"
+    },
+    {
+      "name": "nevermore_shadowmire",
+      "title": "Shadowmire",
+      "icon": "slow",
+      "color": "Red"
+    }
+  ],
+  "npc_dota_hero_morphling": [
+    {
+      "name": "morphling_agi",
+      "title": "Ebb",
+      "icon": "agility",
+      "color": "Green"
+    },
+    {
+      "name": "morphling_str",
+      "title": "Flow",
+      "icon": "strength",
+      "color": "Red"
+    }
+  ],
+  "npc_dota_hero_phantom_lancer": [
+    {
+      "name": "phantom_lancer_lancer",
+      "title": "Fractured",
+      "icon": "phantom_lance",
+      "color": "Yellow"
+    }
+  ],
+  "npc_dota_hero_puck": [
+    {
+      "name": "puck_jostling_rift",
+      "title": "Jostling Rift",
+      "icon": "movement",
+      "color": "Purple"
+    },
+    {
+      "name": "puck_curveball",
+      "title": "Curveball",
+      "icon": "curve_ball",
+      "color": "Blue"
+    }
+  ],
+  "npc_dota_hero_pudge": [
+    {
+      "name": "pudge_fresh_meat",
+      "title": "Fresh Meat",
+      "icon": "meat",
+      "color": "Red"
+    },
+    {
+      "name": "pudge_rotten_core",
+      "title": "Rotten Core",
+      "icon": "fist",
+      "color": "Green"
+    }
+  ],
+  "npc_dota_hero_razor": [
+    {
+      "name": "razor_thunderhead",
+      "title": "Thunderhead",
+      "icon": "barrier",
+      "color": "Gray"
+    },
+    {
+      "name": "razor_spellamp",
+      "title": "Dynamo",
+      "icon": "nuke",
+      "color": "Blue"
+    }
+  ],
+  "npc_dota_hero_sand_king": [
+    {
+      "name": "sand_king_obscurity",
+      "title": "Sandblast",
+      "icon": "no_vision",
+      "color": "Yellow"
+    },
+    {
+      "name": "sand_king_pinpoint",
+      "title": "Final Sting",
+      "icon": "area_of_effect",
+      "color": "Red"
+    }
+  ],
+  "npc_dota_hero_storm_spirit": [
+    {
+      "name": "storm_spirit_shock_collar",
+      "title": "Shock Collar",
+      "icon": "nuke",
+      "color": "Blue"
+    },
+    {
+      "name": "storm_spirit_static_slide",
+      "title": "Static Slide",
+      "icon": "movement",
+      "color": "Gray"
+    }
+  ],
+  "npc_dota_hero_sven": [
+    {
+      "name": "sven_heavy_plate",
+      "title": "Heavy Plate",
+      "icon": "armor",
+      "color": "Blue"
+    },
+    {
+      "name": "sven_strscaling",
+      "title": "Wrath of God",
+      "icon": "strength",
+      "color": "Red"
+    }
+  ],
+  "npc_dota_hero_tiny": [
+    {
+      "name": "tiny_crash_landing",
+      "title": "Crash Landing",
+      "icon": "nuke",
+      "color": "Gray"
+    },
+    {
+      "name": "tiny_insurmountable",
+      "title": "Insurmountable",
+      "icon": "armor",
+      "color": "Green"
+    }
+  ],
+  "npc_dota_hero_vengefulspirit": [
+    {
+      "name": "vengefulspirit_avenging_missile",
+      "title": "Avenging Missile",
+      "icon": "nuke",
+      "color": "Purple"
+    },
+    {
+      "name": "vvengefulspirit_melee",
+      "title": "Soul Strike",
+      "icon": "fist",
+      "color": "Blue"
+    }
+  ],
+  "npc_dota_hero_windrunner": [
+    {
+      "name": "windrunner_tangled",
+      "title": "Tangled",
+      "icon": "tree",
+      "color": "Yellow"
+    },
+    {
+      "name": "windrunner_killshot",
+      "title": "Killshot",
+      "icon": "execute",
+      "color": "Green"
+    }
+  ],
+  "npc_dota_hero_zuus": [
+    {
+      "name": "zuus_livewire",
+      "title": "Livewire",
+      "icon": "range",
+      "color": "Blue"
+    },
+    {
+      "name": "zuus_divine_rampage",
+      "title": "Divine Rampage",
+      "icon": "nuke",
+      "color": "Gray"
+    }
+  ],
+  "npc_dota_hero_kunkka": [
+    {
+      "name": "kunkka_high_tide",
+      "title": "High Tide",
+      "icon": "cooldown",
+      "color": "Blue"
+    },
+    {
+      "name": "kunkka_grog",
+      "title": "Grog Blossom",
+      "icon": "armor",
+      "color": "Yellow"
+    }
+  ],
+  "npc_dota_hero_lina": [
+    {
+      "name": "lina_supercharge",
+      "title": "Thermal Runaway",
+      "icon": "damage",
+      "color": "Yellow"
+    },
+    {
+      "name": "lina_dot",
+      "title": "Slow Burn",
+      "icon": "nuke",
+      "color": "Red"
+    }
+  ],
+  "npc_dota_hero_lich": [
+    {
+      "name": "lich_frostbound",
+      "title": "Frostbound",
+      "icon": "snowflake",
+      "color": "Blue"
+    },
+    {
+      "name": "lich_growing_cold",
+      "title": "Growing Cold",
+      "icon": "cooldown",
+      "color": "Gray"
+    },
+    {
+      "name": "lich_cryophobia",
+      "title": "Evil Eye",
+      "icon": "vision",
+      "color": "Red"
+    }
+  ],
+  "npc_dota_hero_lion": [
+    {
+      "name": "lion_essence_eater",
+      "title": "Essence Eater",
+      "icon": "nuke",
+      "color": "Purple"
+    },
+    {
+      "name": "lion_fist_of_death",
+      "title": "Fist of Death",
+      "icon": "fist",
+      "color": "Red"
+    }
+  ],
+  "npc_dota_hero_shadow_shaman": [
+    {
+      "name": "shadow_shaman_voodoo_hands",
+      "title": "Chicken Fingers",
+      "icon": "chicken",
+      "color": "Yellow"
+    },
+    {
+      "name": "shadow_shaman_massive_serpent_ward",
+      "title": "Massive Serpent Ward",
+      "icon": "snake",
+      "color": "Red"
+    }
+  ],
+  "npc_dota_hero_slardar": [
+    {
+      "name": "slardar_leg_day",
+      "title": "Leg Day",
+      "icon": "speed",
+      "color": "Red"
+    },
+    {
+      "name": "slardar_brineguard",
+      "title": "Brineguard",
+      "icon": "armor",
+      "color": "Purple"
+    }
+  ],
+  "npc_dota_hero_tidehunter": [
+    {
+      "name": "tidehunter_kraken_swell",
+      "title": "Kraken Swell",
+      "icon": "armor",
+      "color": "Green"
+    },
+    {
+      "name": "tidehunter_sizescale",
+      "title": "Krill Eater",
+      "icon": "overshadow",
+      "color": "Green"
+    }
+  ],
+  "npc_dota_hero_witch_doctor": [
+    {
+      "name": "witch_doctor_headhunter",
+      "title": "Headhunter",
+      "icon": "ricochet",
+      "color": "Gray"
+    },
+    {
+      "name": "witch_doctor_voodoo_festeration",
+      "title": "Voodoo Festeration",
+      "icon": "nuke",
+      "color": "Red"
+    },
+    {
+      "name": "witch_doctor_cleft_death",
+      "title": "Cleft Death",
+      "icon": "death_ward",
+      "color": "Purple"
+    },
+    {
+      "name": "witch_doctor_malpractice",
+      "title": "Malpractice",
+      "icon": "nuke",
+      "color": "Red"
+    }
+  ],
+  "npc_dota_hero_riki": [
+    {
+      "name": "riki_riki",
+      "title": "Cutthroat",
+      "icon": "execute",
+      "color": "Purple"
+    }
+  ],
+  "npc_dota_hero_enigma": [
+    {
+      "name": "enigma_gravity",
+      "title": "Event Horizon",
+      "icon": "slow",
+      "color": "Gray"
+    },
+    {
+      "name": "enigma_fragment",
+      "title": "Splitting Image",
+      "icon": "summons",
+      "color": "Purple"
+    }
+  ],
+  "npc_dota_hero_tinker": [
+    {
+      "name": "tinker_repair_bots",
+      "title": "Repair Bots",
+      "icon": "healing",
+      "color": "Blue"
+    },
+    {
+      "name": "tinker_translocator",
+      "title": "Translocator",
+      "icon": "movement",
+      "color": "Yellow"
+    }
+  ],
+  "npc_dota_hero_sniper": [
+    {
+      "name": "sniper_ghillie_suit",
+      "title": "Ghillie Suit",
+      "icon": "vision",
+      "color": "Yellow"
+    },
+    {
+      "name": "sniper_scattershot",
+      "title": "Scattershot",
+      "icon": "nuke",
+      "color": "Red"
+    }
+  ],
+  "npc_dota_hero_necrolyte": [
+    {
+      "name": "necrolyte_profane_potency",
+      "title": "Profane Potency",
+      "icon": "area_of_effect",
+      "color": "Yellow"
+    },
+    {
+      "name": "necrolyte_rapid_decay",
+      "title": "Rapid Decay",
+      "icon": "speed",
+      "color": "Green"
+    }
+  ],
+  "npc_dota_hero_warlock": [
+    {
+      "name": "warlock_golem",
+      "title": "Champion of Gorroth",
+      "icon": "summons",
+      "color": "Red"
+    },
+    {
+      "name": "warlock_grimoire",
+      "title": "Black Grimoire",
+      "icon": "xp",
+      "color": "Gray"
+    }
+  ],
+  "npc_dota_hero_beastmaster": [
+    {
+      "name": "beastmaster_wild_hunt",
+      "title": "Wild Hunt",
+      "icon": "summons",
+      "color": "Red"
+    },
+    {
+      "name": "beastmaster_beast_mode",
+      "title": "Beast Mode",
+      "icon": "damage",
+      "color": "Yellow"
+    }
+  ],
+  "npc_dota_hero_queenofpain": [
+    {
+      "name": "queenofpain_selfdmg",
+      "title": "Masochist",
+      "icon": "nuke",
+      "color": "Red"
+    },
+    {
+      "name": "queenofpain_facet_bondage",
+      "title": "Bondage",
+      "icon": "twin_hearts",
+      "color": "Blue"
+    }
+  ],
+  "npc_dota_hero_venomancer": [
+    {
+      "name": "venomancer_patient_zero",
+      "title": "Patient Zero",
+      "icon": "snot",
+      "color": "Green"
+    },
+    {
+      "name": "venomancer_plague_carrier",
+      "title": "Plague Carrier",
+      "icon": "summons",
+      "color": "Yellow"
+    }
+  ],
+  "npc_dota_hero_faceless_void": [
+    {
+      "name": "faceless_void_chronosphere",
+      "title": "Chronosphere",
+      "icon": "area_of_effect",
+      "color": "Green"
+    },
+    {
+      "name": "faceless_void_time_zone",
+      "title": "Time Zone",
+      "icon": "chrono_cube",
+      "color": "Purple"
+    }
+  ],
+  "npc_dota_hero_skeleton_king": [
+    {
+      "name": "skeleton_king_facet_bone_guard",
+      "title": "Bone Guard",
+      "icon": "summons",
+      "color": "Yellow"
+    },
+    {
+      "name": "skeleton_king_facet_cursed_blade",
+      "title": "Spectral Blade",
+      "icon": "damage",
+      "color": "Red"
+    }
+  ],
+  "npc_dota_hero_death_prophet": [
+    {
+      "name": "death_prophet_ghosts",
+      "title": "Spirit Collector",
+      "icon": "spirit",
+      "color": "Green"
+    },
+    {
+      "name": "death_prophet_delayed_damage",
+      "title": "Mourning Ritual",
+      "icon": "healing",
+      "color": "Red"
+    }
+  ],
+  "npc_dota_hero_phantom_assassin": [
+    {
+      "name": "phantom_assassin_veiled_one",
+      "title": "Veiled One",
+      "icon": "mana",
+      "color": "Blue"
+    },
+    {
+      "name": "phantom_assassin_methodical",
+      "title": "Methodical",
+      "icon": "skull",
+      "color": "Gray"
+    },
+    {
+      "name": "phantom_assassin_sweet_release",
+      "title": "Sweet Release",
+      "icon": "phantom_ass_dagger",
+      "color": "Red"
+    }
+  ],
+  "npc_dota_hero_pugna": [
+    {
+      "name": "pugna_siphoning_ward",
+      "title": "Siphoning Ward",
+      "icon": "healing",
+      "color": "Green"
+    },
+    {
+      "name": "pugna_rewards_of_ruin",
+      "title": "Rewards of Ruin",
+      "icon": "siege",
+      "color": "Purple"
+    }
+  ],
+  "npc_dota_hero_templar_assassin": [
+    {
+      "name": "templar_assassin_voidblades",
+      "title": "Voidblades",
+      "icon": "ricochet",
+      "color": "Gray"
+    },
+    {
+      "name": "templar_assassin_refractor",
+      "title": "Refractor",
+      "icon": "damage",
+      "color": "Purple"
+    },
+    {
+      "name": "templar_assassin_hidden_reach",
+      "title": "Hidden Reach",
+      "icon": "range",
+      "color": "Blue"
+    }
+  ],
+  "npc_dota_hero_viper": [
+    {
+      "name": "viper_poison_burst",
+      "title": "Poison Burst",
+      "icon": "area_of_effect",
+      "color": "Green"
+    },
+    {
+      "name": "viper_caustic_bath",
+      "title": "Caustic Bath",
+      "icon": "armor",
+      "color": "Yellow"
+    }
+  ],
+  "npc_dota_hero_luna": [
+    {
+      "name": "luna_moonshield",
+      "title": "Moonshield",
+      "icon": "armor",
+      "color": "Gray"
+    },
+    {
+      "name": "luna_moonstorm",
+      "title": "Moonstorm",
+      "icon": "damage",
+      "color": "Blue"
+    }
+  ],
+  "npc_dota_hero_dragon_knight": [
+    {
+      "name": "dragon_knight_fire_dragon",
+      "title": "Fire Dragon",
+      "icon": "dragon_fire",
+      "color": "Red"
+    },
+    {
+      "name": "dragon_knight_corrosive_dragon",
+      "title": "Corrosive Dragon",
+      "icon": "dragon_poison",
+      "color": "Green"
+    },
+    {
+      "name": "dragon_knight_frost_dragon",
+      "title": "Frost Dragon",
+      "icon": "dragon_frost",
+      "color": "Blue"
+    }
+  ],
+  "npc_dota_hero_dazzle": [
+    {
+      "name": "dazzle_facet_nothl_boon",
+      "title": "Nothl Boon",
+      "icon": "armor",
+      "color": "Red"
+    },
+    {
+      "name": "dazzle_poison_bloom",
+      "title": "Poison Bloom",
+      "icon": "ricochet",
+      "color": "Purple"
+    }
+  ],
+  "npc_dota_hero_rattletrap": [
+    {
+      "name": "rattletrap_hookup",
+      "title": "Hookup",
+      "icon": "cooldown",
+      "color": "Gray"
+    },
+    {
+      "name": "rattletrap_expanded_armature",
+      "title": "Expanded Armature",
+      "icon": "area_of_effect",
+      "color": "Red"
+    },
+    {
+      "name": "rattletrap_junk_mail",
+      "title": "Chainmeal",
+      "icon": "armor",
+      "color": "Yellow"
+    }
+  ],
+  "npc_dota_hero_leshrac": [
+    {
+      "name": "leshrac_attacks_mana",
+      "title": "Chronoptic Nourishment",
+      "icon": "mana",
+      "color": "Blue"
+    },
+    {
+      "name": "leshrac_misanthropy",
+      "title": "Misanthropy",
+      "icon": "nuke",
+      "color": "Purple"
+    }
+  ],
+  "npc_dota_hero_furion": [
+    {
+      "name": "furion_soothing_saplings",
+      "title": "Soothing Saplings",
+      "icon": "healing",
+      "color": "Green"
+    },
+    {
+      "name": "furion_natures_profit",
+      "title": "Nature's Profit",
+      "icon": "gold",
+      "color": "Yellow"
+    }
+  ],
+  "npc_dota_hero_life_stealer": [
+    {
+      "name": "life_stealer_fleshfeast",
+      "title": "Fleshfeast",
+      "icon": "full_heart",
+      "color": "Gray"
+    },
+    {
+      "name": "life_stealer_gorestorm",
+      "title": "Gorestorm",
+      "icon": "area_of_effect",
+      "color": "Red"
+    }
+  ],
+  "npc_dota_hero_dark_seer": [
+    {
+      "name": "dark_seer_atkspd",
+      "title": "Quick Wit",
+      "icon": "damage",
+      "color": "Gray"
+    },
+    {
+      "name": "dark_seer_movespd",
+      "title": "Heart of Battle",
+      "icon": "speed",
+      "color": "Purple"
+    }
+  ],
+  "npc_dota_hero_clinkz": [
+    {
+      "name": "clinkz_suppressive_fire",
+      "title": "Suppressive Fire",
+      "icon": "no_vision",
+      "color": "Gray"
+    },
+    {
+      "name": "clinkz_engulfing_step",
+      "title": "Engulfing Step",
+      "icon": "teleport",
+      "color": "Yellow"
+    },
+    {
+      "name": "clinkz_clinkz",
+      "title": "Trial By Pyre",
+      "icon": "nuke",
+      "color": "Yellow"
+    }
+  ],
+  "npc_dota_hero_omniknight": [
+    {
+      "name": "omniknight_omnipresent",
+      "title": "Omnipresent",
+      "icon": "damage",
+      "color": "Gray"
+    },
+    {
+      "name": "omniknight_dmgheals",
+      "title": "Healing Hammer",
+      "icon": "healing",
+      "color": "Yellow"
+    }
+  ],
+  "npc_dota_hero_enchantress": [
+    {
+      "name": "enchantress_overprotective_wisps",
+      "title": "Overprotective Wisps",
+      "icon": "healing",
+      "color": "Green"
+    },
+    {
+      "name": "enchantress_spellbound",
+      "title": "Spellbound",
+      "icon": "range",
+      "color": "Yellow"
+    }
+  ],
+  "npc_dota_hero_huskar": [
+    {
+      "name": "huskar_bloodbath",
+      "title": "Bloodbath",
+      "icon": "area_of_effect",
+      "color": "Red"
+    },
+    {
+      "name": "huskar_nothl_transfusion",
+      "title": "Nothl Transfusion",
+      "icon": "healing",
+      "color": "Blue"
+    },
+    {
+      "name": "huskar_cauterize",
+      "title": "Cauterize",
+      "icon": "broken_chain",
+      "color": "Red"
+    },
+    {
+      "name": "huskar_nothl_conflagration",
+      "title": "Incendiary",
+      "icon": "damage",
+      "color": "Yellow"
+    }
+  ],
+  "npc_dota_hero_night_stalker": [
+    {
+      "name": "night_stalker_dayswap",
+      "title": "Night Reign",
+      "icon": "moon",
+      "color": "Gray"
+    },
+    {
+      "name": "night_stalker_voidbringer",
+      "title": "Voidbringer",
+      "icon": "area_of_effect",
+      "color": "Blue"
+    }
+  ],
+  "npc_dota_hero_broodmother": [
+    {
+      "name": "broodmother_necrotic_webs",
+      "title": "Necrotic Webs",
+      "icon": "web",
+      "color": "Gray"
+    },
+    {
+      "name": "broodmother_feeding_frenzy",
+      "title": "Feeding Frenzy",
+      "icon": "summons",
+      "color": "Red"
+    }
+  ],
+  "npc_dota_hero_bounty_hunter": [
+    {
+      "name": "bounty_hunter_shuriken",
+      "title": "Through and Through",
+      "icon": "nuke",
+      "color": "Red"
+    },
+    {
+      "name": "bounty_hunter_mugging",
+      "title": "Cutpurse",
+      "icon": "gold",
+      "color": "Yellow"
+    }
+  ],
+  "npc_dota_hero_weaver": [
+    {
+      "name": "weaver_skitterstep",
+      "title": "Skitterstep",
+      "icon": "speed",
+      "color": "Red"
+    },
+    {
+      "name": "weaver_hivemind",
+      "title": "Hivemind",
+      "icon": "xp",
+      "color": "Blue"
+    }
+  ],
+  "npc_dota_hero_jakiro": [
+    {
+      "name": "jakiro_twin_terror",
+      "title": "Twin Terror",
+      "icon": "damage",
+      "color": "Red"
+    },
+    {
+      "name": "jakiro_ice_breaker",
+      "title": "Ice Breaker",
+      "icon": "snowflake",
+      "color": "Blue"
+    }
+  ],
+  "npc_dota_hero_batrider": [
+    {
+      "name": "batrider_buff_on_displacement",
+      "title": "Stoked",
+      "icon": "nuke",
+      "color": "Red"
+    },
+    {
+      "name": "batrider_arsonist",
+      "title": "Arsonist",
+      "icon": "damage",
+      "color": "Yellow"
+    }
+  ],
+  "npc_dota_hero_chen": [
+    {
+      "name": "chen_centaur_convert",
+      "title": "Centaur Convert",
+      "icon": "area_of_effect",
+      "color": "Yellow"
+    },
+    {
+      "name": "chen_hellbear_convert",
+      "title": "Hellbear Convert",
+      "icon": "slow",
+      "color": "Red"
+    },
+    {
+      "name": "chen_troll_convert",
+      "title": "Troll Convert",
+      "icon": "summons",
+      "color": "Green"
+    },
+    {
+      "name": "chen_satyr_convert",
+      "title": "Satyr Convert",
+      "icon": "mana",
+      "color": "Purple"
+    },
+    {
+      "name": "chen_frog_convert",
+      "title": "Marshmage Convert",
+      "icon": "bubbles",
+      "color": "Blue"
+    }
+  ],
+  "npc_dota_hero_spectre": [
+    {
+      "name": "spectre_spectre",
+      "title": "Ephemeral",
+      "icon": "spirit",
+      "color": "Gray"
+    }
+  ],
+  "npc_dota_hero_doom_bringer": [
+    {
+      "name": "doom_bringer_gluttony",
+      "title": "Gluttony",
+      "icon": "meat",
+      "color": "Red"
+    },
+    {
+      "name": "doom_bringer_impending_doom",
+      "title": "Impending Doom",
+      "icon": "cooldown",
+      "color": "Gray"
+    }
+  ],
+  "npc_dota_hero_ancient_apparition": [
+    {
+      "name": "ancient_apparition_bone_chill",
+      "title": "Bone Chill",
+      "icon": "debuff",
+      "color": "Gray"
+    },
+    {
+      "name": "ancient_apparition_exposure",
+      "title": "Exposure",
+      "icon": "area_of_effect",
+      "color": "Blue"
+    }
+  ],
+  "npc_dota_hero_ursa": [
+    {
+      "name": "ursa_grudge_bearer",
+      "title": "Grudge Bearer",
+      "icon": "damage",
+      "color": "Red"
+    },
+    {
+      "name": "ursa_debuff_reduce",
+      "title": "Bear Down",
+      "icon": "cooldown",
+      "color": "Blue"
+    }
+  ],
+  "npc_dota_hero_spirit_breaker": [
+    {
+      "name": "spirit_breaker_bull_rush",
+      "title": "Bull Rush",
+      "icon": "speed",
+      "color": "Red"
+    },
+    {
+      "name": "spirit_breaker_bulls_hit",
+      "title": "Bull's Hit",
+      "icon": "rng",
+      "color": "Blue"
+    }
+  ],
+  "npc_dota_hero_gyrocopter": [
+    {
+      "name": "gyrocopter_secondary_strikes",
+      "title": "Secondary Strikes",
+      "icon": "nuke",
+      "color": "Red"
+    },
+    {
+      "name": "gyrocopter_afterburner",
+      "title": "Afterburner",
+      "icon": "speed",
+      "color": "Yellow"
+    }
+  ],
+  "npc_dota_hero_alchemist": [
+    {
+      "name": "alchemist_seed_money",
+      "title": "Seed Money",
+      "icon": "gold",
+      "color": "Yellow"
+    },
+    {
+      "name": "alchemist_mixologist",
+      "title": "Mixologist",
+      "icon": "cooldown",
+      "color": "Purple"
+    },
+    {
+      "name": "alchemist_dividends",
+      "title": "Dividends",
+      "icon": "aghs",
+      "color": "Green"
+    }
+  ],
+  "npc_dota_hero_invoker": [
+    {
+      "name": "invoker_quas_focus",
+      "title": "Scholar of Koryx",
+      "icon": "invoker_quas",
+      "color": "Blue"
+    },
+    {
+      "name": "invoker_wex_focus",
+      "title": "Mind of Tornarus",
+      "icon": "invoker_wex",
+      "color": "Purple"
+    },
+    {
+      "name": "invoker_exort_focus",
+      "title": "Agent of Gallaron",
+      "icon": "invoker_exort",
+      "color": "Yellow"
+    }
+  ],
+  "npc_dota_hero_silencer": [
+    {
+      "name": "silencer_irrepressible",
+      "title": "Irrepressible",
+      "icon": "silencer",
+      "color": "Purple"
+    },
+    {
+      "name": "silencer_reverberating_silence",
+      "title": "Reverberating Silence",
+      "icon": "debuff",
+      "color": "Gray"
+    },
+    {
+      "name": "silencer_spread_the_knowledge",
+      "title": "Synaptic Split",
+      "icon": "ricochet",
+      "color": "Purple"
+    },
+    {
+      "name": "silencer_oppressive_silence",
+      "title": "Suffer In Silence",
+      "icon": "debuff",
+      "color": "Gray"
+    }
+  ],
+  "npc_dota_hero_obsidian_destroyer": [
+    {
+      "name": "obsidian_destroyer_obsidian_decimator",
+      "title": "Obsidian Decimator",
+      "icon": "mana",
+      "color": "Blue"
+    },
+    {
+      "name": "obsidian_destroyer_overwhelming_devourer",
+      "title": "Overwhelming Devourer",
+      "icon": "healing",
+      "color": "Blue"
+    }
+  ],
+  "npc_dota_hero_lycan": [
+    {
+      "name": "lycan_pack_leader",
+      "title": "Pack Leader",
+      "icon": "summons",
+      "color": "Gray"
+    },
+    {
+      "name": "lycan_spirit_wolves",
+      "title": "Spirit Wolves",
+      "icon": "spirit",
+      "color": "Red"
+    },
+    {
+      "name": "lycan_alpha_wolves",
+      "title": "Alpha Wolves",
+      "icon": "wolf",
+      "color": "Green"
+    }
+  ],
+  "npc_dota_hero_brewmaster": [
+    {
+      "name": "brewmaster_brewmaster",
+      "title": "Hungover",
+      "icon": "bubbles",
+      "color": "Yellow"
+    }
+  ],
+  "npc_dota_hero_shadow_demon": [
+    {
+      "name": "shadow_demon_promulgate",
+      "title": "Promulgate",
+      "icon": "nuke",
+      "color": "Gray"
+    },
+    {
+      "name": "shadow_demon_facet_soul_mastery",
+      "title": "Shadow Servant",
+      "icon": "illusion",
+      "color": "Purple"
+    }
+  ],
+  "npc_dota_hero_lone_druid": [
+    {
+      "name": "lone_druid_bear_with_me",
+      "title": "Bear with Me",
+      "icon": "healing",
+      "color": "Green"
+    },
+    {
+      "name": "lone_druid_unbearable",
+      "title": "Unbearable",
+      "icon": "overshadow",
+      "color": "Yellow"
+    },
+    {
+      "name": "lone_druid_bear_necessities",
+      "title": "Bear Necessities",
+      "icon": "item",
+      "color": "Gray"
+    },
+    {
+      "name": "lone_druid_lone_druid",
+      "title": "Forbearance",
+      "icon": "overshadow",
+      "color": "Green"
+    }
+  ],
+  "npc_dota_hero_chaos_knight": [
+    {
+      "name": "chaos_knight_strong_illusions",
+      "title": "Phantasmagoria",
+      "icon": "illusion",
+      "color": "Red"
+    },
+    {
+      "name": "chaos_knight_irrationality",
+      "title": "Irrationality",
+      "icon": "rng",
+      "color": "Gray"
+    },
+    {
+      "name": "chaos_knight_facet_fundamental_forging",
+      "title": "Fundamental Forging",
+      "icon": "item",
+      "color": "Yellow"
+    },
+    {
+      "name": "chaos_knight_cloven_chaos",
+      "title": "Cloven Chaos",
+      "icon": "ricochet",
+      "color": "Red"
+    }
+  ],
+  "npc_dota_hero_meepo": [
+    {
+      "name": "meepo_more_meepo",
+      "title": "More Meepo",
+      "icon": "summons",
+      "color": "Blue"
+    },
+    {
+      "name": "meepo_codependent",
+      "title": "Codependent",
+      "icon": "illusion",
+      "color": "Yellow"
+    },
+    {
+      "name": "meepo_pack_rat",
+      "title": "Pack Rat",
+      "icon": "item",
+      "color": "Yellow"
+    }
+  ],
+  "npc_dota_hero_treant": [
+    {
+      "name": "treant_primeval_power",
+      "title": "Primeval Power",
+      "icon": "damage",
+      "color": "Yellow"
+    },
+    {
+      "name": "treant_sapling",
+      "title": "Sapling",
+      "icon": "tree",
+      "color": "Green"
+    },
+    {
+      "name": "treant_treant",
+      "title": "Uprooted",
+      "icon": "tree",
+      "color": "Green"
+    }
+  ],
+  "npc_dota_hero_ogre_magi": [
+    {
+      "name": "ogre_magi_fat_chance",
+      "title": "Fat Chance",
+      "icon": "rng",
+      "color": "Red"
+    },
+    {
+      "name": "ogre_magi_learning_curve",
+      "title": "Learning Curve",
+      "icon": "ogre",
+      "color": "Blue"
+    }
+  ],
+  "npc_dota_hero_undying": [
+    {
+      "name": "undying_rotting_mitts",
+      "title": "Rotting Mitts",
+      "icon": "summons",
+      "color": "Green"
+    },
+    {
+      "name": "undying_ripped",
+      "title": "Ripped",
+      "icon": "strength",
+      "color": "Red"
+    }
+  ],
+  "npc_dota_hero_rubick": [
+    {
+      "name": "rubick_frugal_filch",
+      "title": "Frugal Filch",
+      "icon": "mana",
+      "color": "Purple"
+    },
+    {
+      "name": "rubick_arcane_accumulation",
+      "title": "Arcane Accumulation",
+      "icon": "area_of_effect",
+      "color": "Green"
+    }
+  ],
+  "npc_dota_hero_disruptor": [
+    {
+      "name": "disruptor_thunderstorm",
+      "title": "Thunderstorm",
+      "icon": "area_of_effect",
+      "color": "Red"
+    },
+    {
+      "name": "disruptor_line_walls",
+      "title": "Kinetic Fence",
+      "icon": "fence",
+      "color": "Blue"
+    },
+    {
+      "name": "disruptor_conduit",
+      "title": "Transference",
+      "icon": "vortex_out",
+      "color": "Gray"
+    }
+  ],
+  "npc_dota_hero_nyx_assassin": [
+    {
+      "name": "nyx_assassin_burn_mana",
+      "title": "Mana Burn",
+      "icon": "nuke",
+      "color": "Blue"
+    },
+    {
+      "name": "nyx_assassin_scuttle",
+      "title": "Scuttle",
+      "icon": "speed",
+      "color": "Red"
+    }
+  ],
+  "npc_dota_hero_naga_siren": [
+    {
+      "name": "naga_siren_passive_riptide",
+      "title": "Rip Tide",
+      "icon": "armor_broken",
+      "color": "Yellow"
+    },
+    {
+      "name": "naga_siren_active_riptide",
+      "title": "Deluge",
+      "icon": "nuke",
+      "color": "Green"
+    }
+  ],
+  "npc_dota_hero_keeper_of_the_light": [
+    {
+      "name": "keeper_of_the_light_facet_solar_bind",
+      "title": "Solar Bind",
+      "icon": "slow",
+      "color": "Yellow"
+    },
+    {
+      "name": "keeper_of_the_light_facet_recall",
+      "title": "Recall",
+      "icon": "teleport",
+      "color": "Gray"
+    }
+  ],
+  "npc_dota_hero_wisp": [
+    {
+      "name": "wisp_kritzkrieg",
+      "title": "Kritzkrieg",
+      "icon": "damage",
+      "color": "Blue"
+    },
+    {
+      "name": "wisp_medigun",
+      "title": "Medigun",
+      "icon": "armor",
+      "color": "Gray"
+    }
+  ],
+  "npc_dota_hero_visage": [
+    {
+      "name": "visage_sepulchre",
+      "title": "Sepulchre",
+      "icon": "area_of_effect",
+      "color": "Gray"
+    },
+    {
+      "name": "visage_faithful_followers",
+      "title": "Faithful Followers",
+      "icon": "summons",
+      "color": "Blue"
+    },
+    {
+      "name": "visage_gold_assumption",
+      "title": "Death Toll",
+      "icon": "gold",
+      "color": "Yellow"
+    }
+  ],
+  "npc_dota_hero_slark": [
+    {
+      "name": "slark_slark",
+      "title": "Fugitive",
+      "icon": "broken_chain",
+      "color": "Blue"
+    }
+  ],
+  "npc_dota_hero_medusa": [
+    {
+      "name": "medusa_engorged",
+      "title": "Engorged",
+      "icon": "snake",
+      "color": "Green"
+    },
+    {
+      "name": "medusa_slow_attacks",
+      "title": "Venomous Volley",
+      "icon": "slow",
+      "color": "Yellow"
+    },
+    {
+      "name": "medusa_undulation",
+      "title": "Undulation",
+      "icon": "speed",
+      "color": "Red"
+    }
+  ],
+  "npc_dota_hero_troll_warlord": [
+    {
+      "name": "troll_warlord_insensitive",
+      "title": "Insensitive",
+      "icon": "armor",
+      "color": "Blue"
+    },
+    {
+      "name": "troll_warlord_bad_influence",
+      "title": "Bad Influence",
+      "icon": "damage",
+      "color": "Red"
+    }
+  ],
+  "npc_dota_hero_centaur": [
+    {
+      "name": "centaur_counter_strike",
+      "title": "Counter-Strike",
+      "icon": "nuke",
+      "color": "Red"
+    },
+    {
+      "name": "centaur_horsepower",
+      "title": "Horsepower",
+      "icon": "speed",
+      "color": "Gray"
+    }
+  ],
+  "npc_dota_hero_magnataur": [
+    {
+      "name": "magnataur_eternal_empowerment",
+      "title": "Eternal Empowerment",
+      "icon": "empower",
+      "color": "Gray"
+    },
+    {
+      "name": "magnataur_diminishing_return",
+      "title": "Diminishing Return",
+      "icon": "ricochet",
+      "color": "Blue"
+    }
+  ],
+  "npc_dota_hero_shredder": [
+    {
+      "name": "shredder_shredder",
+      "title": "Shredder",
+      "icon": "tree",
+      "color": "Green"
+    },
+    {
+      "name": "shredder_second_chakram",
+      "title": "Twisted Chakram",
+      "icon": "spinning",
+      "color": "Red"
+    }
+  ],
+  "npc_dota_hero_bristleback": [
+    {
+      "name": "bristleback_snot_rocket",
+      "title": "Snot Rocket",
+      "icon": "snot",
+      "color": "Green"
+    },
+    {
+      "name": "bristleback_seeing_red",
+      "title": "Seeing Red",
+      "icon": "no_vision",
+      "color": "Red"
+    }
+  ],
+  "npc_dota_hero_tusk": [
+    {
+      "name": "tusk_facet_tag_team",
+      "title": "Tag Team",
+      "icon": "damage",
+      "color": "Blue"
+    },
+    {
+      "name": "tusk_facet_fist_bump",
+      "title": "Drinking Buddies",
+      "icon": "movement",
+      "color": "Yellow"
+    }
+  ],
+  "npc_dota_hero_skywrath_mage": [
+    {
+      "name": "skywrath_mage_shield",
+      "title": "Shield of the Scion",
+      "icon": "armor",
+      "color": "Blue"
+    },
+    {
+      "name": "skywrath_mage_staff",
+      "title": "Staff of the Scion",
+      "icon": "cooldown",
+      "color": "Yellow"
+    }
+  ],
+  "npc_dota_hero_abaddon": [
+    {
+      "name": "abaddon_death_dude",
+      "title": "The Quickening",
+      "icon": "cooldown",
+      "color": "Gray"
+    },
+    {
+      "name": "abaddon_mists_of_fate",
+      "title": "Malignant Mist",
+      "icon": "phantom_ass_dagger",
+      "color": "Blue"
+    }
+  ],
+  "npc_dota_hero_elder_titan": [
+    {
+      "name": "elder_titan_deconstruction",
+      "title": "Deconstruction",
+      "icon": "armor_broken",
+      "color": "Blue"
+    },
+    {
+      "name": "elder_titan_boost_atkspd",
+      "title": "Momentum",
+      "icon": "damage",
+      "color": "Yellow"
+    }
+  ],
+  "npc_dota_hero_legion_commander": [
+    {
+      "name": "legion_commander_stonehall_plate",
+      "title": "Stonehall Plate",
+      "icon": "armor",
+      "color": "Yellow"
+    },
+    {
+      "name": "legion_commander_spoils_of_war",
+      "title": "Spoils of War",
+      "icon": "damage",
+      "color": "Red"
+    }
+  ],
+  "npc_dota_hero_ember_spirit": [
+    {
+      "name": "ember_spirit_double_impact",
+      "title": "Double Impact",
+      "icon": "fist",
+      "color": "Red"
+    },
+    {
+      "name": "ember_spirit_chain_gang",
+      "title": "Chain Gang",
+      "icon": "debuff",
+      "color": "Yellow"
+    }
+  ],
+  "npc_dota_hero_earth_spirit": [
+    {
+      "name": "earth_spirit_earth_spirit",
+      "title": "Reformation",
+      "icon": "spinning",
+      "color": "Green"
+    }
+  ],
+  "npc_dota_hero_terrorblade": [
+    {
+      "name": "terrorblade_condemned",
+      "title": "Condemned",
+      "icon": "twin_hearts",
+      "color": "Gray"
+    },
+    {
+      "name": "terrorblade_soul_fragment",
+      "title": "Soul Fragment",
+      "icon": "illusion",
+      "color": "Blue"
+    }
+  ],
+  "npc_dota_hero_phoenix": [
+    {
+      "name": "phoenix_facet_immolate",
+      "title": "Dying Light",
+      "icon": "barrier",
+      "color": "Red"
+    },
+    {
+      "name": "phoenix_hotspot",
+      "title": "Hotspot",
+      "icon": "nuke",
+      "color": "Red"
+    }
+  ],
+  "npc_dota_hero_oracle": [
+    {
+      "name": "oracle_facet_dmg",
+      "title": "Clairvoyant Curse",
+      "icon": "nuke",
+      "color": "Red"
+    },
+    {
+      "name": "oracle_facet_heal",
+      "title": "Clairvoyant Cure",
+      "icon": "healing",
+      "color": "Green"
+    }
+  ],
+  "npc_dota_hero_techies": [
+    {
+      "name": "techies_atk_range",
+      "title": "Squee's Scope",
+      "icon": "range",
+      "color": "Gray"
+    },
+    {
+      "name": "techies_spleens_secret_sauce",
+      "title": "Spleen's Secret Sauce",
+      "icon": "nuke",
+      "color": "Red"
+    },
+    {
+      "name": "techies_backpack",
+      "title": "Spoon's Stash",
+      "icon": "item",
+      "color": "Blue"
+    }
+  ],
+  "npc_dota_hero_winter_wyvern": [
+    {
+      "name": "winter_wyvern_winterproof",
+      "title": "Winterproof",
+      "icon": "tower",
+      "color": "Blue"
+    },
+    {
+      "name": "winter_wyvern_recursive",
+      "title": "Recursive",
+      "icon": "ricochet",
+      "color": "Blue"
+    }
+  ],
+  "npc_dota_hero_arc_warden": [
+    {
+      "name": "arc_warden_runed_replica",
+      "title": "Runed Replica",
+      "icon": "arc_warden_alt",
+      "color": "Blue"
+    },
+    {
+      "name": "arc_warden_power_capture",
+      "title": "Power Capture",
+      "icon": "rune",
+      "color": "Yellow"
+    }
+  ],
+  "npc_dota_hero_abyssal_underlord": [
+    {
+      "name": "abyssal_underlord_demons_reach",
+      "title": "Demon's Reach",
+      "icon": "area_of_effect",
+      "color": "Green"
+    },
+    {
+      "name": "abyssal_underlord_summons",
+      "title": "Abyssal Horde",
+      "icon": "summons",
+      "color": "Yellow"
+    }
+  ],
+  "npc_dota_hero_monkey_king": [
+    {
+      "name": "monkey_king_simian_stride",
+      "title": "Simian Stride",
+      "icon": "tree",
+      "color": "Green"
+    },
+    {
+      "name": "monkey_king_transfiguration",
+      "title": "Changing of the Guard",
+      "icon": "summons",
+      "color": "Red"
+    }
+  ],
+  "npc_dota_hero_pangolier": [
+    {
+      "name": "pangolier_pangolier",
+      "title": "Dangerous Liaisons",
+      "icon": "cooldown",
+      "color": "Blue"
+    }
+  ],
+  "npc_dota_hero_dark_willow": [
+    {
+      "name": "dark_willow_throwing_shade",
+      "title": "Throwing Shade",
+      "icon": "damage",
+      "color": "Purple"
+    },
+    {
+      "name": "dark_willow_shattering_crown",
+      "title": "Shattering Crown",
+      "icon": "barrier",
+      "color": "Green"
+    }
+  ],
+  "npc_dota_hero_grimstroke": [
+    {
+      "name": "grimstroke_inkstigate",
+      "title": "Inkstigate",
+      "icon": "area_of_effect",
+      "color": "Gray"
+    },
+    {
+      "name": "grimstroke_fine_art",
+      "title": "Fine Art",
+      "icon": "brush",
+      "color": "Red"
+    }
+  ],
+  "npc_dota_hero_mars": [
+    {
+      "name": "mars_victory_feast",
+      "title": "Victory Feast",
+      "icon": "healing",
+      "color": "Red"
+    },
+    {
+      "name": "mars_arena",
+      "title": "Blood Sport",
+      "icon": "no_vision",
+      "color": "Yellow"
+    }
+  ],
+  "npc_dota_hero_void_spirit": [
+    {
+      "name": "void_spirit_sanctuary",
+      "title": "Sanctuary",
+      "icon": "armor",
+      "color": "Purple"
+    },
+    {
+      "name": "void_spirit_aether_artifice",
+      "title": "Call of the Void",
+      "icon": "illusion",
+      "color": "Gray"
+    }
+  ],
+  "npc_dota_hero_snapfire": [
+    {
+      "name": "snapfire_ricochet_ii",
+      "title": "Ricochet II",
+      "icon": "ricochet",
+      "color": "Gray"
+    },
+    {
+      "name": "snapfire_full_bore",
+      "title": "Full Bore",
+      "icon": "range",
+      "color": "Red"
+    }
+  ],
+  "npc_dota_hero_hoodwink": [
+    {
+      "name": "hoodwink_hunter",
+      "title": "Go Nuts",
+      "icon": "range",
+      "color": "Yellow"
+    },
+    {
+      "name": "hoodwink_hipshot",
+      "title": "Hipshot",
+      "icon": "cooldown",
+      "color": "Green"
+    }
+  ],
+  "npc_dota_hero_dawnbreaker": [
+    {
+      "name": "dawnbreaker_solar_charged",
+      "title": "Solar Charged",
+      "icon": "cooldown",
+      "color": "Gray"
+    },
+    {
+      "name": "dawnbreaker_blaze",
+      "title": "Starsurge",
+      "icon": "fist",
+      "color": "Red"
+    },
+    {
+      "name": "dawnbreaker_hearthfire",
+      "title": "Trailblazer",
+      "icon": "speed",
+      "color": "Yellow"
+    }
+  ],
+  "npc_dota_hero_marci": [
+    {
+      "name": "marci_buddy_system",
+      "title": "Buddy System",
+      "icon": "twin_hearts",
+      "color": "Blue"
+    },
+    {
+      "name": "marci_pickmeup",
+      "title": "Pick-me-up",
+      "icon": "ricochet",
+      "color": "Purple"
+    }
+  ],
+  "npc_dota_hero_primal_beast": [
+    {
+      "name": "primal_beast_provoke_the_beast",
+      "title": "Provoke the Beast",
+      "icon": "broken_chain",
+      "color": "Red"
+    },
+    {
+      "name": "primal_beast_ferocity",
+      "title": "Ferocity",
+      "icon": "area_of_effect",
+      "color": "Yellow"
+    }
+  ],
+  "npc_dota_hero_muerta": [
+    {
+      "name": "muerta_dance_of_the_dead",
+      "title": "Dance of the Dead",
+      "icon": "spirit",
+      "color": "Green"
+    },
+    {
+      "name": "muerta_slingshot",
+      "title": "Quickdraw",
+      "icon": "ricochet",
+      "color": "Red"
+    }
+  ],
+  "npc_dota_hero_ringmaster": [
+    {
+      "name": "ringmaster_carny_classics",
+      "title": "Carny Classics",
+      "icon": "whoopee_cushion",
+      "color": "Yellow"
+    },
+    {
+      "name": "ringmaster_sideshow_secrets",
+      "title": "Sideshow Secrets",
+      "icon": "pie",
+      "color": "Red"
+    }
+  ],
+  "npc_dota_hero_kez": [
+    {
+      "name": "kez_flutter",
+      "title": "Flutter",
+      "icon": "kez_flutter",
+      "color": "Yellow"
+    },
+    {
+      "name": "kez_shadowhawk",
+      "title": "Shadowhawk",
+      "icon": "kez_shadowhawk",
+      "color": "Blue"
+    }
+  ],
+  "npc_dota_hero_largo": [
+    {
+      "name": "largo_largo",
+      "title": "Musical pilgrimmage",
+      "icon": "guitar",
+      "color": "Green"
+    }
+  ]
+}

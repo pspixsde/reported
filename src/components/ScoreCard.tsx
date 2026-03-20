@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { cn } from "@/lib/cn";
 import { useGameStore } from "@/stores/game-store";
 import { useTranslation } from "@/i18n";
@@ -14,11 +15,13 @@ interface ScoreCardProps {
 export function ScoreCard({ className }: ScoreCardProps) {
   const { t } = useTranslation();
   const [copied, setCopied] = useState(false);
+  const router = useRouter();
   const completed = useGameStore((s) => s.completed);
   const score = useGameStore((s) => s.score);
   const results = useGameStore((s) => s.results);
   const mode = useGameStore((s) => s.mode);
   const puzzle = useGameStore((s) => s.puzzle);
+  const clashPuzzle = useGameStore((s) => s.clashPuzzle);
   const resetGame = useGameStore((s) => s.resetGame);
   const returnToPuzzleGrid = useGameStore((s) => s.returnToPuzzleGrid);
   const maxScore = useGameStore((s) => s.maxScore);
@@ -28,9 +31,21 @@ export function ScoreCard({ className }: ScoreCardProps) {
 
   const max = maxScore();
 
-  const scoreKey = max === 4
-    ? (`score.hard.${score}` as "score.hard.0" | "score.hard.1" | "score.hard.2" | "score.hard.3" | "score.hard.4")
-    : (`score.${Math.min(score, 3)}` as "score.0" | "score.1" | "score.2" | "score.3");
+  const scoreKey =
+    mode === "clash"
+      ? (`score.clash.${Math.min(score, 3)}` as
+          | "score.clash.0"
+          | "score.clash.1"
+          | "score.clash.2"
+          | "score.clash.3")
+      : max === 4
+        ? (`score.hard.${score}` as
+            | "score.hard.0"
+            | "score.hard.1"
+            | "score.hard.2"
+            | "score.hard.3"
+            | "score.hard.4")
+        : (`score.${Math.min(score, 3)}` as "score.0" | "score.1" | "score.2" | "score.3");
 
   const shareText = generateShareText(score, max, results.map((r) => r.correct));
 
@@ -42,6 +57,11 @@ export function ScoreCard({ className }: ScoreCardProps) {
     } catch {
       // Fallback
     }
+  }
+
+  function handleBackToMenu() {
+    resetGame();
+    router.push("/");
   }
 
   return (
@@ -76,6 +96,28 @@ export function ScoreCard({ className }: ScoreCardProps) {
           </a>
         </p>
       )}
+      {mode === "clash" && clashPuzzle && (
+        <p className="mt-1 text-xs text-dota-text-dim">
+          {t("score.matchId")}{" "}
+          <a
+            href={`https://www.opendota.com/matches/${clashPuzzle.buildA.id.split("-")[0]}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-medium text-dota-text underline decoration-dota-border underline-offset-2 transition-colors hover:text-dota-gold hover:decoration-dota-gold"
+          >
+            {clashPuzzle.buildA.id.split("-")[0]}
+          </a>{" "}
+          /{" "}
+          <a
+            href={`https://www.opendota.com/matches/${clashPuzzle.buildB.id.split("-")[0]}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-medium text-dota-text underline decoration-dota-border underline-offset-2 transition-colors hover:text-dota-gold hover:decoration-dota-gold"
+          >
+            {clashPuzzle.buildB.id.split("-")[0]}
+          </a>
+        </p>
+      )}
 
       {/* Action buttons */}
       <div className="mt-6 flex flex-col gap-2">
@@ -103,15 +145,15 @@ export function ScoreCard({ className }: ScoreCardProps) {
         )}
 
         <button
-          onClick={resetGame}
-          className="text-sm text-dota-text-dim transition-colors hover:text-dota-text"
+          onClick={handleBackToMenu}
+          className="rounded-lg border border-dota-border px-4 py-2.5 text-sm font-semibold text-dota-text transition-all hover:bg-dota-card"
         >
           {t("score.backToMenu")}
         </button>
       </div>
 
       {/* Daily countdown */}
-      {mode === "daily" && (
+      {(mode === "daily" || mode === "clash") && (
         <div className="mt-6 border-t border-dota-border pt-4">
           <CountdownTimer />
         </div>

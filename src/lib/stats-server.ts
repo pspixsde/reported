@@ -168,9 +168,12 @@ export async function getPuzzleStats(
     const stats = loadStatsFile();
     const ps = stats[puzzleId];
     if (!ps) return null;
-    if (date && ps.daily?.[date]) {
-      const day = ps.daily[date];
-      return { levels: day.levels, totalScore: day.totalScore, completions: day.completions, survey: ps.survey };
+    if (date) {
+      if (ps.daily?.[date]) {
+        const day = ps.daily[date];
+        return { levels: day.levels, totalScore: day.totalScore, completions: day.completions, survey: ps.survey };
+      }
+      return { levels: {}, totalScore: 0, completions: 0, survey: ps.survey };
     }
     return { levels: ps.levels, totalScore: ps.totalScore, completions: ps.completions, survey: ps.survey };
   }
@@ -178,9 +181,12 @@ export async function getPuzzleStats(
   const ps: PuzzleStats | null = await redis.get(statsKey(puzzleId));
   if (!ps) return null;
 
-  if (date && ps.daily?.[date]) {
-    const day = ps.daily[date];
-    return { levels: day.levels, totalScore: day.totalScore, completions: day.completions, survey: ps.survey };
+  if (date) {
+    if (ps.daily?.[date]) {
+      const day = ps.daily[date];
+      return { levels: day.levels, totalScore: day.totalScore, completions: day.completions, survey: ps.survey };
+    }
+    return { levels: {}, totalScore: 0, completions: 0, survey: ps.survey };
   }
 
   return { levels: ps.levels, totalScore: ps.totalScore, completions: ps.completions, survey: ps.survey };

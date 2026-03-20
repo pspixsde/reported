@@ -7,6 +7,7 @@ import { Modal } from "./Modal";
 export function Footer() {
   const { t } = useTranslation();
   const [aboutOpen, setAboutOpen] = useState(false);
+  const [helpOpen, setHelpOpen] = useState(false);
   const [privacyOpen, setPrivacyOpen] = useState(false);
 
   return (
@@ -22,13 +23,20 @@ export function Footer() {
           </button>
           <span className="text-dota-border">|</span>
           <button
+            onClick={() => setHelpOpen(true)}
+            className="transition-colors hover:text-dota-text"
+          >
+            {t("help.title")}
+          </button>
+          <span className="text-dota-border">|</span>
+          <button
             onClick={() => setPrivacyOpen(true)}
             className="transition-colors hover:text-dota-text"
           >
             {t("privacy.title")}
           </button>
         </div>
-        <span className="w-16 text-right text-dota-border">v1.0.1</span>
+        <span className="w-16 text-right text-dota-border">v1.1.0</span>
       </footer>
 
       {/* About Us modal */}
@@ -69,6 +77,25 @@ export function Footer() {
           </p>
           <hr className="border-dota-border" />
           <p className="text-xs leading-relaxed">{t("about.disclaimer")}</p>
+        </div>
+      </Modal>
+
+      {/* Help modal */}
+      <Modal
+        open={helpOpen}
+        onClose={() => setHelpOpen(false)}
+        title={t("help.title")}
+      >
+        <div className="space-y-3 text-sm text-dota-text-dim">
+          <p className="font-semibold text-dota-text">{t("help.howToPlay")}</p>
+          <p>{t("help.daily")}</p>
+          <p>{t("help.puzzles")}</p>
+          <p>{t("help.clash")}</p>
+          <p>{t("help.levels")}</p>
+          <p>{t("help.hardMode")}</p>
+          <p>{t("help.facets")}</p>
+          <p>{t("help.scoring")}</p>
+          <p>{t("help.settings")}</p>
         </div>
       </Modal>
 

@@ -1,0 +1,1952 @@
+[
+  {
+    "id": "clash-1",
+    "buildA": {
+      "id": "8735918938-71",
+      "hero": "spirit_breaker",
+      "heroId": 71,
+      "items": [
+        267,
+        4204,
+        252,
+        931,
+        0,
+        0
+      ],
+      "netWorth": 11962,
+      "lastHits": 78,
+      "denies": 1,
+      "duration": 1548,
+      "patch": "7.40+",
+      "win": true,
+      "rankBracket": "Archon",
+      "kills": 7,
+      "deaths": 0,
+      "assists": 18,
+      "aghsScepter": false,
+      "aghsShard": true,
+      "facet": {
+        "name": "spirit_breaker_bull_rush",
+        "title": "Bull Rush",
+        "icon": "speed",
+        "color": "Red"
+      }
+    },
+    "buildB": {
+      "id": "8735916951-5",
+      "hero": "crystal_maiden",
+      "heroId": 5,
+      "items": [
+        152,
+        166,
+        65,
+        77,
+        214,
+        22
+      ],
+      "netWorth": 11142,
+      "lastHits": 138,
+      "denies": 0,
+      "duration": 2039,
+      "patch": "7.40+",
+      "win": false,
+      "rankBracket": "Herald",
+      "kills": 1,
+      "deaths": 12,
+      "assists": 12,
+      "aghsScepter": false,
+      "aghsShard": false,
+      "facet": {
+        "name": "crystal_maiden_glacial_guard",
+        "title": "Glacial Guard",
+        "icon": "armor",
+        "color": "Gray"
+      }
+    }
+  },
+  {
+    "id": "clash-2",
+    "buildA": {
+      "id": "8735918827-90",
+      "hero": "keeper_of_the_light",
+      "heroId": 90,
+      "items": [
+        214,
+        48,
+        604,
+        259,
+        0,
+        0
+      ],
+      "netWorth": 13387,
+      "lastHits": 188,
+      "denies": 1,
+      "duration": 1610,
+      "patch": "7.40+",
+      "win": true,
+      "rankBracket": "Divine",
+      "kills": 1,
+      "deaths": 1,
+      "assists": 8,
+      "aghsScepter": false,
+      "aghsShard": false,
+      "facet": {
+        "name": "keeper_of_the_light_facet_recall",
+        "title": "Recall",
+        "icon": "teleport",
+        "color": "Gray"
+      }
+    },
+    "buildB": {
+      "id": "8735919870-93",
+      "hero": "slark",
+      "heroId": 93,
+      "items": [
+        152,
+        31,
+        137,
+        73,
+        36,
+        29
+      ],
+      "netWorth": 12387,
+      "lastHits": 198,
+      "denies": 10,
+      "duration": 2186,
+      "patch": "7.40+",
+      "win": false,
+      "rankBracket": "Archon",
+      "kills": 4,
+      "deaths": 8,
+      "assists": 8,
+      "aghsScepter": false,
+      "aghsShard": true,
+      "facet": {
+        "name": "slark_slark",
+        "title": "Fugitive",
+        "icon": "broken_chain",
+        "color": "Blue"
+      }
+    }
+  },
+  {
+    "id": "clash-3",
+    "buildA": {
+      "id": "8735920826-105",
+      "hero": "techies",
+      "heroId": 105,
+      "items": [
+        247,
+        75,
+        75,
+        158,
+        63,
+        147
+      ],
+      "netWorth": 18203,
+      "lastHits": 215,
+      "denies": 14,
+      "duration": 1776,
+      "patch": "7.40+",
+      "win": true,
+      "rankBracket": "Herald",
+      "kills": 11,
+      "deaths": 2,
+      "assists": 12,
+      "aghsScepter": false,
+      "aghsShard": false,
+      "facet": {
+        "name": "techies_atk_range",
+        "title": "Squee's Scope",
+        "icon": "range",
+        "color": "Gray"
+      }
+    },
+    "buildB": {
+      "id": "8735921931-73",
+      "hero": "alchemist",
+      "heroId": 73,
+      "items": [
+        63,
+        36,
+        119,
+        178,
+        21,
+        137
+      ],
+      "netWorth": 15747,
+      "lastHits": 263,
+      "denies": 4,
+      "duration": 2222,
+      "patch": "7.40+",
+      "win": false,
+      "rankBracket": "Crusader",
+      "kills": 0,
+      "deaths": 10,
+      "assists": 8,
+      "aghsScepter": false,
+      "aghsShard": false,
+      "facet": {
+        "name": "alchemist_dividends",
+        "title": "Dividends",
+        "icon": "aghs",
+        "color": "Green"
+      }
+    }
+  },
+  {
+    "id": "clash-4",
+    "buildA": {
+      "id": "8735928012-98",
+      "hero": "shredder",
+      "heroId": 98,
+      "items": [
+        178,
+        265,
+        600,
+        273,
+        56,
+        180
+      ],
+      "netWorth": 14543,
+      "lastHits": 131,
+      "denies": 2,
+      "duration": 1782,
+      "patch": "7.40+",
+      "win": true,
+      "rankBracket": "Crusader",
+      "kills": 6,
+      "deaths": 1,
+      "assists": 20,
+      "aghsScepter": false,
+      "aghsShard": false,
+      "facet": {
+        "name": "shredder_shredder",
+        "title": "Shredder",
+        "icon": "tree",
+        "color": "Green"
+      }
+    },
+    "buildB": {
+      "id": "8735922000-85",
+      "hero": "undying",
+      "heroId": 85,
+      "items": [
+        178,
+        1808,
+        692,
+        36,
+        57,
+        48
+      ],
+      "netWorth": 14550,
+      "lastHits": 210,
+      "denies": 9,
+      "duration": 2295,
+      "patch": "7.40+",
+      "win": false,
+      "rankBracket": "Legend",
+      "kills": 4,
+      "deaths": 13,
+      "assists": 4,
+      "aghsScepter": false,
+      "aghsShard": false,
+      "facet": {
+        "name": "undying_ripped",
+        "title": "Ripped",
+        "icon": "strength",
+        "color": "Red"
+      }
+    }
+  },
+  {
+    "id": "clash-5",
+    "buildA": {
+      "id": "8735922020-60",
+      "hero": "night_stalker",
+      "heroId": 60,
+      "items": [
+        1107,
+        36,
+        48,
+        11,
+        73,
+        137
+      ],
+      "netWorth": 13188,
+      "lastHits": 136,
+      "denies": 20,
+      "duration": 1830,
+      "patch": "7.40+",
+      "win": true,
+      "rankBracket": "Crusader",
+      "kills": 3,
+      "deaths": 5,
+      "assists": 8,
+      "aghsScepter": false,
+      "aghsShard": false,
+      "facet": {
+        "name": "night_stalker_voidbringer",
+        "title": "Voidbringer",
+        "icon": "area_of_effect",
+        "color": "Blue"
+      }
+    },
+    "buildB": {
+      "id": "8735919953-105",
+      "hero": "techies",
+      "heroId": 105,
+      "items": [
+        67,
+        166,
+        0,
+        0,
+        236,
+        63
+      ],
+      "netWorth": 11022,
+      "lastHits": 93,
+      "denies": 5,
+      "duration": 2264,
+      "patch": "7.40+",
+      "win": false,
+      "rankBracket": "Herald",
+      "kills": 11,
+      "deaths": 10,
+      "assists": 5,
+      "aghsScepter": false,
+      "aghsShard": false,
+      "facet": {
+        "name": "techies_atk_range",
+        "title": "Squee's Scope",
+        "icon": "range",
+        "color": "Gray"
+      }
+    }
+  },
+  {
+    "id": "clash-6",
+    "buildA": {
+      "id": "8735922020-39",
+      "hero": "queenofpain",
+      "heroId": 39,
+      "items": [
+        77,
+        250,
+        36,
+        17,
+        29,
+        21
+      ],
+      "netWorth": 12500,
+      "lastHits": 58,
+      "denies": 8,
+      "duration": 1830,
+      "patch": "7.40+",
+      "win": true,
+      "rankBracket": "Crusader",
+      "kills": 10,
+      "deaths": 7,
+      "assists": 13,
+      "aghsScepter": false,
+      "aghsShard": true,
+      "facet": {
+        "name": "queenofpain_facet_bondage",
+        "title": "Bondage",
+        "icon": "twin_hearts",
+        "color": "Blue"
+      }
+    },
+    "buildB": {
+      "id": "8735925313-105",
+      "hero": "techies",
+      "heroId": 105,
+      "items": [
+        63,
+        236,
+        75,
+        166,
+        172,
+        0
+      ],
+      "netWorth": 9533,
+      "lastHits": 167,
+      "denies": 3,
+      "duration": 1943,
+      "patch": "7.40+",
+      "win": false,
+      "rankBracket": "Divine",
+      "kills": 2,
+      "deaths": 7,
+      "assists": 1,
+      "aghsScepter": false,
+      "aghsShard": false,
+      "facet": {
+        "name": "techies_spleens_secret_sauce",
+        "title": "Spleen's Secret Sauce",
+        "icon": "nuke",
+        "color": "Red"
+      }
+    }
+  },
+  {
+    "id": "clash-7",
+    "buildA": {
+      "id": "8735920964-62",
+      "hero": "bounty_hunter",
+      "heroId": 62,
+      "items": [
+        939,
+        108,
+        141,
+        139,
+        1107,
+        29
+      ],
+      "netWorth": 24926,
+      "lastHits": 177,
+      "denies": 3,
+      "duration": 1831,
+      "patch": "7.40+",
+      "win": true,
+      "rankBracket": "Herald",
+      "kills": 13,
+      "deaths": 5,
+      "assists": 17,
+      "aghsScepter": true,
+      "aghsShard": false,
+      "facet": {
+        "name": "bounty_hunter_shuriken",
+        "title": "Through and Through",
+        "icon": "nuke",
+        "color": "Red"
+      }
+    },
+    "buildB": {
+      "id": "8735917897-43",
+      "hero": "death_prophet",
+      "heroId": 43,
+      "items": [
+        40,
+        123,
+        610,
+        254,
+        108,
+        48
+      ],
+      "netWorth": 21496,
+      "lastHits": 266,
+      "denies": 8,
+      "duration": 2165,
+      "patch": "7.40+",
+      "win": false,
+      "rankBracket": "Archon",
+      "kills": 15,
+      "deaths": 2,
+      "assists": 7,
+      "aghsScepter": true,
+      "aghsShard": false,
+      "facet": {
+        "name": "death_prophet_delayed_damage",
+        "title": "Mourning Ritual",
+        "icon": "healing",
+        "color": "Red"
+      }
+    }
+  },
+  {
+    "id": "clash-8",
+    "buildA": {
+      "id": "8735922030-68",
+      "hero": "ancient_apparition",
+      "heroId": 68,
+      "items": [
+        247,
+        0,
+        0,
+        0,
+        63,
+        77
+      ],
+      "netWorth": 12165,
+      "lastHits": 12,
+      "denies": 1,
+      "duration": 1906,
+      "patch": "7.40+",
+      "win": true,
+      "rankBracket": "Crusader",
+      "kills": 10,
+      "deaths": 13,
+      "assists": 18,
+      "aghsScepter": true,
+      "aghsShard": true,
+      "facet": {
+        "name": "ancient_apparition_bone_chill",
+        "title": "Bone Chill",
+        "icon": "debuff",
+        "color": "Gray"
+      }
+    },
+    "buildB": {
+      "id": "8735917913-136",
+      "hero": "marci",
+      "heroId": 136,
+      "items": [
+        50,
+        141,
+        44,
+        127,
+        38,
+        42
+      ],
+      "netWorth": 11067,
+      "lastHits": 100,
+      "denies": 0,
+      "duration": 2467,
+      "patch": "7.40+",
+      "win": false,
+      "rankBracket": "Herald",
+      "kills": 8,
+      "deaths": 12,
+      "assists": 5,
+      "aghsScepter": false,
+      "aghsShard": false,
+      "facet": {
+        "name": "marci_buddy_system",
+        "title": "Buddy System",
+        "icon": "twin_hearts",
+        "color": "Blue"
+      }
+    }
+  },
+  {
+    "id": "clash-9",
+    "buildA": {
+      "id": "8735919881-100",
+      "hero": "tusk",
+      "heroId": 100,
+      "items": [
+        112,
+        36,
+        168,
+        1,
+        252,
+        63
+      ],
+      "netWorth": 17054,
+      "lastHits": 154,
+      "denies": 16,
+      "duration": 1916,
+      "patch": "7.40+",
+      "win": true,
+      "rankBracket": "Legend",
+      "kills": 10,
+      "deaths": 4,
+      "assists": 16,
+      "aghsScepter": false,
+      "aghsShard": false,
+      "facet": {
+        "name": "tusk_facet_tag_team",
+        "title": "Tag Team",
+        "icon": "damage",
+        "color": "Blue"
+      }
+    },
+    "buildB": {
+      "id": "8735921991-49",
+      "hero": "dragon_knight",
+      "heroId": 49,
+      "items": [
+        127,
+        50,
+        81,
+        73,
+        114,
+        166
+      ],
+      "netWorth": 15085,
+      "lastHits": 154,
+      "denies": 3,
+      "duration": 2499,
+      "patch": "7.40+",
+      "win": false,
+      "rankBracket": "Herald",
+      "kills": 5,
+      "deaths": 7,
+      "assists": 11,
+      "aghsScepter": false,
+      "aghsShard": false,
+      "facet": {
+        "name": "dragon_knight_corrosive_dragon",
+        "title": "Corrosive Dragon",
+        "icon": "dragon_poison",
+        "color": "Green"
+      }
+    }
+  },
+  {
+    "id": "clash-10",
+    "buildA": {
+      "id": "8735919900-53",
+      "hero": "furion",
+      "heroId": 53,
+      "items": [
+        90,
+        36,
+        267,
+        931,
+        0,
+        0
+      ],
+      "netWorth": 15890,
+      "lastHits": 92,
+      "denies": 2,
+      "duration": 1918,
+      "patch": "7.40+",
+      "win": true,
+      "rankBracket": "Archon",
+      "kills": 13,
+      "deaths": 5,
+      "assists": 24,
+      "aghsScepter": false,
+      "aghsShard": true,
+      "facet": {
+        "name": "furion_soothing_saplings",
+        "title": "Soothing Saplings",
+        "icon": "healing",
+        "color": "Green"
+      }
+    },
+    "buildB": {
+      "id": "8735917936-105",
+      "hero": "techies",
+      "heroId": 105,
+      "items": [
+        263,
+        158,
+        63,
+        485,
+        75,
+        75
+      ],
+      "netWorth": 14528,
+      "lastHits": 171,
+      "denies": 1,
+      "duration": 2330,
+      "patch": "7.40+",
+      "win": false,
+      "rankBracket": "Guardian",
+      "kills": 12,
+      "deaths": 8,
+      "assists": 2,
+      "aghsScepter": false,
+      "aghsShard": false,
+      "facet": {
+        "name": "techies_atk_range",
+        "title": "Squee's Scope",
+        "icon": "range",
+        "color": "Gray"
+      }
+    }
+  },
+  {
+    "id": "clash-11",
+    "buildA": {
+      "id": "8735920969-71",
+      "hero": "spirit_breaker",
+      "heroId": 71,
+      "items": [
+        123,
+        36,
+        154,
+        50,
+        40,
+        21
+      ],
+      "netWorth": 13332,
+      "lastHits": 81,
+      "denies": 4,
+      "duration": 1930,
+      "patch": "7.40+",
+      "win": true,
+      "rankBracket": "Divine",
+      "kills": 5,
+      "deaths": 3,
+      "assists": 29,
+      "aghsScepter": false,
+      "aghsShard": false,
+      "facet": {
+        "name": "spirit_breaker_bull_rush",
+        "title": "Bull Rush",
+        "icon": "speed",
+        "color": "Red"
+      }
+    },
+    "buildB": {
+      "id": "8735919887-47",
+      "hero": "viper",
+      "heroId": 47,
+      "items": [
+        188,
+        180,
+        569,
+        100,
+        223,
+        232
+      ],
+      "netWorth": 13266,
+      "lastHits": 133,
+      "denies": 2,
+      "duration": 2518,
+      "patch": "7.40+",
+      "win": false,
+      "rankBracket": "Legend",
+      "kills": 7,
+      "deaths": 9,
+      "assists": 19,
+      "aghsScepter": false,
+      "aghsShard": true,
+      "facet": {
+        "name": "viper_poison_burst",
+        "title": "Poison Burst",
+        "icon": "area_of_effect",
+        "color": "Green"
+      }
+    }
+  },
+  {
+    "id": "clash-12",
+    "buildA": {
+      "id": "8735920823-136",
+      "hero": "marci",
+      "heroId": 136,
+      "items": [
+        598,
+        29,
+        36,
+        1575,
+        0,
+        226
+      ],
+      "netWorth": 10604,
+      "lastHits": 50,
+      "denies": 0,
+      "duration": 2036,
+      "patch": "7.40+",
+      "win": true,
+      "rankBracket": "Ancient",
+      "kills": 1,
+      "deaths": 8,
+      "assists": 20,
+      "aghsScepter": false,
+      "aghsShard": true,
+      "facet": {
+        "name": "marci_buddy_system",
+        "title": "Buddy System",
+        "icon": "twin_hearts",
+        "color": "Blue"
+      }
+    },
+    "buildB": {
+      "id": "8735919866-47",
+      "hero": "viper",
+      "heroId": 47,
+      "items": [
+        127,
+        22,
+        73,
+        73,
+        154,
+        29
+      ],
+      "netWorth": 10364,
+      "lastHits": 92,
+      "denies": 0,
+      "duration": 2083,
+      "patch": "7.40+",
+      "win": false,
+      "rankBracket": "Guardian",
+      "kills": 8,
+      "deaths": 10,
+      "assists": 6,
+      "aghsScepter": false,
+      "aghsShard": false,
+      "facet": {
+        "name": "viper_poison_burst",
+        "title": "Poison Burst",
+        "icon": "area_of_effect",
+        "color": "Green"
+      }
+    }
+  },
+  {
+    "id": "clash-13",
+    "buildA": {
+      "id": "8735930122-74",
+      "hero": "invoker",
+      "heroId": 74,
+      "items": [
+        98,
+        77,
+        77,
+        36,
+        29,
+        0
+      ],
+      "netWorth": 9609,
+      "lastHits": 34,
+      "denies": 5,
+      "duration": 2037,
+      "patch": "7.40+",
+      "win": true,
+      "rankBracket": "Guardian",
+      "kills": 5,
+      "deaths": 10,
+      "assists": 22,
+      "aghsScepter": false,
+      "aghsShard": false,
+      "facet": {
+        "name": "invoker_exort_focus",
+        "title": "Agent of Gallaron",
+        "icon": "invoker_exort",
+        "color": "Yellow"
+      }
+    },
+    "buildB": {
+      "id": "8735921935-68",
+      "hero": "ancient_apparition",
+      "heroId": 68,
+      "items": [
+        108,
+        218,
+        534,
+        236,
+        0,
+        29
+      ],
+      "netWorth": 9723,
+      "lastHits": 56,
+      "denies": 1,
+      "duration": 2158,
+      "patch": "7.40+",
+      "win": false,
+      "rankBracket": "Archon",
+      "kills": 9,
+      "deaths": 12,
+      "assists": 10,
+      "aghsScepter": true,
+      "aghsShard": false,
+      "facet": {
+        "name": "ancient_apparition_exposure",
+        "title": "Exposure",
+        "icon": "area_of_effect",
+        "color": "Blue"
+      }
+    }
+  },
+  {
+    "id": "clash-14",
+    "buildA": {
+      "id": "8735923142-119",
+      "hero": "dark_willow",
+      "heroId": 119,
+      "items": [
+        247,
+        29,
+        534,
+        1,
+        41,
+        108
+      ],
+      "netWorth": 15795,
+      "lastHits": 119,
+      "denies": 12,
+      "duration": 2048,
+      "patch": "7.40+",
+      "win": true,
+      "rankBracket": "Legend",
+      "kills": 16,
+      "deaths": 4,
+      "assists": 13,
+      "aghsScepter": true,
+      "aghsShard": false,
+      "facet": {
+        "name": "dark_willow_throwing_shade",
+        "title": "Throwing Shade",
+        "icon": "damage",
+        "color": "Purple"
+      }
+    },
+    "buildB": {
+      "id": "8735918832-29",
+      "hero": "tidehunter",
+      "heroId": 29,
+      "items": [
+        98,
+        90,
+        231,
+        229,
+        188,
+        43
+      ],
+      "netWorth": 15551,
+      "lastHits": 139,
+      "denies": 4,
+      "duration": 2556,
+      "patch": "7.40+",
+      "win": false,
+      "rankBracket": "Crusader",
+      "kills": 6,
+      "deaths": 9,
+      "assists": 25,
+      "aghsScepter": false,
+      "aghsShard": false,
+      "facet": {
+        "name": "tidehunter_kraken_swell",
+        "title": "Kraken Swell",
+        "icon": "armor",
+        "color": "Green"
+      }
+    }
+  },
+  {
+    "id": "clash-15",
+    "buildA": {
+      "id": "8735917897-39",
+      "hero": "queenofpain",
+      "heroId": 39,
+      "items": [
+        160,
+        112,
+        36,
+        41,
+        0,
+        98
+      ],
+      "netWorth": 19518,
+      "lastHits": 195,
+      "denies": 1,
+      "duration": 2165,
+      "patch": "7.40+",
+      "win": true,
+      "rankBracket": "Archon",
+      "kills": 6,
+      "deaths": 7,
+      "assists": 14,
+      "aghsScepter": false,
+      "aghsShard": false,
+      "facet": {
+        "name": "queenofpain_facet_bondage",
+        "title": "Bondage",
+        "icon": "twin_hearts",
+        "color": "Blue"
+      }
+    },
+    "buildB": {
+      "id": "8735917893-119",
+      "hero": "dark_willow",
+      "heroId": 119,
+      "items": [
+        263,
+        180,
+        244,
+        108,
+        534,
+        247
+      ],
+      "netWorth": 18724,
+      "lastHits": 132,
+      "denies": 1,
+      "duration": 2640,
+      "patch": "7.40+",
+      "win": false,
+      "rankBracket": "Guardian",
+      "kills": 15,
+      "deaths": 10,
+      "assists": 19,
+      "aghsScepter": true,
+      "aghsShard": false,
+      "facet": {
+        "name": "dark_willow_throwing_shade",
+        "title": "Throwing Shade",
+        "icon": "damage",
+        "color": "Purple"
+      }
+    }
+  },
+  {
+    "id": "clash-16",
+    "buildA": {
+      "id": "8735923079-71",
+      "hero": "spirit_breaker",
+      "heroId": 71,
+      "items": [
+        931,
+        50,
+        226,
+        43,
+        485,
+        0
+      ],
+      "netWorth": 12898,
+      "lastHits": 76,
+      "denies": 0,
+      "duration": 2171,
+      "patch": "7.40+",
+      "win": true,
+      "rankBracket": "Divine",
+      "kills": 3,
+      "deaths": 9,
+      "assists": 36,
+      "aghsScepter": false,
+      "aghsShard": false,
+      "facet": {
+        "name": "spirit_breaker_bull_rush",
+        "title": "Bull Rush",
+        "icon": "speed",
+        "color": "Red"
+      }
+    },
+    "buildB": {
+      "id": "8735921960-31",
+      "hero": "lich",
+      "heroId": 31,
+      "items": [
+        0,
+        36,
+        231,
+        43,
+        0,
+        110
+      ],
+      "netWorth": 12673,
+      "lastHits": 87,
+      "denies": 5,
+      "duration": 2331,
+      "patch": "7.40+",
+      "win": false,
+      "rankBracket": "Guardian",
+      "kills": 6,
+      "deaths": 15,
+      "assists": 20,
+      "aghsScepter": false,
+      "aghsShard": true,
+      "facet": {
+        "name": "lich_cryophobia",
+        "title": "Evil Eye",
+        "icon": "vision",
+        "color": "Red"
+      }
+    }
+  },
+  {
+    "id": "clash-17",
+    "buildA": {
+      "id": "8735923096-64",
+      "hero": "jakiro",
+      "heroId": 64,
+      "items": [
+        36,
+        160,
+        1806,
+        263,
+        166,
+        29
+      ],
+      "netWorth": 21316,
+      "lastHits": 280,
+      "denies": 25,
+      "duration": 2175,
+      "patch": "7.40+",
+      "win": true,
+      "rankBracket": "Guardian",
+      "kills": 8,
+      "deaths": 5,
+      "assists": 7,
+      "aghsScepter": false,
+      "aghsShard": false,
+      "facet": {
+        "name": "jakiro_twin_terror",
+        "title": "Twin Terror",
+        "icon": "damage",
+        "color": "Red"
+      }
+    },
+    "buildB": {
+      "id": "8735919976-2",
+      "hero": "axe",
+      "heroId": 2,
+      "items": [
+        1,
+        127,
+        29,
+        154,
+        119,
+        137
+      ],
+      "netWorth": 20913,
+      "lastHits": 233,
+      "denies": 7,
+      "duration": 2760,
+      "patch": "7.40+",
+      "win": false,
+      "rankBracket": "Ancient",
+      "kills": 16,
+      "deaths": 9,
+      "assists": 14,
+      "aghsScepter": false,
+      "aghsShard": true,
+      "facet": {
+        "name": "axe_one_man_army",
+        "title": "One Man Army",
+        "icon": "strength",
+        "color": "Red"
+      }
+    }
+  },
+  {
+    "id": "clash-18",
+    "buildA": {
+      "id": "8735917886-36",
+      "hero": "necrolyte",
+      "heroId": 36,
+      "items": [
+        1,
+        90,
+        231,
+        36,
+        73,
+        58
+      ],
+      "netWorth": 18016,
+      "lastHits": 163,
+      "denies": 2,
+      "duration": 2188,
+      "patch": "7.40+",
+      "win": true,
+      "rankBracket": "Archon",
+      "kills": 6,
+      "deaths": 5,
+      "assists": 24,
+      "aghsScepter": false,
+      "aghsShard": false,
+      "facet": {
+        "name": "necrolyte_rapid_decay",
+        "title": "Rapid Decay",
+        "icon": "speed",
+        "color": "Green"
+      }
+    },
+    "buildB": {
+      "id": "8735920942-71",
+      "hero": "spirit_breaker",
+      "heroId": 71,
+      "items": [
+        127,
+        154,
+        21,
+        36,
+        112,
+        63
+      ],
+      "netWorth": 16904,
+      "lastHits": 142,
+      "denies": 4,
+      "duration": 2650,
+      "patch": "7.40+",
+      "win": false,
+      "rankBracket": "Guardian",
+      "kills": 13,
+      "deaths": 12,
+      "assists": 19,
+      "aghsScepter": false,
+      "aghsShard": false,
+      "facet": {
+        "name": "spirit_breaker_bull_rush",
+        "title": "Bull Rush",
+        "icon": "speed",
+        "color": "Red"
+      }
+    }
+  },
+  {
+    "id": "clash-19",
+    "buildA": {
+      "id": "8735923120-93",
+      "hero": "slark",
+      "heroId": 93,
+      "items": [
+        569,
+        36,
+        939,
+        40,
+        63,
+        218
+      ],
+      "netWorth": 10833,
+      "lastHits": 54,
+      "denies": 1,
+      "duration": 2217,
+      "patch": "7.40+",
+      "win": true,
+      "rankBracket": "Legend",
+      "kills": 9,
+      "deaths": 15,
+      "assists": 17,
+      "aghsScepter": false,
+      "aghsShard": true,
+      "facet": {
+        "name": "slark_slark",
+        "title": "Fugitive",
+        "icon": "broken_chain",
+        "color": "Blue"
+      }
+    },
+    "buildB": {
+      "id": "8735921960-100",
+      "hero": "tusk",
+      "heroId": 100,
+      "items": [
+        168,
+        36,
+        40,
+        50,
+        73,
+        141
+      ],
+      "netWorth": 11671,
+      "lastHits": 96,
+      "denies": 1,
+      "duration": 2331,
+      "patch": "7.40+",
+      "win": false,
+      "rankBracket": "Guardian",
+      "kills": 14,
+      "deaths": 14,
+      "assists": 8,
+      "aghsScepter": false,
+      "aghsShard": false,
+      "facet": {
+        "name": "tusk_facet_tag_team",
+        "title": "Tag Team",
+        "icon": "damage",
+        "color": "Blue"
+      }
+    }
+  },
+  {
+    "id": "clash-20",
+    "buildA": {
+      "id": "8735916959-62",
+      "hero": "bounty_hunter",
+      "heroId": 62,
+      "items": [
+        50,
+        141,
+        168,
+        143,
+        36,
+        250
+      ],
+      "netWorth": 20573,
+      "lastHits": 171,
+      "denies": 12,
+      "duration": 2238,
+      "patch": "7.40+",
+      "win": true,
+      "rankBracket": "Guardian",
+      "kills": 8,
+      "deaths": 7,
+      "assists": 9,
+      "aghsScepter": false,
+      "aghsShard": false,
+      "facet": {
+        "name": "bounty_hunter_mugging",
+        "title": "Cutpurse",
+        "icon": "gold",
+        "color": "Yellow"
+      }
+    },
+    "buildB": {
+      "id": "8735918875-105",
+      "hero": "techies",
+      "heroId": 105,
+      "items": [
+        48,
+        158,
+        596,
+        236,
+        249,
+        149
+      ],
+      "netWorth": 19417,
+      "lastHits": 220,
+      "denies": 3,
+      "duration": 2612,
+      "patch": "7.40+",
+      "win": false,
+      "rankBracket": "Archon",
+      "kills": 14,
+      "deaths": 12,
+      "assists": 18,
+      "aghsScepter": false,
+      "aghsShard": false,
+      "facet": {
+        "name": "techies_atk_range",
+        "title": "Squee's Scope",
+        "icon": "range",
+        "color": "Gray"
+      }
+    }
+  },
+  {
+    "id": "clash-21",
+    "buildA": {
+      "id": "8735922995-64",
+      "hero": "jakiro",
+      "heroId": 64,
+      "items": [
+        931,
+        277,
+        36,
+        88,
+        218,
+        534
+      ],
+      "netWorth": 13661,
+      "lastHits": 167,
+      "denies": 3,
+      "duration": 2239,
+      "patch": "7.40+",
+      "win": true,
+      "rankBracket": "Guardian",
+      "kills": 5,
+      "deaths": 5,
+      "assists": 14,
+      "aghsScepter": false,
+      "aghsShard": false,
+      "facet": {
+        "name": "jakiro_twin_terror",
+        "title": "Twin Terror",
+        "icon": "damage",
+        "color": "Red"
+      }
+    },
+    "buildB": {
+      "id": "8735918780-105",
+      "hero": "techies",
+      "heroId": 105,
+      "items": [
+        139,
+        158,
+        36,
+        180,
+        0,
+        0
+      ],
+      "netWorth": 13363,
+      "lastHits": 111,
+      "denies": 2,
+      "duration": 2555,
+      "patch": "7.40+",
+      "win": false,
+      "rankBracket": "Ancient",
+      "kills": 6,
+      "deaths": 14,
+      "assists": 22,
+      "aghsScepter": false,
+      "aghsShard": false,
+      "facet": {
+        "name": "techies_atk_range",
+        "title": "Squee's Scope",
+        "icon": "range",
+        "color": "Gray"
+      }
+    }
+  },
+  {
+    "id": "clash-22",
+    "buildA": {
+      "id": "8735921987-105",
+      "hero": "techies",
+      "heroId": 105,
+      "items": [
+        206,
+        36,
+        178,
+        214,
+        123,
+        42
+      ],
+      "netWorth": 15310,
+      "lastHits": 93,
+      "denies": 2,
+      "duration": 2242,
+      "patch": "7.40+",
+      "win": true,
+      "rankBracket": "Archon",
+      "kills": 9,
+      "deaths": 11,
+      "assists": 24,
+      "aghsScepter": false,
+      "aghsShard": false,
+      "facet": {
+        "name": "techies_spleens_secret_sauce",
+        "title": "Spleen's Secret Sauce",
+        "icon": "nuke",
+        "color": "Red"
+      }
+    },
+    "buildB": {
+      "id": "8735920861-47",
+      "hero": "viper",
+      "heroId": 47,
+      "items": [
+        152,
+        63,
+        236,
+        75,
+        139,
+        43
+      ],
+      "netWorth": 13913,
+      "lastHits": 109,
+      "denies": 7,
+      "duration": 2481,
+      "patch": "7.40+",
+      "win": false,
+      "rankBracket": "Herald",
+      "kills": 14,
+      "deaths": 15,
+      "assists": 9,
+      "aghsScepter": false,
+      "aghsShard": false,
+      "facet": {
+        "name": "viper_poison_burst",
+        "title": "Poison Burst",
+        "icon": "area_of_effect",
+        "color": "Green"
+      }
+    }
+  },
+  {
+    "id": "clash-23",
+    "buildA": {
+      "id": "8735917872-138",
+      "hero": "muerta",
+      "heroId": 138,
+      "items": [
+        1466,
+        36,
+        244,
+        108,
+        42,
+        180
+      ],
+      "netWorth": 11136,
+      "lastHits": 73,
+      "denies": 2,
+      "duration": 2278,
+      "patch": "7.40+",
+      "win": false,
+      "rankBracket": "Archon",
+      "kills": 3,
+      "deaths": 10,
+      "assists": 16,
+      "aghsScepter": true,
+      "aghsShard": false,
+      "facet": {
+        "name": "muerta_dance_of_the_dead",
+        "title": "Dance of the Dead",
+        "icon": "spirit",
+        "color": "Green"
+      }
+    },
+    "buildB": {
+      "id": "8735920835-35",
+      "hero": "sniper",
+      "heroId": 35,
+      "items": [
+        75,
+        1808,
+        108,
+        1123,
+        29,
+        0
+      ],
+      "netWorth": 12985,
+      "lastHits": 79,
+      "denies": 6,
+      "duration": 2461,
+      "patch": "7.40+",
+      "win": true,
+      "rankBracket": "Ancient",
+      "kills": 5,
+      "deaths": 5,
+      "assists": 19,
+      "aghsScepter": true,
+      "aghsShard": true,
+      "facet": {
+        "name": "sniper_scattershot",
+        "title": "Scattershot",
+        "icon": "nuke",
+        "color": "Red"
+      }
+    }
+  },
+  {
+    "id": "clash-24",
+    "buildA": {
+      "id": "8735920818-9",
+      "hero": "mirana",
+      "heroId": 9,
+      "items": [
+        596,
+        1097,
+        36,
+        75,
+        147,
+        50
+      ],
+      "netWorth": 18964,
+      "lastHits": 162,
+      "denies": 13,
+      "duration": 2303,
+      "patch": "7.40+",
+      "win": true,
+      "rankBracket": "Archon",
+      "kills": 13,
+      "deaths": 2,
+      "assists": 16,
+      "aghsScepter": false,
+      "aghsShard": true,
+      "facet": {
+        "name": "mirana_starstruck",
+        "title": "Starstruck",
+        "icon": "no_vision",
+        "color": "Blue"
+      }
+    },
+    "buildB": {
+      "id": "8735922023-47",
+      "hero": "viper",
+      "heroId": 47,
+      "items": [
+        63,
+        127,
+        158,
+        149,
+        135,
+        112
+      ],
+      "netWorth": 21711,
+      "lastHits": 321,
+      "denies": 5,
+      "duration": 2876,
+      "patch": "7.40+",
+      "win": false,
+      "rankBracket": "Herald",
+      "kills": 12,
+      "deaths": 8,
+      "assists": 13,
+      "aghsScepter": false,
+      "aghsShard": false,
+      "facet": {
+        "name": "viper_poison_burst",
+        "title": "Poison Burst",
+        "icon": "area_of_effect",
+        "color": "Green"
+      }
+    }
+  },
+  {
+    "id": "clash-25",
+    "buildA": {
+      "id": "8735917902-85",
+      "hero": "undying",
+      "heroId": 85,
+      "items": [
+        34,
+        939,
+        267,
+        231,
+        123,
+        0
+      ],
+      "netWorth": 19862,
+      "lastHits": 186,
+      "denies": 14,
+      "duration": 2308,
+      "patch": "7.40+",
+      "win": true,
+      "rankBracket": "Guardian",
+      "kills": 7,
+      "deaths": 10,
+      "assists": 29,
+      "aghsScepter": false,
+      "aghsShard": false,
+      "facet": {
+        "name": "undying_rotting_mitts",
+        "title": "Rotting Mitts",
+        "icon": "summons",
+        "color": "Green"
+      }
+    },
+    "buildB": {
+      "id": "8735921875-123",
+      "hero": "hoodwink",
+      "heroId": 123,
+      "items": [
+        63,
+        0,
+        108,
+        141,
+        135,
+        166
+      ],
+      "netWorth": 21709,
+      "lastHits": 287,
+      "denies": 20,
+      "duration": 2859,
+      "patch": "7.40+",
+      "win": false,
+      "rankBracket": "Archon",
+      "kills": 12,
+      "deaths": 13,
+      "assists": 13,
+      "aghsScepter": true,
+      "aghsShard": false,
+      "facet": {
+        "name": "hoodwink_hunter",
+        "title": "Go Nuts",
+        "icon": "range",
+        "color": "Yellow"
+      }
+    }
+  },
+  {
+    "id": "clash-26",
+    "buildA": {
+      "id": "8735919874-68",
+      "hero": "ancient_apparition",
+      "heroId": 68,
+      "items": [
+        180,
+        55,
+        42,
+        34,
+        108,
+        0
+      ],
+      "netWorth": 11647,
+      "lastHits": 22,
+      "denies": 0,
+      "duration": 2319,
+      "patch": "7.40+",
+      "win": true,
+      "rankBracket": "Crusader",
+      "kills": 8,
+      "deaths": 4,
+      "assists": 28,
+      "aghsScepter": true,
+      "aghsShard": true,
+      "facet": {
+        "name": "ancient_apparition_exposure",
+        "title": "Exposure",
+        "icon": "area_of_effect",
+        "color": "Blue"
+      }
+    },
+    "buildB": {
+      "id": "8735921849-53",
+      "hero": "furion",
+      "heroId": 53,
+      "items": [
+        229,
+        185,
+        36,
+        231,
+        0,
+        4204
+      ],
+      "netWorth": 10802,
+      "lastHits": 144,
+      "denies": 2,
+      "duration": 2556,
+      "patch": "7.40+",
+      "win": false,
+      "rankBracket": "Legend",
+      "kills": 1,
+      "deaths": 14,
+      "assists": 8,
+      "aghsScepter": false,
+      "aghsShard": true,
+      "facet": {
+        "name": "furion_soothing_saplings",
+        "title": "Soothing Saplings",
+        "icon": "healing",
+        "color": "Green"
+      }
+    }
+  },
+  {
+    "id": "clash-27",
+    "buildA": {
+      "id": "8735919874-105",
+      "hero": "techies",
+      "heroId": 105,
+      "items": [
+        180,
+        247,
+        141,
+        26,
+        247,
+        135
+      ],
+      "netWorth": 25362,
+      "lastHits": 288,
+      "denies": 2,
+      "duration": 2319,
+      "patch": "7.40+",
+      "win": true,
+      "rankBracket": "Crusader",
+      "kills": 9,
+      "deaths": 4,
+      "assists": 13,
+      "aghsScepter": false,
+      "aghsShard": false,
+      "facet": {
+        "name": "techies_atk_range",
+        "title": "Squee's Scope",
+        "icon": "range",
+        "color": "Gray"
+      }
+    },
+    "buildB": {
+      "id": "8735919980-22",
+      "hero": "zuus",
+      "heroId": 22,
+      "items": [
+        277,
+        41,
+        108,
+        1,
+        231,
+        235
+      ],
+      "netWorth": 24516,
+      "lastHits": 339,
+      "denies": 1,
+      "duration": 2868,
+      "patch": "7.40+",
+      "win": false,
+      "rankBracket": "Legend",
+      "kills": 7,
+      "deaths": 2,
+      "assists": 13,
+      "aghsScepter": true,
+      "aghsShard": false,
+      "facet": {
+        "name": "zuus_divine_rampage",
+        "title": "Divine Rampage",
+        "icon": "nuke",
+        "color": "Gray"
+      }
+    }
+  },
+  {
+    "id": "clash-28",
+    "buildA": {
+      "id": "8735921860-64",
+      "hero": "jakiro",
+      "heroId": 64,
+      "items": [
+        158,
+        534,
+        218,
+        63,
+        263,
+        0
+      ],
+      "netWorth": 18950,
+      "lastHits": 206,
+      "denies": 2,
+      "duration": 2392,
+      "patch": "7.40+",
+      "win": true,
+      "rankBracket": "Guardian",
+      "kills": 12,
+      "deaths": 9,
+      "assists": 17,
+      "aghsScepter": false,
+      "aghsShard": true,
+      "facet": {
+        "name": "jakiro_twin_terror",
+        "title": "Twin Terror",
+        "icon": "damage",
+        "color": "Red"
+      }
+    },
+    "buildB": {
+      "id": "8735918957-26",
+      "hero": "lion",
+      "heroId": 26,
+      "items": [
+        112,
+        63,
+        32,
+        1,
+        116,
+        77
+      ],
+      "netWorth": 17245,
+      "lastHits": 180,
+      "denies": 3,
+      "duration": 2694,
+      "patch": "7.40+",
+      "win": false,
+      "rankBracket": "Legend",
+      "kills": 15,
+      "deaths": 13,
+      "assists": 16,
+      "aghsScepter": false,
+      "aghsShard": false,
+      "facet": {
+        "name": "lion_fist_of_death",
+        "title": "Fist of Death",
+        "icon": "fist",
+        "color": "Red"
+      }
+    }
+  },
+  {
+    "id": "clash-29",
+    "buildA": {
+      "id": "8735922029-40",
+      "hero": "venomancer",
+      "heroId": 40,
+      "items": [
+        218,
+        534,
+        48,
+        569,
+        127,
+        1107
+      ],
+      "netWorth": 14190,
+      "lastHits": 155,
+      "denies": 2,
+      "duration": 2407,
+      "patch": "7.40+",
+      "win": true,
+      "rankBracket": "Herald",
+      "kills": 7,
+      "deaths": 6,
+      "assists": 18,
+      "aghsScepter": false,
+      "aghsShard": true,
+      "facet": {
+        "name": "venomancer_plague_carrier",
+        "title": "Plague Carrier",
+        "icon": "summons",
+        "color": "Yellow"
+      }
+    },
+    "buildB": {
+      "id": "8735921861-65",
+      "hero": "batrider",
+      "heroId": 65,
+      "items": [
+        214,
+        158,
+        73,
+        36,
+        1,
+        190
+      ],
+      "netWorth": 13490,
+      "lastHits": 113,
+      "denies": 1,
+      "duration": 2461,
+      "patch": "7.40+",
+      "win": false,
+      "rankBracket": "Crusader",
+      "kills": 12,
+      "deaths": 11,
+      "assists": 9,
+      "aghsScepter": false,
+      "aghsShard": true,
+      "facet": {
+        "name": "batrider_arsonist",
+        "title": "Arsonist",
+        "icon": "damage",
+        "color": "Yellow"
+      }
+    }
+  },
+  {
+    "id": "clash-30",
+    "buildA": {
+      "id": "8735923041-68",
+      "hero": "ancient_apparition",
+      "heroId": 68,
+      "items": [
+        77,
+        77,
+        263,
+        180,
+        534,
+        108
+      ],
+      "netWorth": 16277,
+      "lastHits": 142,
+      "denies": 4,
+      "duration": 2471,
+      "patch": "7.40+",
+      "win": true,
+      "rankBracket": "Legend",
+      "kills": 5,
+      "deaths": 9,
+      "assists": 16,
+      "aghsScepter": true,
+      "aghsShard": false,
+      "facet": {
+        "name": "ancient_apparition_bone_chill",
+        "title": "Bone Chill",
+        "icon": "debuff",
+        "color": "Gray"
+      }
+    },
+    "buildB": {
+      "id": "8735921902-112",
+      "hero": "winter_wyvern",
+      "heroId": 112,
+      "items": [
+        90,
+        610,
+        0,
+        79,
+        180,
+        36
+      ],
+      "netWorth": 15961,
+      "lastHits": 83,
+      "denies": 5,
+      "duration": 3008,
+      "patch": "7.40+",
+      "win": false,
+      "rankBracket": "Crusader",
+      "kills": 5,
+      "deaths": 9,
+      "assists": 38,
+      "aghsScepter": false,
+      "aghsShard": true,
+      "facet": {
+        "name": "winter_wyvern_winterproof",
+        "title": "Winterproof",
+        "icon": "tower",
+        "color": "Blue"
+      }
+    }
+  }
+]
