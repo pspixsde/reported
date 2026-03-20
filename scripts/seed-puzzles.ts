@@ -32,19 +32,22 @@ if (existsSync(ENV_PATH)) {
 const BASE_URL = "https://api.opendota.com/api";
 const DATA_DIR = resolve(__dirname, "../src/data");
 const PUZZLES_PATH = resolve(DATA_DIR, "puzzles.json");
+const CLASH_PUZZLES_PATH = resolve(DATA_DIR, "clash-puzzles.json");
 const HEROES_PATH = resolve(DATA_DIR, "heroes.json");
+const HERO_ABILITIES_PATH = resolve(DATA_DIR, "hero-abilities.json");
 const ITEMS_PATH = resolve(DATA_DIR, "items.json");
 const POPULARITY_CACHE_PATH = resolve(DATA_DIR, "hero-item-popularity.json");
 const GAME_STORE_PATH = resolve(__dirname, "../src/stores/game-store.ts");
 const GLOBAL_STATS_PATH = resolve(DATA_DIR, "puzzle-global-stats.json");
 
 // ── Config ──
-const TARGET_PUZZLES = 90;
+const TARGET_PUZZLES = 70;
 const MAX_BATCHES = 120;
 const RATE_LIMIT_MS = 1100;
 const MIN_ITEM_COST = 1200;
 const UNUSUAL_THRESHOLD = 0.7;
 const MATCHES_TO_DETAIL = 25;
+const EXPLORER_MATCHES_TO_DETAIL = 90;
 // Penalty subtracted per top-10 popular item in a build
 const POPULAR_PENALTY = 0.4;
 // Items above this cost get amplified weirdness weight
@@ -53,6 +56,12 @@ const EXPENSIVE_ITEM_COST = 4000;
 const EXPENSIVE_MULTIPLIER = 1.5;
 // Minimum final net worth for a player to be considered as a puzzle
 const MIN_NET_WORTH = 7500;
+const CLASH_MIN_NET_WORTH = 9000;
+const TARGET_CLASH_PUZZLES = 30;
+const TARGET_CLASH_CANDIDATES = 130;
+const CLASH_MAX_NET_WORTH_DIFF = 4000;
+const CLASH_MAX_DURATION_DIFF = 10 * 60;
+const CLASH_MIN_RANK_GAP = 2;
 // Items excluded from weirdness scoring (e.g. Meteor Hammer — used to end
 // games when the enemy gives up, not an indicator of a weird build)
 const EXCLUDED_ITEM_IDS = new Set([223]); // 223 = Meteor Hammer
@@ -112,6 +121,13 @@ interface MatchPlayer {
   net_worth: number;
   last_hits: number;
   denies: number;
+  hero_variant?: number;
+  aghanims_scepter?: number;
+  aghanims_shard?: number;
+  permanent_buffs?: Array<{
+    permanent_buff: number;
+    stack_count?: number;
+  }>;
 }
 
 interface MatchDetail {
@@ -148,6 +164,90 @@ interface Puzzle {
   kills: number;
   deaths: number;
   assists: number;
+  aghsScepter: boolean;
+  aghsShard: boolean;
+  facet?: FacetInfo;
+}
+
+interface FacetInfo {
+  name: string;
+  title: string;
+  icon: string;
+  color: string;
+}
+
+interface HeroAbilityFacet {
+  name?: string;
+  title?: string;
+  icon?: string;
+  color?: string;
+  deprecated?: string | boolean;
+}
+
+interface HeroAbilityEntry {
+  facets?: HeroAbilityFacet[];
+}
+
+interface ClashCandidate {
+  id: string;
+  matchId: number;
+  heroId: number;
+  heroName: string;
+  items: number[];
+  netWorth: number;
+  lastHits: number;
+  denies: number;
+  duration: number;
+  patch: string;
+  win: boolean;
+  rankBracket: string;
+  rankNumber: number;
+  kills: number;
+  deaths: number;
+  assists: number;
+  aghsScepter: boolean;
+  aghsShard: boolean;
+  facet?: FacetInfo;
+}
+
+interface ClashBuild {
+  id: string;
+  hero: string;
+  heroId: number;
+  items: number[];
+  netWorth: number;
+  lastHits: number;
+  denies: number;
+  duration: number;
+  patch: string;
+  win: boolean;
+  rankBracket: string;
+  kills: number;
+  deaths: number;
+  assists: number;
+  aghsScepter: boolean;
+  aghsShard: boolean;
+  facet?: FacetInfo;
+}
+
+interface BuildClashPuzzle {
+  id: string;
+  buildA: ClashBuild;
+  buildB: ClashBuild;
+}
+
+interface ExplorerRow {
+  match_id: number | string;
+  avg_rank_tier: number | string | null;
+  duration: number | string;
+}
+
+interface ExplorerResponse {
+  rows?: ExplorerRow[];
+  data?: ExplorerRow[];
+  result?: {
+    rows?: ExplorerRow[];
+  };
 }
 
 // ── Helpers ──
@@ -185,6 +285,12 @@ function rankTierToName(tier: number | null): string {
   return names[bracket] || "Unknown";
 }
 
+function rankTierToNumber(tier: number | null): number {
+  if (!tier) return 0;
+  const bracket = Math.floor(tier / 10);
+  return bracket >= 1 && bracket <= 8 ? bracket : 0;
+}
+
 function classifyKda(k: number, d: number, a: number): string {
   return `${bv(k, [0, 4, 8, 13])} / ${bv(d, [0, 4, 8])} / ${bv(a, [0, 5, 10, 15])}`;
 }
@@ -196,6 +302,114 @@ function bv(val: number, t: number[]): string {
     }
   }
   return `0-${(t[1] ?? 1) - 1}`;
+}
+
+function isFacetDeprecated(facet: HeroAbilityFacet): boolean {
+  if (typeof facet.deprecated === "boolean") return facet.deprecated;
+  if (typeof facet.deprecated === "string") {
+    return facet.deprecated.toLowerCase() === "true";
+  }
+  return false;
+}
+
+function normalizeFacet(facet: HeroAbilityFacet): FacetInfo | null {
+  if (!facet.name || !facet.title || !facet.icon || !facet.color) return null;
+  return {
+    name: facet.name,
+    title: facet.title,
+    icon: facet.icon,
+    color: facet.color,
+  };
+}
+
+async function fetchHeroFacetsFromAPI(): Promise<Record<string, FacetInfo[]>> {
+  console.log("Fetching hero facets from OpenDota constants...");
+  const raw = await apiFetch<Record<string, HeroAbilityEntry>>("/constants/hero_abilities");
+  if (!raw) return {};
+
+  const out: Record<string, FacetInfo[]> = {};
+  for (const [heroKey, entry] of Object.entries(raw)) {
+    const facets = (entry.facets ?? [])
+      .filter((f) => !isFacetDeprecated(f))
+      .map(normalizeFacet)
+      .filter((f): f is FacetInfo => f !== null);
+    if (facets.length > 0) {
+      out[heroKey] = facets;
+    }
+  }
+  return out;
+}
+
+function loadHeroFacetsCache(): Record<string, FacetInfo[]> | null {
+  if (!existsSync(HERO_ABILITIES_PATH)) return null;
+  try {
+    return JSON.parse(readFileSync(HERO_ABILITIES_PATH, "utf-8")) as Record<string, FacetInfo[]>;
+  } catch {
+    return null;
+  }
+}
+
+function saveHeroFacetsCache(facets: Record<string, FacetInfo[]>): void {
+  writeFileSync(HERO_ABILITIES_PATH, JSON.stringify(facets, null, 2));
+}
+
+function getFacetForPlayer(
+  heroName: string,
+  heroVariant: number | undefined,
+  facetsMap: Record<string, FacetInfo[]>,
+): FacetInfo | undefined {
+  const heroKey = `npc_dota_hero_${heroName}`;
+  const heroFacets = facetsMap[heroKey];
+  if (!heroFacets || heroFacets.length === 0) return undefined;
+
+  if (heroVariant && heroVariant > 0) {
+    const variantIdx = heroVariant - 1;
+    if (variantIdx >= 0 && variantIdx < heroFacets.length) {
+      return heroFacets[variantIdx];
+    }
+  }
+
+  return heroFacets[0];
+}
+
+function hasPermanentBuff(
+  player: MatchPlayer,
+  permanentBuffId: number,
+): boolean {
+  if (!player.permanent_buffs || player.permanent_buffs.length === 0) {
+    return false;
+  }
+  return player.permanent_buffs.some(
+    (buff) => buff.permanent_buff === permanentBuffId,
+  );
+}
+
+function hasItemInMainInventory(player: MatchPlayer, itemId: number): boolean {
+  return (
+    player.item_0 === itemId ||
+    player.item_1 === itemId ||
+    player.item_2 === itemId ||
+    player.item_3 === itemId ||
+    player.item_4 === itemId ||
+    player.item_5 === itemId
+  );
+}
+
+function hasAghsScepterEffect(player: MatchPlayer): boolean {
+  // Sources in descending trust:
+  // 1) explicit aghanims_scepter field
+  // 2) permanent buff data
+  // 3) carried scepter in final 6 slots
+  return (
+    player.aghanims_scepter === 1 ||
+    hasPermanentBuff(player, 2) ||
+    hasItemInMainInventory(player, 108)
+  );
+}
+
+function hasAghsShardEffect(player: MatchPlayer): boolean {
+  // Shard is primarily represented as a consumed upgrade effect.
+  return player.aghanims_shard === 1 || hasPermanentBuff(player, 12);
 }
 
 // ── Hero item popularity (from OpenDota API) ──
@@ -343,6 +557,135 @@ async function fetchRankedMatches(
   return apiFetch<PublicMatch[]>(path);
 }
 
+let explorerDisabled = false;
+
+async function fetchMatchIdsFromExplorer(
+  lastMatchId?: number,
+): Promise<PublicMatch[] | null> {
+  const where: string[] = [
+    `avg_rank_tier >= ${MIN_RANK}`,
+    `duration >= 1200`,
+  ];
+  if (lastMatchId) {
+    where.push(`match_id < ${lastMatchId}`);
+  }
+
+  const sql = [
+    "SELECT match_id, avg_rank_tier, duration",
+    "FROM public_matches",
+    `WHERE ${where.join(" AND ")}`,
+    "ORDER BY match_id DESC",
+    "LIMIT 500",
+  ].join(" ");
+
+  const res = await apiFetch<ExplorerResponse>(
+    `/explorer?sql=${encodeURIComponent(sql)}`,
+  );
+  if (!res) return null;
+
+  const rawRows = res.rows ?? res.data ?? res.result?.rows ?? [];
+  return rawRows
+    .map((row) => ({
+      match_id: Number(row.match_id),
+      avg_rank_tier:
+        row.avg_rank_tier === null ? null : Number(row.avg_rank_tier),
+      duration: Number(row.duration),
+      radiant_win: false,
+    }))
+    .filter(
+      (row) =>
+        Number.isFinite(row.match_id) &&
+        row.match_id > 0 &&
+        Number.isFinite(row.duration),
+    );
+}
+
+async function fetchRankedMatchBatch(
+  lastMatchId?: number,
+): Promise<{ matches: PublicMatch[]; source: "explorer" | "public" } | null> {
+  if (!explorerDisabled) {
+    const explorerMatches = await fetchMatchIdsFromExplorer(lastMatchId);
+    if (explorerMatches === null) {
+      explorerDisabled = true;
+      console.warn("  Explorer unavailable, falling back to /publicMatches.");
+    } else if (explorerMatches.length > 0) {
+      return { matches: explorerMatches, source: "explorer" };
+    }
+  }
+
+  const publicMatches = await fetchRankedMatches(lastMatchId);
+  if (!publicMatches) return null;
+  return { matches: publicMatches, source: "public" };
+}
+
+function toClashBuild(c: ClashCandidate): ClashBuild {
+  return {
+    id: c.id,
+    hero: c.heroName,
+    heroId: c.heroId,
+    items: c.items,
+    netWorth: c.netWorth,
+    lastHits: c.lastHits,
+    denies: c.denies,
+    duration: c.duration,
+    patch: c.patch,
+    win: c.win,
+    rankBracket: c.rankBracket,
+    kills: c.kills,
+    deaths: c.deaths,
+    assists: c.assists,
+    aghsScepter: c.aghsScepter,
+    aghsShard: c.aghsShard,
+    facet: c.facet,
+  };
+}
+
+function pairClashCandidates(
+  candidates: ClashCandidate[],
+  targetPairs: number,
+): BuildClashPuzzle[] {
+  const sorted = [...candidates].sort((a, b) => a.duration - b.duration);
+  const used = new Set<string>();
+  const pairs: BuildClashPuzzle[] = [];
+
+  for (let i = 0; i < sorted.length && pairs.length < targetPairs; i++) {
+    const a = sorted[i];
+    if (used.has(a.id)) continue;
+
+    let bestIdx = -1;
+    let bestScore = Number.POSITIVE_INFINITY;
+
+    for (let j = i + 1; j < sorted.length; j++) {
+      const b = sorted[j];
+      if (used.has(b.id)) continue;
+      if (a.matchId === b.matchId) continue;
+      if (a.win === b.win) continue;
+      if (Math.abs(a.netWorth - b.netWorth) > CLASH_MAX_NET_WORTH_DIFF) continue;
+      if (Math.abs(a.duration - b.duration) > CLASH_MAX_DURATION_DIFF) continue;
+      if (Math.abs(a.rankNumber - b.rankNumber) < CLASH_MIN_RANK_GAP) continue;
+
+      const score = Math.abs(a.netWorth - b.netWorth) + Math.abs(a.duration - b.duration);
+      if (score < bestScore) {
+        bestScore = score;
+        bestIdx = j;
+      }
+    }
+
+    if (bestIdx === -1) continue;
+
+    const b = sorted[bestIdx];
+    used.add(a.id);
+    used.add(b.id);
+    pairs.push({
+      id: `clash-${pairs.length + 1}`,
+      buildA: toClashBuild(a),
+      buildB: toClashBuild(b),
+    });
+  }
+
+  return pairs;
+}
+
 // ── Main ──
 
 async function main() {
@@ -367,9 +710,21 @@ async function main() {
     console.log(`  Saved popularity data to ${POPULARITY_CACHE_PATH}\n`);
   }
 
-  // ── Step 2: Fetch matches and collect unusual-build puzzles ──
+  // ── Step 2: Build or load hero facets map ──
+  let heroFacets = loadHeroFacetsCache();
+  if (!heroFacets || Object.keys(heroFacets).length === 0) {
+    heroFacets = await fetchHeroFacetsFromAPI();
+    saveHeroFacetsCache(heroFacets);
+    console.log(`  Saved hero facets to ${HERO_ABILITIES_PATH}\n`);
+  } else {
+    console.log(`Loaded cached hero facets (${Object.keys(heroFacets).length} heroes).`);
+  }
+
+  // ── Step 3: Fetch matches and collect unusual-build puzzles ──
   const puzzles: Puzzle[] = [];
   const existingIds = new Set<string>();
+  const clashCandidates: ClashCandidate[] = [];
+  const clashCandidateIds = new Set<string>();
   let batches = 0;
   let lastMatchId: number | undefined;
 
@@ -379,22 +734,26 @@ async function main() {
     batches++;
     await sleep(RATE_LIMIT_MS);
 
-    const publicMatches = await fetchRankedMatches(lastMatchId);
-    if (!publicMatches || publicMatches.length === 0) {
+    const batch = await fetchRankedMatchBatch(lastMatchId);
+    if (!batch || batch.matches.length === 0) {
       console.warn("  No matches, retrying...");
       await sleep(3000);
       continue;
     }
+    const batchMatches = batch.matches;
+    const source = batch.source;
 
-    lastMatchId = publicMatches[publicMatches.length - 1].match_id;
+    lastMatchId = batchMatches[batchMatches.length - 1].match_id;
 
     console.log(
-      `Batch ${batches}: ${publicMatches.length} matches ` +
+      `Batch ${batches}: ${batchMatches.length} matches from ${source} ` +
       `(puzzles: ${puzzles.length}/${TARGET_PUZZLES})`,
     );
 
     // Fetch details for a subset of matches
-    for (const pm of publicMatches.slice(0, MATCHES_TO_DETAIL)) {
+    const matchesToDetail =
+      source === "explorer" ? EXPLORER_MATCHES_TO_DETAIL : MATCHES_TO_DETAIL;
+    for (const pm of batchMatches.slice(0, matchesToDetail)) {
       if (puzzles.length >= TARGET_PUZZLES) break;
 
       await sleep(RATE_LIMIT_MS);
@@ -444,9 +803,13 @@ async function main() {
           popularity,
         );
         if (score < UNUSUAL_THRESHOLD) continue;
+        const aghsScepter = hasAghsScepterEffect(player);
+        const aghsShard = hasAghsShardEffect(player);
 
         const puzzleId = `${detail.match_id}-${player.hero_id}`;
         if (existingIds.has(puzzleId)) continue;
+
+        const facet = getFacetForPlayer(hero.name, player.hero_variant, heroFacets);
 
         puzzles.push({
           id: puzzleId,
@@ -467,6 +830,9 @@ async function main() {
           kills: player.kills || 0,
           deaths: player.deaths || 0,
           assists: player.assists || 0,
+          aghsScepter,
+          aghsShard,
+          facet,
         });
 
         existingIds.add(puzzleId);
@@ -474,6 +840,56 @@ async function main() {
         console.log(
           `  [${puzzles.length}] ${hero.localized_name} (NW: ${player.net_worth}) score=${score.toFixed(2)}`,
         );
+      }
+
+      // Collect Build Clash candidates from the same fetched match to reduce extra API calls.
+      for (const player of detail.players) {
+        const hero = heroes[player.hero_id];
+        if (!hero) continue;
+
+        const playerItems = [
+          player.item_0, player.item_1, player.item_2,
+          player.item_3, player.item_4, player.item_5,
+        ].filter((id) => id !== 0);
+        if (playerItems.length < 3) continue;
+        if ((player.net_worth || 0) < CLASH_MIN_NET_WORTH) continue;
+
+        const score = unusualScore(player.hero_id, playerItems, items, popularity);
+        if (score < UNUSUAL_THRESHOLD) continue;
+        const aghsScepter = hasAghsScepterEffect(player);
+        const aghsShard = hasAghsShardEffect(player);
+
+        const candidateId = `${detail.match_id}-${player.hero_id}`;
+        if (existingIds.has(candidateId) || clashCandidateIds.has(candidateId)) continue;
+
+        const rankNumber = rankTierToNumber(pmAvgRankTier);
+        if (rankNumber === 0) continue;
+
+        clashCandidates.push({
+          id: candidateId,
+          matchId: detail.match_id,
+          heroId: hero.id,
+          heroName: hero.name,
+          items: [
+            player.item_0, player.item_1, player.item_2,
+            player.item_3, player.item_4, player.item_5,
+          ],
+          netWorth: player.net_worth || 0,
+          lastHits: player.last_hits || 0,
+          denies: player.denies || 0,
+          duration: detail.duration,
+          patch: TARGET_PATCH_DISPLAY,
+          win: player.win === 1,
+          rankBracket: rankTierToName(pmAvgRankTier),
+          rankNumber,
+          kills: player.kills || 0,
+          deaths: player.deaths || 0,
+          assists: player.assists || 0,
+          aghsScepter,
+          aghsShard,
+          facet: getFacetForPlayer(hero.name, player.hero_variant, heroFacets),
+        });
+        clashCandidateIds.add(candidateId);
       }
     }
   }
@@ -490,8 +906,105 @@ async function main() {
     );
   }
 
+  // ── Step 4: Ensure enough Build Clash candidates ──
+  let clashBatches = 0;
+  while (clashCandidates.length < TARGET_CLASH_CANDIDATES && clashBatches < MAX_BATCHES) {
+    clashBatches++;
+    await sleep(RATE_LIMIT_MS);
+
+    const batch = await fetchRankedMatchBatch(lastMatchId);
+    if (!batch || batch.matches.length === 0) {
+      console.warn("  No matches for clash candidates, retrying...");
+      await sleep(3000);
+      continue;
+    }
+    const batchMatches = batch.matches;
+    const source = batch.source;
+
+    lastMatchId = batchMatches[batchMatches.length - 1].match_id;
+    console.log(
+      `Clash batch ${clashBatches}: ${batchMatches.length} matches from ${source} ` +
+      `(candidates: ${clashCandidates.length}/${TARGET_CLASH_CANDIDATES})`,
+    );
+
+    const matchesToDetail =
+      source === "explorer" ? EXPLORER_MATCHES_TO_DETAIL : MATCHES_TO_DETAIL;
+    for (const pm of batchMatches.slice(0, matchesToDetail)) {
+      if (clashCandidates.length >= TARGET_CLASH_CANDIDATES) break;
+      await sleep(RATE_LIMIT_MS);
+      const detail = await apiFetch<MatchDetail>(`/matches/${pm.match_id}`);
+      if (!detail?.players) continue;
+      if (detail.patch !== TARGET_PATCH_ID) continue;
+      if (detail.lobby_type !== RANKED_LOBBY_TYPE) continue;
+      if (detail.game_mode === TURBO_GAME_MODE) continue;
+      if (detail.duration < 1200) continue;
+
+      const rankNumber = rankTierToNumber(pm.avg_rank_tier);
+      if (rankNumber === 0) continue;
+
+      for (const player of detail.players) {
+        if (clashCandidates.length >= TARGET_CLASH_CANDIDATES) break;
+        const hero = heroes[player.hero_id];
+        if (!hero) continue;
+
+        const playerItems = [
+          player.item_0, player.item_1, player.item_2,
+          player.item_3, player.item_4, player.item_5,
+        ].filter((id) => id !== 0);
+        if (playerItems.length < 3) continue;
+        if ((player.net_worth || 0) < CLASH_MIN_NET_WORTH) continue;
+
+        const score = unusualScore(player.hero_id, playerItems, items, popularity);
+        if (score < UNUSUAL_THRESHOLD) continue;
+        const aghsScepter = hasAghsScepterEffect(player);
+        const aghsShard = hasAghsShardEffect(player);
+
+        const candidateId = `${detail.match_id}-${player.hero_id}`;
+        if (existingIds.has(candidateId) || clashCandidateIds.has(candidateId)) continue;
+
+        clashCandidates.push({
+          id: candidateId,
+          matchId: detail.match_id,
+          heroId: hero.id,
+          heroName: hero.name,
+          items: [
+            player.item_0, player.item_1, player.item_2,
+            player.item_3, player.item_4, player.item_5,
+          ],
+          netWorth: player.net_worth || 0,
+          lastHits: player.last_hits || 0,
+          denies: player.denies || 0,
+          duration: detail.duration,
+          patch: TARGET_PATCH_DISPLAY,
+          win: player.win === 1,
+          rankBracket: rankTierToName(pm.avg_rank_tier),
+          rankNumber,
+          kills: player.kills || 0,
+          deaths: player.deaths || 0,
+          assists: player.assists || 0,
+          aghsScepter,
+          aghsShard,
+          facet: getFacetForPlayer(hero.name, player.hero_variant, heroFacets),
+        });
+        clashCandidateIds.add(candidateId);
+      }
+    }
+  }
+
+  // ── Step 5: Build clash puzzle pairs ──
+  const clashPuzzles = pairClashCandidates(clashCandidates, TARGET_CLASH_PUZZLES);
+  writeFileSync(CLASH_PUZZLES_PATH, JSON.stringify(clashPuzzles, null, 2));
+  console.log(`Saved ${clashPuzzles.length} clash puzzles to src/data/clash-puzzles.json`);
+  if (clashPuzzles.length < TARGET_CLASH_PUZZLES) {
+    console.warn(
+      `  Warning: Only found ${clashPuzzles.length}/${TARGET_CLASH_PUZZLES} clash pairs. ` +
+      "Try increasing MAX_BATCHES or lowering UNUSUAL_THRESHOLD.",
+    );
+  }
+
   // Upload puzzles to KV for production
   await uploadPuzzlesToKV(puzzles);
+  await uploadClashPuzzlesToKV(clashPuzzles);
 
   // Reset local stats file (for dev fallback)
   writeFileSync(GLOBAL_STATS_PATH, "{}");
@@ -521,6 +1034,20 @@ async function uploadPuzzlesToKV(puzzles: Puzzle[]): Promise<void> {
   const redis = new Redis({ url, token });
   await redis.set("puzzles:all", puzzles);
   console.log(`  Uploaded ${puzzles.length} puzzles to KV (key: puzzles:all)`);
+}
+
+async function uploadClashPuzzlesToKV(puzzles: BuildClashPuzzle[]): Promise<void> {
+  const url = process.env.KV_REST_API_URL;
+  const token = process.env.KV_REST_API_TOKEN;
+
+  if (!url || !token) {
+    console.log("  No KV credentials found — skipped clash KV upload (local file only)");
+    return;
+  }
+
+  const redis = new Redis({ url, token });
+  await redis.set("puzzles:clash-all", puzzles);
+  console.log(`  Uploaded ${puzzles.length} clash puzzles to KV (key: puzzles:clash-all)`);
 }
 
 /**

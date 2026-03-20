@@ -17,6 +17,9 @@ export interface Puzzle {
   kills: number;
   deaths: number;
   assists: number;
+  aghsScepter: boolean;
+  aghsShard: boolean;
+  facet?: FacetInfo;
 }
 
 /** Puzzle data sent to the client (answers stripped) */
@@ -32,6 +35,50 @@ export interface PuzzlePublic {
   patch: string;
   kdaOptions: string[];   // 4 shuffled literal KDA options (1 real + 3 fake)
   heroOptions?: number[]; // 4 shuffled hero IDs for hard mode (1 real + 3 fake)
+  aghsScepter: boolean;
+  aghsShard: boolean;
+  facet?: FacetInfo;
+  facetOptions?: (FacetInfo | null)[];
+}
+
+export interface FacetInfo {
+  name: string;
+  title: string;
+  icon: string;
+  color: string;
+}
+
+export interface ClashBuild {
+  id: string; // "matchId-heroId"
+  hero: string;
+  heroId: number;
+  items: number[];
+  netWorth: number;
+  lastHits: number;
+  denies: number;
+  duration: number;
+  patch: string;
+  win: boolean;
+  rankBracket: RankBracket;
+  kills: number;
+  deaths: number;
+  assists: number;
+  aghsScepter: boolean;
+  aghsShard: boolean;
+  facet?: FacetInfo;
+}
+
+export interface BuildClashPuzzle {
+  id: string;
+  buildA: ClashBuild;
+  buildB: ClashBuild;
+}
+
+export interface BuildClashPublic {
+  id: string;
+  buildA: Omit<ClashBuild, "win" | "rankBracket" | "kills" | "deaths" | "assists">;
+  buildB: Omit<ClashBuild, "win" | "rankBracket" | "kills" | "deaths" | "assists">;
+  rankOptions: [RankBracket, RankBracket];
 }
 
 // ── Rank brackets ──
@@ -86,25 +133,27 @@ export const RANK_MEDAL_URLS: Record<RankBracket, string> = {
 
 // ── Game state ──
 
-export type GameMode = "daily" | "puzzles";
+export type GameMode = "daily" | "puzzles" | "clash";
 
 // ── Puzzles mode ──
 
 /** Total puzzles per mode grid (regular or hard) */
-export const PUZZLES_TOTAL = 30;
+export const PUZZLES_TOTAL = 20;
 /** Total hard-mode puzzles */
-export const HARD_PUZZLES_TOTAL = 30;
+export const HARD_PUZZLES_TOTAL = 20;
 /** Daily challenge puzzle buffer size */
 export const DAILY_POOL_SIZE = 30;
+/** Build Clash daily pool size */
+export const CLASH_POOL_SIZE = 30;
 
-/** Index offsets into puzzles.json (90 puzzles: 0-29 regular, 30-59 hard, 60-89 daily) */
+/** Index offsets into puzzles.json (70 puzzles: 0-19 regular, 20-39 hard, 40-69 daily) */
 export const REGULAR_POOL_START = 0;
-export const HARD_POOL_START = 30;
-export const DAILY_POOL_START = 60;
+export const HARD_POOL_START = 20;
+export const DAILY_POOL_START = 40;
 
 /** Grid layout for Puzzles mode */
 export const PUZZLES_GRID_COLS = 10;
-export const PUZZLES_GRID_ROWS = 3;
+export const PUZZLES_GRID_ROWS = 2;
 
 export type GuessLevel = 1 | 2 | 3 | 4;
 

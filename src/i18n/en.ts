@@ -10,8 +10,11 @@ const en = {
   "mode.daily.desc": "One puzzle per day. Same for everyone.",
   "mode.daily.completed": "Completed today",
   "mode.puzzles.title": "Puzzles",
-  "mode.puzzles.desc": "30 puzzles. Complete them all.",
+  "mode.puzzles.desc": "20 standard and 20 hard puzzles. Complete them all.",
   "mode.puzzles.progress": "{completed}/{total} puzzles complete",
+  "mode.clash.title": "Build Clash",
+  "mode.clash.desc": "One daily duel between two weird builds.",
+  "mode.clash.completed": "Completed today",
 
   // ── Stats ──
   "stats.title": "Daily Challenge Stats",
@@ -21,8 +24,8 @@ const en = {
   // ── Header ──
   "header.daily": "Daily",
   "header.puzzles": "Puzzles",
+  "header.clash": "Build Clash",
   "header.dailyCount": "Daily: {count}",
-  "header.streak": "{count} streak",
 
   // ── Settings ──
   "settings.title": "Settings",
@@ -44,6 +47,8 @@ const en = {
   "puzzle.items": "Items",
   "puzzle.gold": "{value} gold",
   "puzzle.cs": "{lastHits} / {denies} CS",
+  "puzzle.aghs": "Aghanim's Scepter",
+  "puzzle.shard": "Aghanim's Shard",
   "puzzle.hiddenHero": "???",
 
   // ── Guess panel ──
@@ -61,6 +66,11 @@ const en = {
     "What <b>rank bracket</b> was this match played in?",
   "guess.hero.prompt":
     "Which <b>hero</b> was this build played on?",
+  "guess.clash.winner.prompt": "Which player won their game with this build?",
+  "guess.clash.kda.prompt": "Which player had the higher KDA ratio?",
+  "guess.clash.rank.prompt": "Match these two ranks to the correct players.",
+  "guess.clash.swap": "Swap",
+  "guess.clash.confirm": "Confirm",
 
   // ── Result feedback ──
   "result.winloss": "Win/Loss",
@@ -68,6 +78,9 @@ const en = {
   "result.kda": "KDA",
   "result.hero": "Hero",
   "result.level": "Level {n} — {label}",
+  "result.clash.winner": "Winner",
+  "result.clash.kda": "Better KDA",
+  "result.clash.rank": "Rank Match",
 
   // ── Score card ──
   "score.0": "Griefing! Better luck next time.",
@@ -79,6 +92,10 @@ const en = {
   "score.hard.2": "Not bad, but still reported.",
   "score.hard.3": "Close! Almost got away with it.",
   "score.hard.4": "Perfect read! This player is clean.",
+  "score.clash.0": "Total mismatch. Better luck tomorrow.",
+  "score.clash.1": "One right read. Not enough.",
+  "score.clash.2": "Strong read. Almost perfect.",
+  "score.clash.3": "Perfect clash read!",
   "score.hero": "Hero: {name}",
   "score.matchId": "Match ID:",
   "score.puzzleOf": "Puzzle {current} of {total}",
@@ -92,11 +109,12 @@ const en = {
   "levels.title": "Puzzles",
   "levels.desc": "{completed}/{total} completed",
   "levels.back": "Back to Menu",
-  "levels.hardMode.on": "Hard Mode: ON",
-  "levels.hardMode.off": "Hard Mode: OFF",
+  "levels.standard.title": "Standard Puzzles",
+  "levels.hard.title": "Hard Puzzles",
   "levels.stats.title": "Puzzles Stats",
   "levels.stats.played": "Played",
   "levels.stats.accuracy": "Accuracy",
+  "levels.newPuzzlesMonthly": "New puzzles every month!",
 
   // ── Puzzle navigation ──
   "nav.prevPuzzle": "Previous puzzle",
@@ -105,11 +123,12 @@ const en = {
 
   // ── Loading ──
   "loading.puzzle": "Loading puzzle...",
+  "loading.clash": "Loading clash...",
 
   // ── About ──
   "about.title": "About Us",
   "about.text1":
-    "<gold>REPORTED</gold> is a Wordle-inspired guessing game for Dota 2 players. You're shown a real ranked match featuring an unusual, off-meta build and challenged to guess the outcome — did they win? What rank bracket? What was their KDA?",
+    "<gold>REPORTED</gold> is a Wordle-inspired guessing game for Dota 2 players. Play Daily Challenge, Puzzles, and Build Clash using real ranked matches with unusual, off-meta builds.",
   "about.text2":
     'All match data comes from the <link href="https://www.opendota.com">OpenDota</link> API. New puzzles are sourced exclusively from ranked matches on the latest patch.',
   "about.disclaimer":
@@ -119,6 +138,18 @@ const en = {
   "privacy.title": "Privacy Policy",
   "privacy.text":
     "We don't collect personal data or run ads. Your game progress is stored locally in your browser. A full privacy policy will be published here if that ever changes.",
+
+  // ── Help ──
+  "help.title": "Help",
+  "help.howToPlay": "How to play",
+  "help.daily": "Daily Challenge: one puzzle per day, the same puzzle for everyone.",
+  "help.puzzles": "Puzzles mode: play standard and hard puzzles at your own pace.",
+  "help.clash": "Build Clash: compare two weird builds and guess winner, better KDA, and rank assignments.",
+  "help.levels": "Standard puzzles have 3 levels: Win/Loss, KDA, and Rank.",
+  "help.hardMode": "Hard puzzles have 4 levels: Hero, Win/Loss, KDA, and Rank.",
+  "help.facets": "Facets are shown for builds and hero choices to add more context.",
+  "help.scoring": "You get 1 point per correct guess. Score is 0-3 in standard and 0-4 in hard.",
+  "help.settings": "Use Settings for More Stats and Colorblind Mode. Progress saves automatically.",
 
   // ── Answer translations ──
   "answer.Win": "Win",
@@ -138,11 +169,14 @@ const en = {
   "survey.no": "No, It's Fine",
   "survey.thanks": "Thanks for your feedback!",
   "survey.reportPercent": "{percent}% of players would report this build.",
+  "clash.player1": "Player 1",
+  "clash.player2": "Player 2",
 
   // ── Global stats ──
   "stats.levelCorrect": "{percent}% of players guessed this right",
   "stats.levelCorrect.daily": "{percent}% of players guessed this right today",
   "stats.avgScore": "Average Global Score: {avg}/{max}",
+  "stats.clash.title": "Build Clash Stats",
 } as const;
 
 export type TranslationKey = keyof typeof en;

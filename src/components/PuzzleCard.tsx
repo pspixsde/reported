@@ -6,6 +6,8 @@ import { useSettingsStore } from "@/stores/settings-store";
 import { useTranslation } from "@/i18n";
 import { HeroIcon } from "./HeroIcon";
 import { ItemIcon } from "./ItemIcon";
+import { FacetBadge } from "./FacetBadge";
+import { AghsIndicator } from "./AghsIndicator";
 import { formatDuration, formatNetWorth } from "@/lib/puzzle-utils";
 
 interface PuzzleCardProps {
@@ -53,6 +55,7 @@ export function PuzzleCard({ className }: PuzzleCardProps) {
           <h2 className="text-xl font-bold text-dota-text">
             {hideHero ? t("puzzle.hiddenHero") : heroDisplayName}
           </h2>
+          {!hideHero && <FacetBadge facet={puzzle.facet} className="mt-1" />}
         </div>
       </div>
 
@@ -66,6 +69,11 @@ export function PuzzleCard({ className }: PuzzleCardProps) {
             <ItemIcon key={`${itemId}-${i}`} itemId={itemId} />
           ))}
         </div>
+        <AghsIndicator
+          className="mt-2"
+          aghsScepter={puzzle.aghsScepter}
+          aghsShard={puzzle.aghsShard}
+        />
       </div>
 
       {/* Match info */}

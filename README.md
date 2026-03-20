@@ -4,6 +4,8 @@ A free web-based guessing game for Dota 2 players. You're shown a real ranked ma
 
 **Live at [reported-dota.org](https://reported-dota.org)**
 
+[![Ko-fi](https://img.shields.io/badge/Support-Ko--fi-ff5e5b?logo=ko-fi)](https://ko-fi.com/reporteddota)
+
 Found a bug or have a suggestion? [Open an issue](https://github.com/pspixsde/reported/issues) — all feedback is welcome.
 
 ## How to Play

@@ -12,8 +12,11 @@ const es: Record<TranslationKey, string> = {
   "mode.daily.desc": "Un puzle por día. Igual para todos.",
   "mode.daily.completed": "Completado hoy",
   "mode.puzzles.title": "Puzles",
-  "mode.puzzles.desc": "30 puzles. Complétalos todos.",
+  "mode.puzzles.desc": "20 puzles estándar y 20 difíciles. Complétalos todos.",
   "mode.puzzles.progress": "{completed}/{total} puzles completados",
+  "mode.clash.title": "Build Clash",
+  "mode.clash.desc": "Un duelo diario entre dos builds raras.",
+  "mode.clash.completed": "Completado hoy",
 
   // ── Stats ──
   "stats.title": "Estadísticas del desafío diario",
@@ -23,8 +26,8 @@ const es: Record<TranslationKey, string> = {
   // ── Header ──
   "header.daily": "Diario",
   "header.puzzles": "Puzles",
+  "header.clash": "Build Clash",
   "header.dailyCount": "Diario: {count}",
-  "header.streak": "{count} racha",
 
   // ── Settings ──
   "settings.title": "Ajustes",
@@ -46,6 +49,8 @@ const es: Record<TranslationKey, string> = {
   "puzzle.items": "Objetos",
   "puzzle.gold": "{value} de oro",
   "puzzle.cs": "{lastHits} / {denies} CS",
+  "puzzle.aghs": "Aghanim's Scepter",
+  "puzzle.shard": "Aghanim's Shard",
   "puzzle.hiddenHero": "???",
 
   // ── Guess panel ──
@@ -63,6 +68,11 @@ const es: Record<TranslationKey, string> = {
     "¿En qué <b>rango</b> se jugó esta partida?",
   "guess.hero.prompt":
     "¿Con qué <b>héroe</b> se jugó esta build?",
+  "guess.clash.winner.prompt": "¿Qué jugador ganó su partida con esta build?",
+  "guess.clash.kda.prompt": "¿Qué jugador tuvo mejor ratio de KDA?",
+  "guess.clash.rank.prompt": "Asigna estos dos rangos a los jugadores correctos.",
+  "guess.clash.swap": "Intercambiar",
+  "guess.clash.confirm": "Confirmar",
 
   // ── Result feedback ──
   "result.winloss": "Victoria/Derrota",
@@ -70,6 +80,9 @@ const es: Record<TranslationKey, string> = {
   "result.kda": "KDA",
   "result.hero": "Héroe",
   "result.level": "Nivel {n} — {label}",
+  "result.clash.winner": "Ganador",
+  "result.clash.kda": "Mejor KDA",
+  "result.clash.rank": "Asignación de rango",
 
   // ── Score card ──
   "score.0": "¡Griefing! Mejor suerte la próxima vez.",
@@ -81,6 +94,10 @@ const es: Record<TranslationKey, string> = {
   "score.hard.2": "No está mal, pero aún reportado.",
   "score.hard.3": "¡Cerca! Casi se sale con la suya.",
   "score.hard.4": "¡Lectura perfecta! Este jugador está limpio.",
+  "score.clash.0": "Fallaste todo. Mejor suerte mañana.",
+  "score.clash.1": "Una lectura correcta. Falta más.",
+  "score.clash.2": "Muy bien. Casi perfecto.",
+  "score.clash.3": "¡Lectura perfecta del Clash!",
   "score.hero": "Héroe: {name}",
   "score.matchId": "ID de partida:",
   "score.puzzleOf": "Puzle {current} de {total}",
@@ -94,11 +111,12 @@ const es: Record<TranslationKey, string> = {
   "levels.title": "Puzles",
   "levels.desc": "{completed}/{total} completados",
   "levels.back": "Volver al menú",
-  "levels.hardMode.on": "Modo difícil: ON",
-  "levels.hardMode.off": "Modo difícil: OFF",
+  "levels.standard.title": "Puzles estándar",
+  "levels.hard.title": "Puzles difíciles",
   "levels.stats.title": "Estadísticas de puzles",
   "levels.stats.played": "Jugados",
   "levels.stats.accuracy": "Precisión",
+  "levels.newPuzzlesMonthly": "¡Nuevos puzles cada mes!",
 
   // ── Puzzle navigation ──
   "nav.prevPuzzle": "Puzle anterior",
@@ -107,11 +125,12 @@ const es: Record<TranslationKey, string> = {
 
   // ── Loading ──
   "loading.puzzle": "Cargando puzle...",
+  "loading.clash": "Cargando Build Clash...",
 
   // ── About ──
   "about.title": "Sobre nosotros",
   "about.text1":
-    "<gold>REPORTED</gold> es un juego de adivinanzas inspirado en Wordle para jugadores de Dota 2. Se te muestra una partida clasificatoria real con una build inusual y fuera del meta, y debes adivinar el resultado: ¿ganaron? ¿En qué rango? ¿Cuál fue su KDA?",
+    "<gold>REPORTED</gold> es un juego de adivinanzas inspirado en Wordle para jugadores de Dota 2. Juega Daily Challenge, Puzzles y Build Clash usando partidas clasificatorias reales con builds inusuales.",
   "about.text2":
     'Todos los datos de partidas provienen de la API de <link href="https://www.opendota.com">OpenDota</link>. Los nuevos puzles se obtienen exclusivamente de partidas clasificatorias del último parche.',
   "about.disclaimer":
@@ -121,6 +140,18 @@ const es: Record<TranslationKey, string> = {
   "privacy.title": "Política de privacidad",
   "privacy.text":
     "No recopilamos datos personales ni mostramos anuncios. Tu progreso de juego se almacena localmente en tu navegador. Se publicará una política de privacidad completa aquí si eso cambia.",
+
+  // ── Help ──
+  "help.title": "Ayuda",
+  "help.howToPlay": "Como jugar",
+  "help.daily": "Desafío diario: un puzle por día, igual para todos.",
+  "help.puzzles": "Modo Puzles: juega puzles estándar y difíciles a tu ritmo.",
+  "help.clash": "Build Clash: compara dos builds raras y adivina ganador, mejor KDA y asignación de rangos.",
+  "help.levels": "Los puzles estándar tienen 3 niveles: Victoria/Derrota, KDA y Rango.",
+  "help.hardMode": "Los puzles difíciles tienen 4 niveles: Héroe, Victoria/Derrota, KDA y Rango.",
+  "help.facets": "Se muestran facetas en las builds y opciones de héroe para dar más contexto.",
+  "help.scoring": "Obtienes 1 punto por cada acierto. La puntuación es 0-3 en estándar y 0-4 en difícil.",
+  "help.settings": "Usa Ajustes para Más estadísticas y Modo daltónico. El progreso se guarda automáticamente.",
 
   // ── Answer translations ──
   "answer.Win": "Victoria",
@@ -140,11 +171,14 @@ const es: Record<TranslationKey, string> = {
   "survey.no": "No, está bien",
   "survey.thanks": "¡Gracias por tu opinión!",
   "survey.reportPercent": "{percent}% de los jugadores reportaría esta build.",
+  "clash.player1": "Jugador 1",
+  "clash.player2": "Jugador 2",
 
   // ── Global stats ──
   "stats.levelCorrect": "{percent}% de los jugadores adivinaron correctamente",
   "stats.levelCorrect.daily": "{percent}% de los jugadores adivinaron correctamente hoy",
   "stats.avgScore": "Puntuación global media: {avg}/{max}",
+  "stats.clash.title": "Estadísticas de Build Clash",
 };
 
 export default es;

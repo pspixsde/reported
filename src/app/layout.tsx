@@ -1,7 +1,18 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { SettingsProvider } from "@/components/SettingsProvider";
 import "./globals.css";
+
+const websiteStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "Reported",
+  alternateName: ["Reported Dota", "Reported Dota 2"],
+  url: "https://reported-dota.org",
+};
+
+const bingVerification = process.env.NEXT_PUBLIC_BING_VERIFICATION?.trim();
 
 export const metadata: Metadata = {
   title: "Reported — Dota 2 Daily Puzzle & Rank Guessing Game",
@@ -30,6 +41,9 @@ export const metadata: Metadata = {
   },
   verification: {
     google: "rCIk9Eon855LvgPnx3lDI0pna4B7jS7umYx0UzXQZUs",
+    ...(bingVerification
+      ? { other: { "msvalidate.01": bingVerification } }
+      : {}),
   },
 };
 
@@ -41,8 +55,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="min-h-screen antialiased">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(websiteStructuredData),
+          }}
+        />
         <SettingsProvider>{children}</SettingsProvider>
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

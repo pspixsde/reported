@@ -12,8 +12,11 @@ const pt: Record<TranslationKey, string> = {
   "mode.daily.desc": "Um puzzle por dia. Igual para todos.",
   "mode.daily.completed": "Concluído hoje",
   "mode.puzzles.title": "Puzzles",
-  "mode.puzzles.desc": "30 puzzles. Complete todos.",
+  "mode.puzzles.desc": "20 puzzles padrão e 20 difíceis. Complete todos.",
   "mode.puzzles.progress": "{completed}/{total} puzzles concluídos",
+  "mode.clash.title": "Build Clash",
+  "mode.clash.desc": "Um duelo diário entre duas builds estranhas.",
+  "mode.clash.completed": "Concluído hoje",
 
   // ── Stats ──
   "stats.title": "Estatísticas do Desafio Diário",
@@ -23,8 +26,8 @@ const pt: Record<TranslationKey, string> = {
   // ── Header ──
   "header.daily": "Diário",
   "header.puzzles": "Puzzles",
+  "header.clash": "Build Clash",
   "header.dailyCount": "Diário: {count}",
-  "header.streak": "{count} sequência",
 
   // ── Settings ──
   "settings.title": "Configurações",
@@ -46,6 +49,8 @@ const pt: Record<TranslationKey, string> = {
   "puzzle.items": "Itens",
   "puzzle.gold": "{value} de ouro",
   "puzzle.cs": "{lastHits} / {denies} CS",
+  "puzzle.aghs": "Aghanim's Scepter",
+  "puzzle.shard": "Aghanim's Shard",
   "puzzle.hiddenHero": "???",
 
   // ── Guess panel ──
@@ -63,6 +68,11 @@ const pt: Record<TranslationKey, string> = {
     "Em qual <b>faixa de rank</b> esta partida foi jogada?",
   "guess.hero.prompt":
     "Com qual <b>herói</b> esta build foi jogada?",
+  "guess.clash.winner.prompt": "Qual jogador venceu sua partida com esta build?",
+  "guess.clash.kda.prompt": "Qual jogador teve a melhor razão de KDA?",
+  "guess.clash.rank.prompt": "Associe estes dois ranks aos jogadores corretos.",
+  "guess.clash.swap": "Trocar",
+  "guess.clash.confirm": "Confirmar",
 
   // ── Result feedback ──
   "result.winloss": "Vitória/Derrota",
@@ -70,6 +80,9 @@ const pt: Record<TranslationKey, string> = {
   "result.kda": "KDA",
   "result.hero": "Herói",
   "result.level": "Nível {n} — {label}",
+  "result.clash.winner": "Vencedor",
+  "result.clash.kda": "Melhor KDA",
+  "result.clash.rank": "Associação de rank",
 
   // ── Score card ──
   "score.0": "Griefing! Mais sorte na próxima vez.",
@@ -81,6 +94,10 @@ const pt: Record<TranslationKey, string> = {
   "score.hard.2": "Não foi mal, mas ainda reportado.",
   "score.hard.3": "Quase! Por pouco não escapou.",
   "score.hard.4": "Leitura perfeita! Este jogador está limpo.",
+  "score.clash.0": "Errou tudo. Mais sorte amanhã.",
+  "score.clash.1": "Um acerto. Precisa de mais.",
+  "score.clash.2": "Boa leitura. Quase perfeito.",
+  "score.clash.3": "Leitura perfeita do Clash!",
   "score.hero": "Herói: {name}",
   "score.matchId": "ID da partida:",
   "score.puzzleOf": "Puzzle {current} de {total}",
@@ -94,11 +111,12 @@ const pt: Record<TranslationKey, string> = {
   "levels.title": "Puzzles",
   "levels.desc": "{completed}/{total} concluídos",
   "levels.back": "Voltar ao Menu",
-  "levels.hardMode.on": "Modo Difícil: ON",
-  "levels.hardMode.off": "Modo Difícil: OFF",
+  "levels.standard.title": "Puzzles padrão",
+  "levels.hard.title": "Puzzles difíceis",
   "levels.stats.title": "Estatísticas dos Puzzles",
   "levels.stats.played": "Jogados",
   "levels.stats.accuracy": "Precisão",
+  "levels.newPuzzlesMonthly": "Novos puzzles todo mes!",
 
   // ── Puzzle navigation ──
   "nav.prevPuzzle": "Puzzle anterior",
@@ -107,11 +125,12 @@ const pt: Record<TranslationKey, string> = {
 
   // ── Loading ──
   "loading.puzzle": "Carregando puzzle...",
+  "loading.clash": "Carregando Build Clash...",
 
   // ── About ──
   "about.title": "Sobre Nós",
   "about.text1":
-    "<gold>REPORTED</gold> é um jogo de adivinhação inspirado no Wordle para jogadores de Dota 2. Você vê uma partida ranqueada real com uma build incomum e fora do meta, e deve adivinhar o resultado — venceram? Qual faixa de rank? Qual foi o KDA?",
+    "<gold>REPORTED</gold> é um jogo de adivinhação inspirado no Wordle para jogadores de Dota 2. Jogue Daily Challenge, Puzzles e Build Clash usando partidas ranqueadas reais com builds incomuns.",
   "about.text2":
     'Todos os dados de partidas vêm da API do <link href="https://www.opendota.com">OpenDota</link>. Novos puzzles são obtidos exclusivamente de partidas ranqueadas do patch mais recente.',
   "about.disclaimer":
@@ -121,6 +140,18 @@ const pt: Record<TranslationKey, string> = {
   "privacy.title": "Política de Privacidade",
   "privacy.text":
     "Não coletamos dados pessoais nem exibimos anúncios. Seu progresso no jogo é armazenado localmente no seu navegador. Uma política de privacidade completa será publicada aqui se isso mudar.",
+
+  // ── Help ──
+  "help.title": "Ajuda",
+  "help.howToPlay": "Como jogar",
+  "help.daily": "Desafio Diário: um puzzle por dia, o mesmo para todos.",
+  "help.puzzles": "Modo Puzzles: jogue puzzles padrão e difíceis no seu ritmo.",
+  "help.clash": "Build Clash: compare duas builds estranhas e adivinhe vencedor, melhor KDA e associação de ranks.",
+  "help.levels": "Puzzles padrão têm 3 níveis: Vitória/Derrota, KDA e Rank.",
+  "help.hardMode": "Puzzles difíceis têm 4 níveis: Herói, Vitória/Derrota, KDA e Rank.",
+  "help.facets": "As facetas aparecem nas builds e opções de herói para dar mais contexto.",
+  "help.scoring": "Você ganha 1 ponto por acerto. A pontuação é 0-3 no padrão e 0-4 no difícil.",
+  "help.settings": "Use Configurações para Mais Estatísticas e Modo Daltônico. O progresso salva automaticamente.",
 
   // ── Answer translations ──
   "answer.Win": "Vitória",
@@ -140,11 +171,14 @@ const pt: Record<TranslationKey, string> = {
   "survey.no": "Não, Está Bem",
   "survey.thanks": "Obrigado pelo seu feedback!",
   "survey.reportPercent": "{percent}% dos jogadores reportariam esta build.",
+  "clash.player1": "Jogador 1",
+  "clash.player2": "Jogador 2",
 
   // ── Global stats ──
   "stats.levelCorrect": "{percent}% dos jogadores acertaram",
   "stats.levelCorrect.daily": "{percent}% dos jogadores acertaram hoje",
   "stats.avgScore": "Pontuação Global Média: {avg}/{max}",
+  "stats.clash.title": "Estatísticas do Build Clash",
 };
 
 export default pt;

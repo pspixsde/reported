@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { cn } from "@/lib/cn";
 import { useGameStore } from "@/stores/game-store";
@@ -14,7 +15,6 @@ interface HeaderProps {
 export function Header({ className }: HeaderProps) {
   const { t } = useTranslation();
   const mode = useGameStore((s) => s.mode);
-  const streak = useGameStore((s) => s.streak);
   const gamesPlayed = useGameStore((s) => s.gamesPlayed);
   const resetGame = useGameStore((s) => s.resetGame);
   const easyMode = useSettingsStore((s) => s.easyMode);
@@ -27,6 +27,8 @@ export function Header({ className }: HeaderProps) {
       ? t("header.daily")
       : mode === "puzzles"
         ? t("header.puzzles")
+        : mode === "clash"
+          ? t("header.clash")
         : null;
 
   return (
@@ -37,7 +39,8 @@ export function Header({ className }: HeaderProps) {
           className,
         )}
       >
-        <button
+        <Link
+          href="/"
           onClick={resetGame}
           className={cn(
             "text-2xl font-bold tracking-tight transition-colors",
@@ -47,7 +50,7 @@ export function Header({ className }: HeaderProps) {
           )}
         >
           {t("app.title")}
-        </button>
+        </Link>
 
         <div className="flex items-center gap-3">
           {modeLabel && (
@@ -61,11 +64,6 @@ export function Header({ className }: HeaderProps) {
               <span title={t("stats.played")}>
                 {t("header.dailyCount", { count: gamesPlayed })}
               </span>
-              {streak > 0 && (
-                <span className="font-semibold text-dota-gold">
-                  {t("header.streak", { count: streak })}
-                </span>
-              )}
             </div>
           )}
 
