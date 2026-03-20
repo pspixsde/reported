@@ -714,6 +714,33 @@ export const useGameStore = create<GameStoreState>()(
     }),
     {
       name: "reported-game-v8",
+      version: 1,
+      migrate: (persistedState, version) => {
+        const state = persistedState as Record<string, unknown>;
+        if (version < 1) {
+          return {
+            ...state,
+            // Reset only Puzzles mode progress/stats for new puzzle season.
+            completedPuzzles: [],
+            puzzleScores: {},
+            puzzleResults: {},
+            puzzlesInProgressIndex: null,
+            puzzlesInProgressLevel: 1 as GuessLevel,
+            puzzlesInProgressResults: [],
+            completedHardPuzzles: [],
+            hardPuzzleScores: {},
+            hardPuzzleResults: {},
+            hardPuzzlesInProgressIndex: null,
+            hardPuzzlesInProgressLevel: 1 as GuessLevel,
+            hardPuzzlesInProgressResults: [],
+            puzzlesGamesPlayed: 0,
+            puzzlesTotalScore: 0,
+            hardPuzzlesGamesPlayed: 0,
+            hardPuzzlesTotalScore: 0,
+          } as any;
+        }
+        return state as any;
+      },
       partialize: (state) => ({
         // Daily persistence
         dailyDate: state.dailyDate,
