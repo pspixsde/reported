@@ -1,6 +1,6 @@
 {
   "name": "reported",
-  "version": "1.0.1",
+  "version": "1.1.1",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "next lint",
     "seed:constants": "npx tsx scripts/fetch-constants.ts",
-    "seed:puzzles": "npx tsx scripts/seed-puzzles.ts"
+    "seed:puzzles": "npx tsx scripts/seed-puzzles.ts",
+    "seed:clash": "npx tsx scripts/seed-puzzles.ts --clash-only",
+    "upload:puzzles-kv": "npx tsx scripts/upload-puzzles-to-kv.ts"
   },
   "dependencies": {
     "@upstash/redis": "^1.36.2",

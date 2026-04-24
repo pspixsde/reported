@@ -1,8 +1,30 @@
 "use client";
 
-import Image from "next/image";
 import { cn } from "@/lib/cn";
 import { useGameStore } from "@/stores/game-store";
+
+/**
+ * Item art lives on Steam's CDN. Valve serves from both `cdn.steamstatic.com` and
+ * `cdn.cloudflare.steamstatic.com`; the former is the host users often get after
+ * redirects and matches the in-game / Web API paths. We use a single base so URLs
+ * match what works in a normal browser tab.
+ */
+const STEAM_DOTA_CDN = "https://cdn.steamstatic.com";
+
+function itemImageUrl(
+  item: { name?: string; img?: string } | undefined,
+  itemId: number,
+  itemName: string,
+): string {
+  if (item?.img) {
+    const path = item.img.startsWith("/") ? item.img : `/${item.img}`;
+    return `${STEAM_DOTA_CDN}${path}`;
+  }
+  if (itemName) {
+    return `${STEAM_DOTA_CDN}/apps/dota2/images/dota_react/items/${itemName}.png`;
+  }
+  return `${STEAM_DOTA_CDN}/apps/dota2/images/dota_react/items/${itemId}.png`;
+}
 
 interface ItemIconProps {
   itemId: number;
@@ -26,10 +48,7 @@ export function ItemIcon({ itemId, className }: ItemIconProps) {
   const item = items?.[itemId];
   const displayName = item?.dname || `Item ${itemId}`;
   const itemName = item?.name || "";
-
-  const imgSrc = itemName
-    ? `https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/items/${itemName}.png`
-    : `https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/items/${itemId}.png`;
+  const imgSrc = itemImageUrl(item, itemId, itemName);
 
   return (
     <div
@@ -39,13 +58,15 @@ export function ItemIcon({ itemId, className }: ItemIconProps) {
       )}
       title={displayName}
     >
-      <Image
+      <img
         src={imgSrc}
         alt={displayName}
         width={46}
         height={34}
-        className="object-cover"
-        unoptimized
+        className="h-[34px] w-[46px] object-cover"
+        loading="lazy"
+        decoding="async"
+        referrerPolicy="no-referrer"
       />
     </div>
   );

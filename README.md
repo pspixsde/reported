@@ -2,7 +2,7 @@
 
 A free web-based guessing game for Dota 2 players. You're shown a real ranked match featuring an unusual, off-meta build and challenged to guess the outcome.
 
-**Live at [reported-dota.org](https://reported-dota.org)**
+**Live at [reported-dota.org](https://reported-dota.org)** · **v1.1.1** ([release notes](./RELEASES.md))
 
 [![Ko-fi](https://img.shields.io/badge/Support-Ko--fi-ff5e5b?logo=ko-fi)](https://ko-fi.com/reporteddota)
 
@@ -25,9 +25,10 @@ In Hard Mode, there's an extra first level: **Guess the Hero** from the items al
 ## Game Modes
 
 - **Daily Challenge** — one puzzle per day, same for everyone
-- **Puzzles** — 30 puzzles per mode (regular + hard), complete them all
+- **Puzzles** — **20** standard and **20** hard puzzles on one screen; complete them all
   - Progress is saved if you leave mid-puzzle and resume later
   - Global stats show how other players scored on each puzzle
+- **Build Clash** — a daily “who built it better?” duel: two off-meta builds from the same day; guess the winner, who had the better KDA, and how the two players’ ranks compare (3 levels)
 
 ## Languages
 
@@ -41,8 +42,9 @@ npm install
 
 # Copy env template and fill in KV credentials (optional for local dev)
 cp .env.example .env.local
+# On Windows: copy .env.example .env.local
 
-# Fetch hero & item data from OpenDota
+# Fetch hero & item data from OpenDota (updates src/data/heroes.json and items.json)
 npm run seed:constants
 
 # Seed puzzle data from ranked matches (takes ~7 min due to API rate limits)
@@ -54,6 +56,8 @@ npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000).
+
+For production-like puzzle storage, you can upload committed JSON to KV after seeding: `npm run upload:puzzles-kv` (requires KV env vars).
 
 ### Environment Variables
 
@@ -68,23 +72,24 @@ When KV credentials are missing, the app falls back to local file-based storage 
 
 - **Next.js 16** (App Router)
 - **TypeScript**
+- **React 19**
 - **Tailwind CSS v4**
 - **Zustand** (client state with localStorage persistence)
 - **Upstash Redis** (puzzle data, global stats, and survey storage in production)
-- **OpenDota API** (match data, hero/item assets)
+- **OpenDota API** (match data; committed hero/item constant lookups)
 - **Vercel** (hosting)
 
 ## Project Structure
 
 ```
 src/
-  app/           — pages and API routes
+  app/           — pages and API routes (/ , /daily, /puzzles, /clash, …)
   components/    — React UI components
-  data/          — heroes.json, items.json (committed); puzzles & stats (gitignored, stored in KV)
+  data/          — heroes.json, items.json (committed); puzzles & stats (gitignored locally; KV in production)
   i18n/          — translation files (en, ru, es, pt)
   lib/           — utilities, types, Redis client, API helpers
   stores/        — Zustand game state
-scripts/         — data seeding scripts
+scripts/         — data seeding and KV upload scripts
 ```
 
 ## Scripts
@@ -93,9 +98,13 @@ scripts/         — data seeding scripts
 |---------|-------------|
 | `npm run dev` | Start dev server |
 | `npm run build` | Production build |
-| `npm run seed:constants` | Fetch hero/item data from OpenDota |
-| `npm run seed:puzzles` | Fetch ranked puzzles from latest patch |
-| `npm run seed:puzzles -- --reset-progress` | Fetch puzzles and reset all user progress |
+| `npm run start` | Start production server (after `build`) |
+| `npm run lint` | Run ESLint |
+| `npm run seed:constants` | Fetch hero/item data from OpenDota into `src/data/` |
+| `npm run seed:puzzles` | Fetch ranked Daily + Puzzles + Build Clash datasets (latest patch) |
+| `npm run seed:clash` | Re-seed only Build Clash puzzles |
+| `npm run seed:puzzles -- --reset-progress` | Seed puzzles and reset all user progress (see script help) |
+| `npm run upload:puzzles-kv` | Upload local puzzle JSON to Upstash (production maintenance) |
 
 ## Credits
 

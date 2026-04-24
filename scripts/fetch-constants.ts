@@ -33,9 +33,12 @@ async function main() {
   }
 
   console.log("Fetching heroes from OpenDota...");
-  const heroesRaw = await fetch(`${BASE_URL}/constants/heroes`).then((r) =>
-    r.json(),
-  );
+  const heroesRes = await fetch(`${BASE_URL}/constants/heroes`);
+  const heroesRaw = (await heroesRes.json()) as Record<string, unknown> & { error?: string };
+  if (typeof heroesRaw.error === "string" || !heroesRes.ok) {
+    console.error("OpenDota /constants/heroes failed:", heroesRaw.error ?? heroesRes.status);
+    process.exit(1);
+  }
 
   // Transform heroes into a clean lookup: { [heroId]: { ... } }
   const heroes: Record<
@@ -53,6 +56,7 @@ async function main() {
   > = {};
 
   for (const [, hero] of Object.entries(heroesRaw) as [string, RawHero][]) {
+    if (!hero?.id || typeof hero.name !== "string") continue;
     heroes[hero.id] = {
       id: hero.id,
       name: hero.name.replace("npc_dota_hero_", ""),
@@ -72,9 +76,12 @@ async function main() {
   console.log(`  Saved ${Object.keys(heroes).length} heroes.`);
 
   console.log("Fetching items from OpenDota...");
-  const itemsRaw = await fetch(`${BASE_URL}/constants/items`).then((r) =>
-    r.json(),
-  );
+  const itemsRes = await fetch(`${BASE_URL}/constants/items`);
+  const itemsRaw = (await itemsRes.json()) as Record<string, unknown> & { error?: string };
+  if (typeof itemsRaw.error === "string" || !itemsRes.ok) {
+    console.error("OpenDota /constants/items failed:", itemsRaw.error ?? itemsRes.status);
+    process.exit(1);
+  }
 
   // Transform items: { [itemId]: { ... } }
   // Also build a name→id lookup
@@ -87,7 +94,7 @@ async function main() {
     string,
     RawItem,
   ][]) {
-    if (!item.id) continue;
+    if (name === "error" || !item || typeof item !== "object" || !item.id) continue;
     items[item.id] = {
       id: item.id,
       name,

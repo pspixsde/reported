@@ -1,5 +1,5 @@
 /**
- * Seed puzzle data from OpenDota — ranked matches on patch 7.40+ only.
+ * Seed puzzle data from OpenDota — ranked matches on the configured target patch.
  *
  * Approach:
  *   1. Fetch hero item popularity from OpenDota's /heroes/{id}/itemPopularity
@@ -10,6 +10,8 @@
  *   3. Upload puzzles to Upstash Redis (KV) for production use
  *
  * Run with: npm run seed:puzzles
+ *   --clash-only  Skip main 70-puzzle fetch; load existing src/data/puzzles.json
+ *                 for ID dedup, then only collect clash data + upload clash KV.
  */
 import { readFileSync, writeFileSync, existsSync } from "fs";
 import { resolve } from "path";
@@ -34,7 +36,6 @@ const DATA_DIR = resolve(__dirname, "../src/data");
 const PUZZLES_PATH = resolve(DATA_DIR, "puzzles.json");
 const CLASH_PUZZLES_PATH = resolve(DATA_DIR, "clash-puzzles.json");
 const HEROES_PATH = resolve(DATA_DIR, "heroes.json");
-const HERO_ABILITIES_PATH = resolve(DATA_DIR, "hero-abilities.json");
 const ITEMS_PATH = resolve(DATA_DIR, "items.json");
 const POPULARITY_CACHE_PATH = resolve(DATA_DIR, "hero-item-popularity.json");
 const GAME_STORE_PATH = resolve(__dirname, "../src/stores/game-store.ts");
@@ -66,9 +67,9 @@ const CLASH_MIN_RANK_GAP = 2;
 // games when the enemy gives up, not an indicator of a weird build)
 const EXCLUDED_ITEM_IDS = new Set([223]); // 223 = Meteor Hammer
 
-// Patch filtering — only collect from ranked matches on 7.40+
-const TARGET_PATCH_ID = 59;        // OpenDota numeric ID for 7.40
-const TARGET_PATCH_DISPLAY = "7.40+"; // Display string
+// Patch filtering — only collect from ranked matches on 7.41+
+const TARGET_PATCH_ID = 60;        // OpenDota numeric ID for 7.41
+const TARGET_PATCH_DISPLAY = "7.41+"; // Display string
 
 // Minimum ranked tier (10 = Herald star 1 — ensures ranked games only)
 const MIN_RANK = 10;
@@ -121,7 +122,6 @@ interface MatchPlayer {
   net_worth: number;
   last_hits: number;
   denies: number;
-  hero_variant?: number;
   aghanims_scepter?: number;
   aghanims_shard?: number;
   permanent_buffs?: Array<{
@@ -166,26 +166,6 @@ interface Puzzle {
   assists: number;
   aghsScepter: boolean;
   aghsShard: boolean;
-  facet?: FacetInfo;
-}
-
-interface FacetInfo {
-  name: string;
-  title: string;
-  icon: string;
-  color: string;
-}
-
-interface HeroAbilityFacet {
-  name?: string;
-  title?: string;
-  icon?: string;
-  color?: string;
-  deprecated?: string | boolean;
-}
-
-interface HeroAbilityEntry {
-  facets?: HeroAbilityFacet[];
 }
 
 interface ClashCandidate {
@@ -207,7 +187,6 @@ interface ClashCandidate {
   assists: number;
   aghsScepter: boolean;
   aghsShard: boolean;
-  facet?: FacetInfo;
 }
 
 interface ClashBuild {
@@ -227,7 +206,6 @@ interface ClashBuild {
   assists: number;
   aghsScepter: boolean;
   aghsShard: boolean;
-  facet?: FacetInfo;
 }
 
 interface BuildClashPuzzle {
@@ -252,6 +230,13 @@ interface ExplorerResponse {
 
 // ── Helpers ──
 
+/** When OpenDota returns 429, wait this long before retry. */
+const RATE_LIMIT_BACKOFF_MS = 20000;
+/** Exit if we get only 429s for this long (no other HTTP response). */
+const RATE_LIMIT_STALL_MAX_MS = 5 * 60 * 1000;
+
+let lastNon429ResponseAt = Date.now();
+
 function sleep(ms: number): Promise<void> {
   return new Promise((r) => setTimeout(r, ms));
 }
@@ -260,16 +245,25 @@ async function apiFetch<T>(path: string): Promise<T | null> {
   try {
     const res = await fetch(`${BASE_URL}${path}`);
     if (res.status === 429) {
-      console.warn("  Rate limited, waiting 10s...");
-      await sleep(10000);
+      if (Date.now() - lastNon429ResponseAt > RATE_LIMIT_STALL_MAX_MS) {
+        console.error(
+          "  OpenDota rate limit stall exceeded 5 minutes (no non-429 responses) — aborting seed.",
+        );
+        process.exit(1);
+      }
+      console.warn("  Rate limited, waiting 20s...");
+      await sleep(RATE_LIMIT_BACKOFF_MS);
       return apiFetch(path);
     }
+    lastNon429ResponseAt = Date.now();
     if (!res.ok) {
       console.warn(`  API ${res.status}: ${path}`);
       return null;
     }
     return (await res.json()) as T;
   } catch (err) {
+    // Not a 429 stall — don't let repeated network errors look like a rate-limit loop.
+    lastNon429ResponseAt = Date.now();
     console.warn(`  Fetch error: ${path}`, err);
     return null;
   }
@@ -302,74 +296,6 @@ function bv(val: number, t: number[]): string {
     }
   }
   return `0-${(t[1] ?? 1) - 1}`;
-}
-
-function isFacetDeprecated(facet: HeroAbilityFacet): boolean {
-  if (typeof facet.deprecated === "boolean") return facet.deprecated;
-  if (typeof facet.deprecated === "string") {
-    return facet.deprecated.toLowerCase() === "true";
-  }
-  return false;
-}
-
-function normalizeFacet(facet: HeroAbilityFacet): FacetInfo | null {
-  if (!facet.name || !facet.title || !facet.icon || !facet.color) return null;
-  return {
-    name: facet.name,
-    title: facet.title,
-    icon: facet.icon,
-    color: facet.color,
-  };
-}
-
-async function fetchHeroFacetsFromAPI(): Promise<Record<string, FacetInfo[]>> {
-  console.log("Fetching hero facets from OpenDota constants...");
-  const raw = await apiFetch<Record<string, HeroAbilityEntry>>("/constants/hero_abilities");
-  if (!raw) return {};
-
-  const out: Record<string, FacetInfo[]> = {};
-  for (const [heroKey, entry] of Object.entries(raw)) {
-    const facets = (entry.facets ?? [])
-      .filter((f) => !isFacetDeprecated(f))
-      .map(normalizeFacet)
-      .filter((f): f is FacetInfo => f !== null);
-    if (facets.length > 0) {
-      out[heroKey] = facets;
-    }
-  }
-  return out;
-}
-
-function loadHeroFacetsCache(): Record<string, FacetInfo[]> | null {
-  if (!existsSync(HERO_ABILITIES_PATH)) return null;
-  try {
-    return JSON.parse(readFileSync(HERO_ABILITIES_PATH, "utf-8")) as Record<string, FacetInfo[]>;
-  } catch {
-    return null;
-  }
-}
-
-function saveHeroFacetsCache(facets: Record<string, FacetInfo[]>): void {
-  writeFileSync(HERO_ABILITIES_PATH, JSON.stringify(facets, null, 2));
-}
-
-function getFacetForPlayer(
-  heroName: string,
-  heroVariant: number | undefined,
-  facetsMap: Record<string, FacetInfo[]>,
-): FacetInfo | undefined {
-  const heroKey = `npc_dota_hero_${heroName}`;
-  const heroFacets = facetsMap[heroKey];
-  if (!heroFacets || heroFacets.length === 0) return undefined;
-
-  if (heroVariant && heroVariant > 0) {
-    const variantIdx = heroVariant - 1;
-    if (variantIdx >= 0 && variantIdx < heroFacets.length) {
-      return heroFacets[variantIdx];
-    }
-  }
-
-  return heroFacets[0];
 }
 
 function hasPermanentBuff(
@@ -636,7 +562,6 @@ function toClashBuild(c: ClashCandidate): ClashBuild {
     assists: c.assists,
     aghsScepter: c.aghsScepter,
     aghsShard: c.aghsShard,
-    facet: c.facet,
   };
 }
 
@@ -710,17 +635,9 @@ async function main() {
     console.log(`  Saved popularity data to ${POPULARITY_CACHE_PATH}\n`);
   }
 
-  // ── Step 2: Build or load hero facets map ──
-  let heroFacets = loadHeroFacetsCache();
-  if (!heroFacets || Object.keys(heroFacets).length === 0) {
-    heroFacets = await fetchHeroFacetsFromAPI();
-    saveHeroFacetsCache(heroFacets);
-    console.log(`  Saved hero facets to ${HERO_ABILITIES_PATH}\n`);
-  } else {
-    console.log(`Loaded cached hero facets (${Object.keys(heroFacets).length} heroes).`);
-  }
+  const clashOnly = process.argv.includes("--clash-only");
 
-  // ── Step 3: Fetch matches and collect unusual-build puzzles ──
+  // ── Step 2: Fetch matches and collect unusual-build puzzles ──
   const puzzles: Puzzle[] = [];
   const existingIds = new Set<string>();
   const clashCandidates: ClashCandidate[] = [];
@@ -728,6 +645,33 @@ async function main() {
   let batches = 0;
   let lastMatchId: number | undefined;
 
+  if (clashOnly) {
+    if (!existsSync(PUZZLES_PATH)) {
+      console.error(
+        "Clash-only: src/data/puzzles.json is missing. Run a full `npm run seed:puzzles` first.",
+      );
+      process.exit(1);
+    }
+    const loaded = JSON.parse(readFileSync(PUZZLES_PATH, "utf-8")) as unknown;
+    if (!Array.isArray(loaded) || loaded.length === 0) {
+      console.error("Clash-only: puzzles.json is empty or not a puzzle array.");
+      process.exit(1);
+    }
+    for (const row of loaded) {
+      const p = row as Puzzle;
+      if (p?.id) {
+        existingIds.add(p.id);
+        puzzles.push(p);
+      }
+    }
+    if (puzzles.length === 0) {
+      console.error("Clash-only: no valid puzzle id entries in puzzles.json.");
+      process.exit(1);
+    }
+    console.log(
+      `\n--clash-only: using ${puzzles.length} puzzle ids from src/data/puzzles.json (main pool and puzzles KV left unchanged).\n`,
+    );
+  } else {
   console.log(`\nTarget: ${TARGET_PUZZLES} puzzles from ranked matches on patch ${TARGET_PATCH_DISPLAY}\n`);
 
   while (puzzles.length < TARGET_PUZZLES && batches < MAX_BATCHES) {
@@ -809,8 +753,6 @@ async function main() {
         const puzzleId = `${detail.match_id}-${player.hero_id}`;
         if (existingIds.has(puzzleId)) continue;
 
-        const facet = getFacetForPlayer(hero.name, player.hero_variant, heroFacets);
-
         puzzles.push({
           id: puzzleId,
           hero: hero.name,
@@ -832,7 +774,6 @@ async function main() {
           assists: player.assists || 0,
           aghsScepter,
           aghsShard,
-          facet,
         });
 
         existingIds.add(puzzleId);
@@ -887,7 +828,6 @@ async function main() {
           assists: player.assists || 0,
           aghsScepter,
           aghsShard,
-          facet: getFacetForPlayer(hero.name, player.hero_variant, heroFacets),
         });
         clashCandidateIds.add(candidateId);
       }
@@ -906,7 +846,9 @@ async function main() {
     );
   }
 
-  // ── Step 4: Ensure enough Build Clash candidates ──
+  } // !clashOnly
+
+  // ── Step 3: Ensure enough Build Clash candidates ──
   let clashBatches = 0;
   while (clashCandidates.length < TARGET_CLASH_CANDIDATES && clashBatches < MAX_BATCHES) {
     clashBatches++;
@@ -984,14 +926,13 @@ async function main() {
           assists: player.assists || 0,
           aghsScepter,
           aghsShard,
-          facet: getFacetForPlayer(hero.name, player.hero_variant, heroFacets),
         });
         clashCandidateIds.add(candidateId);
       }
     }
   }
 
-  // ── Step 5: Build clash puzzle pairs ──
+  // ── Step 4: Build clash puzzle pairs ──
   const clashPuzzles = pairClashCandidates(clashCandidates, TARGET_CLASH_PUZZLES);
   writeFileSync(CLASH_PUZZLES_PATH, JSON.stringify(clashPuzzles, null, 2));
   console.log(`Saved ${clashPuzzles.length} clash puzzles to src/data/clash-puzzles.json`);
@@ -1002,13 +943,21 @@ async function main() {
     );
   }
 
-  // Upload puzzles to KV for production
-  await uploadPuzzlesToKV(puzzles);
+  // Upload to KV for production
+  if (clashOnly) {
+    console.log("  Skipped puzzles:all KV upload (--clash-only).");
+  } else {
+    await uploadPuzzlesToKV(puzzles);
+  }
   await uploadClashPuzzlesToKV(clashPuzzles);
 
   // Reset local stats file (for dev fallback)
-  writeFileSync(GLOBAL_STATS_PATH, "{}");
-  console.log("  Reset local puzzle-global-stats.json");
+  if (clashOnly) {
+    console.log("  Skipped puzzle-global-stats.json reset (--clash-only).");
+  } else {
+    writeFileSync(GLOBAL_STATS_PATH, "{}");
+    console.log("  Reset local puzzle-global-stats.json");
+  }
 
   // Only bump the localStorage persist key when explicitly requested
   if (process.argv.includes("--reset-progress")) {

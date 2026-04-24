@@ -1,5 +1,15 @@
 # Changelog
 
+## v1.1.1 — 2026-04-24
+
+### Changed
+
+- **Facet support removed for patch 7.41**: seed pipeline no longer fetches or stores facet metadata, and app payloads/cards now render without facet badges in Daily, Puzzles, Hard hero options, and Build Clash
+- **Monthly puzzle refresh completed**: seeded a fresh monthly puzzle set and clash set for the new month using the updated no-facets pipeline
+- **Release version bumped** to `v1.1.1` in app footer and package metadata
+
+---
+
 ## v1.1.0 — 2026-03-19
 
 ### Fixed

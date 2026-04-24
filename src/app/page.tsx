@@ -60,7 +60,7 @@ function ModeSelect() {
       {/* Patch badges */}
       <div className="mt-2 flex items-center gap-2">
         <span className="rounded bg-dota-card px-2.5 py-0.5 text-xs font-medium text-dota-text-dim">
-          Patch 7.40+
+          Patch 7.41+
         </span>
         <span className="rounded bg-dota-card px-2.5 py-0.5 text-xs font-medium text-dota-text-dim">
           Ranked Only

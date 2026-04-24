@@ -36,7 +36,7 @@ export function Footer() {
             {t("privacy.title")}
           </button>
         </div>
-        <span className="w-16 text-right text-dota-border">v1.1.0</span>
+        <span className="w-16 text-right text-dota-border">v1.1.1</span>
       </footer>
 
       {/* About Us modal */}
@@ -93,7 +93,6 @@ export function Footer() {
           <p>{t("help.clash")}</p>
           <p>{t("help.levels")}</p>
           <p>{t("help.hardMode")}</p>
-          <p>{t("help.facets")}</p>
           <p>{t("help.scoring")}</p>
           <p>{t("help.settings")}</p>
         </div>

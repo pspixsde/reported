@@ -147,7 +147,6 @@ const en = {
   "help.clash": "Build Clash: compare two weird builds and guess winner, better KDA, and rank assignments.",
   "help.levels": "Standard puzzles have 3 levels: Win/Loss, KDA, and Rank.",
   "help.hardMode": "Hard puzzles have 4 levels: Hero, Win/Loss, KDA, and Rank.",
-  "help.facets": "Facets are shown for builds and hero choices to add more context.",
   "help.scoring": "You get 1 point per correct guess. Score is 0-3 in standard and 0-4 in hard.",
   "help.settings": "Use Settings for More Stats and Colorblind Mode. Progress saves automatically.",
 
