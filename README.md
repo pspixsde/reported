@@ -2,7 +2,7 @@
 
 A free web-based guessing game for Dota 2 players. You're shown a real ranked match featuring an unusual, off-meta build and challenged to guess the outcome.
 
-**Live at [reported-dota.org](https://reported-dota.org)** · **v1.1.1** ([release notes](https://github.com/pspixsde/reported/blob/main/RELEASES.md))
+**Live at [reported-dota.org](https://reported-dota.org)** · **v1.1.1** ([release notes](./RELEASES.md))
 
 [![Ko-fi](https://img.shields.io/badge/Support-Ko--fi-ff5e5b?logo=ko-fi)](https://ko-fi.com/reporteddota)
 
