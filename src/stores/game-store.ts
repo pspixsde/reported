@@ -196,7 +196,7 @@ export const useGameStore = create<GameStoreState>()(
       loadConstants: async () => {
         if (get().constantsLoaded) return;
         try {
-          const res = await fetch("/api/constants");
+          const res = await fetch("/api/constants", { cache: "no-store" });
           if (!res.ok) throw new Error("Failed to load constants");
           const data = await res.json();
           set({

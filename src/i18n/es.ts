@@ -149,7 +149,6 @@ const es: Record<TranslationKey, string> = {
   "help.clash": "Build Clash: compara dos builds raras y adivina ganador, mejor KDA y asignación de rangos.",
   "help.levels": "Los puzles estándar tienen 3 niveles: Victoria/Derrota, KDA y Rango.",
   "help.hardMode": "Los puzles difíciles tienen 4 niveles: Héroe, Victoria/Derrota, KDA y Rango.",
-  "help.facets": "Se muestran facetas en las builds y opciones de héroe para dar más contexto.",
   "help.scoring": "Obtienes 1 punto por cada acierto. La puntuación es 0-3 en estándar y 0-4 en difícil.",
   "help.settings": "Usa Ajustes para Más estadísticas y Modo daltónico. El progreso se guarda automáticamente.",
 

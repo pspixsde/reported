@@ -19,7 +19,6 @@ export interface Puzzle {
   assists: number;
   aghsScepter: boolean;
   aghsShard: boolean;
-  facet?: FacetInfo;
 }
 
 /** Puzzle data sent to the client (answers stripped) */
@@ -37,15 +36,6 @@ export interface PuzzlePublic {
   heroOptions?: number[]; // 4 shuffled hero IDs for hard mode (1 real + 3 fake)
   aghsScepter: boolean;
   aghsShard: boolean;
-  facet?: FacetInfo;
-  facetOptions?: (FacetInfo | null)[];
-}
-
-export interface FacetInfo {
-  name: string;
-  title: string;
-  icon: string;
-  color: string;
 }
 
 export interface ClashBuild {
@@ -65,7 +55,6 @@ export interface ClashBuild {
   assists: number;
   aghsScepter: boolean;
   aghsShard: boolean;
-  facet?: FacetInfo;
 }
 
 export interface BuildClashPuzzle {

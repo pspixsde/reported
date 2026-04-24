@@ -5,7 +5,6 @@ import { useSettingsStore } from "@/stores/settings-store";
 import { useTranslation } from "@/i18n";
 import { HeroIcon } from "./HeroIcon";
 import { ItemIcon } from "./ItemIcon";
-import { FacetBadge } from "./FacetBadge";
 import { AghsIndicator } from "./AghsIndicator";
 import { formatDuration, formatNetWorth } from "@/lib/puzzle-utils";
 
@@ -54,7 +53,6 @@ export function ClashPuzzleCard() {
                   <h2 className="truncate text-lg font-bold text-dota-text">
                     {heroDisplayName}
                   </h2>
-                  <FacetBadge facet={build.facet} className="mt-1" />
                 </div>
               </div>
 

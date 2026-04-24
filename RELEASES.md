@@ -2,6 +2,14 @@
 
 ---
 
+## v1.1.1
+
+- Removed **Facet** support across data pipeline and app UI to align with Dota patch **7.41**
+- Seeding now skips hero facet constants entirely and outputs puzzle payloads without facet fields
+- Refreshed monthly **Puzzles** and **Build Clash** datasets with the updated no-facets pipeline
+
+---
+
 ## v1.1.0
 
 - Added **Build Clash** as a third mode: a daily two-build duel with 3 levels (winner, better KDA, rank assignment)

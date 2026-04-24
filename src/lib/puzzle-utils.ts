@@ -211,7 +211,6 @@ export function stripAnswers(puzzle: Puzzle, heroOptionIds?: number[]): PuzzlePu
     patch: puzzle.patch,
     aghsScepter: puzzle.aghsScepter ?? false,
     aghsShard: puzzle.aghsShard ?? false,
-    facet: puzzle.facet,
     kdaOptions: generateKdaOptions(puzzle),
   };
   if (heroOptionIds) {
