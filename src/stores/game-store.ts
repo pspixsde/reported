@@ -194,7 +194,7 @@ export const useGameStore = create<GameStoreState>()(
 
       // ── Load hero/item constants ──
       loadConstants: async () => {
-        if (get().constantsLoaded) return;
+        if (get().constantsLoaded && get().items) return;
         try {
           const res = await fetch("/api/constants", { cache: "no-store" });
           if (!res.ok) throw new Error("Failed to load constants");
