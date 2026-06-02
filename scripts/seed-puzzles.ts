@@ -10,8 +10,8 @@
  *   3. Upload puzzles to Upstash Redis (KV) for production use
  *
  * Run with: npm run seed:puzzles
- *   --clash-only  Skip main 70-puzzle fetch; load existing src/data/puzzles.json
- *                 for ID dedup, then only collect clash data + upload clash KV.
+ *   --puzzles-only  Fetch main pool only (Daily + Puzzles); skip clash + clash KV.
+ *   --clash-only    Skip main fetch; load existing puzzles.json, then clash + clash KV.
  */
 import { readFileSync, writeFileSync, existsSync } from "fs";
 import { resolve } from "path";
@@ -636,6 +636,11 @@ async function main() {
   }
 
   const clashOnly = process.argv.includes("--clash-only");
+  const puzzlesOnly = process.argv.includes("--puzzles-only");
+  if (clashOnly && puzzlesOnly) {
+    console.error("Cannot use --clash-only and --puzzles-only together.");
+    process.exit(1);
+  }
 
   // ── Step 2: Fetch matches and collect unusual-build puzzles ──
   const puzzles: Puzzle[] = [];
@@ -672,6 +677,11 @@ async function main() {
       `\n--clash-only: using ${puzzles.length} puzzle ids from src/data/puzzles.json (main pool and puzzles KV left unchanged).\n`,
     );
   } else {
+  if (puzzlesOnly) {
+    console.log(
+      `\n--puzzles-only: main pool only (Daily + Puzzles); clash collection and clash KV skipped.\n`,
+    );
+  }
   console.log(`\nTarget: ${TARGET_PUZZLES} puzzles from ranked matches on patch ${TARGET_PATCH_DISPLAY}\n`);
 
   while (puzzles.length < TARGET_PUZZLES && batches < MAX_BATCHES) {
@@ -784,52 +794,54 @@ async function main() {
       }
 
       // Collect Build Clash candidates from the same fetched match to reduce extra API calls.
-      for (const player of detail.players) {
-        const hero = heroes[player.hero_id];
-        if (!hero) continue;
+      if (!puzzlesOnly) {
+        for (const player of detail.players) {
+          const hero = heroes[player.hero_id];
+          if (!hero) continue;
 
-        const playerItems = [
-          player.item_0, player.item_1, player.item_2,
-          player.item_3, player.item_4, player.item_5,
-        ].filter((id) => id !== 0);
-        if (playerItems.length < 3) continue;
-        if ((player.net_worth || 0) < CLASH_MIN_NET_WORTH) continue;
-
-        const score = unusualScore(player.hero_id, playerItems, items, popularity);
-        if (score < UNUSUAL_THRESHOLD) continue;
-        const aghsScepter = hasAghsScepterEffect(player);
-        const aghsShard = hasAghsShardEffect(player);
-
-        const candidateId = `${detail.match_id}-${player.hero_id}`;
-        if (existingIds.has(candidateId) || clashCandidateIds.has(candidateId)) continue;
-
-        const rankNumber = rankTierToNumber(pmAvgRankTier);
-        if (rankNumber === 0) continue;
-
-        clashCandidates.push({
-          id: candidateId,
-          matchId: detail.match_id,
-          heroId: hero.id,
-          heroName: hero.name,
-          items: [
+          const playerItems = [
             player.item_0, player.item_1, player.item_2,
             player.item_3, player.item_4, player.item_5,
-          ],
-          netWorth: player.net_worth || 0,
-          lastHits: player.last_hits || 0,
-          denies: player.denies || 0,
-          duration: detail.duration,
-          patch: TARGET_PATCH_DISPLAY,
-          win: player.win === 1,
-          rankBracket: rankTierToName(pmAvgRankTier),
-          rankNumber,
-          kills: player.kills || 0,
-          deaths: player.deaths || 0,
-          assists: player.assists || 0,
-          aghsScepter,
-          aghsShard,
-        });
-        clashCandidateIds.add(candidateId);
+          ].filter((id) => id !== 0);
+          if (playerItems.length < 3) continue;
+          if ((player.net_worth || 0) < CLASH_MIN_NET_WORTH) continue;
+
+          const score = unusualScore(player.hero_id, playerItems, items, popularity);
+          if (score < UNUSUAL_THRESHOLD) continue;
+          const aghsScepter = hasAghsScepterEffect(player);
+          const aghsShard = hasAghsShardEffect(player);
+
+          const candidateId = `${detail.match_id}-${player.hero_id}`;
+          if (existingIds.has(candidateId) || clashCandidateIds.has(candidateId)) continue;
+
+          const rankNumber = rankTierToNumber(pmAvgRankTier);
+          if (rankNumber === 0) continue;
+
+          clashCandidates.push({
+            id: candidateId,
+            matchId: detail.match_id,
+            heroId: hero.id,
+            heroName: hero.name,
+            items: [
+              player.item_0, player.item_1, player.item_2,
+              player.item_3, player.item_4, player.item_5,
+            ],
+            netWorth: player.net_worth || 0,
+            lastHits: player.last_hits || 0,
+            denies: player.denies || 0,
+            duration: detail.duration,
+            patch: TARGET_PATCH_DISPLAY,
+            win: player.win === 1,
+            rankBracket: rankTierToName(pmAvgRankTier),
+            rankNumber,
+            kills: player.kills || 0,
+            deaths: player.deaths || 0,
+            assists: player.assists || 0,
+            aghsScepter,
+            aghsShard,
+          });
+          clashCandidateIds.add(candidateId);
+        }
       }
     }
   }
@@ -848,6 +860,8 @@ async function main() {
 
   } // !clashOnly
 
+  let clashPuzzles: BuildClashPuzzle[] = [];
+  if (!puzzlesOnly) {
   // ── Step 3: Ensure enough Build Clash candidates ──
   let clashBatches = 0;
   while (clashCandidates.length < TARGET_CLASH_CANDIDATES && clashBatches < MAX_BATCHES) {
@@ -933,7 +947,7 @@ async function main() {
   }
 
   // ── Step 4: Build clash puzzle pairs ──
-  const clashPuzzles = pairClashCandidates(clashCandidates, TARGET_CLASH_PUZZLES);
+  clashPuzzles = pairClashCandidates(clashCandidates, TARGET_CLASH_PUZZLES);
   writeFileSync(CLASH_PUZZLES_PATH, JSON.stringify(clashPuzzles, null, 2));
   console.log(`Saved ${clashPuzzles.length} clash puzzles to src/data/clash-puzzles.json`);
   if (clashPuzzles.length < TARGET_CLASH_PUZZLES) {
@@ -942,6 +956,7 @@ async function main() {
       "Try increasing MAX_BATCHES or lowering UNUSUAL_THRESHOLD.",
     );
   }
+  } // !puzzlesOnly
 
   // Upload to KV for production
   if (clashOnly) {
@@ -949,7 +964,11 @@ async function main() {
   } else {
     await uploadPuzzlesToKV(puzzles);
   }
-  await uploadClashPuzzlesToKV(clashPuzzles);
+  if (puzzlesOnly) {
+    console.log("  Skipped clash file write and clash KV upload (--puzzles-only).");
+  } else {
+    await uploadClashPuzzlesToKV(clashPuzzles);
+  }
 
   // Reset local stats file (for dev fallback)
   if (clashOnly) {

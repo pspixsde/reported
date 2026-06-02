@@ -9,6 +9,7 @@
     "lint": "next lint",
     "seed:constants": "npx tsx scripts/fetch-constants.ts",
     "seed:puzzles": "npx tsx scripts/seed-puzzles.ts",
+    "seed:pool": "npx tsx scripts/seed-puzzles.ts --puzzles-only",
     "seed:clash": "npx tsx scripts/seed-puzzles.ts --clash-only",
     "upload:puzzles-kv": "npx tsx scripts/upload-puzzles-to-kv.ts"
   },

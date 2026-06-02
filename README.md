@@ -47,8 +47,8 @@ cp .env.example .env.local
 # Fetch hero & item data from OpenDota (updates src/data/heroes.json and items.json)
 npm run seed:constants
 
-# Seed puzzle data from ranked matches (takes ~7 min due to API rate limits)
-# If .env.local has KV credentials, puzzles are also uploaded to Redis
+# Seed puzzle data from ranked matches (~10–15 min; OpenDota rate limits)
+# If .env.local has KV credentials, puzzles are uploaded to Redis automatically
 npm run seed:puzzles
 
 # Start development server
@@ -57,7 +57,9 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
-For production-like puzzle storage, you can upload committed JSON to KV after seeding: `npm run upload:puzzles-kv` (requires KV env vars).
+**Monthly production updates** (refresh pools, KV, troubleshooting): see **[PUZZLE_MAINTENANCE.md](./PUZZLE_MAINTENANCE.md)**.
+
+For KV-only fixes without re-fetching matches: `npm run upload:puzzles-kv` (main pool; requires `src/data/puzzles.json` and KV env vars).
 
 ### Environment Variables
 
@@ -85,7 +87,7 @@ When KV credentials are missing, the app falls back to local file-based storage 
 src/
   app/           — pages and API routes (/ , /daily, /puzzles, /clash, …)
   components/    — React UI components
-  data/          — heroes.json, items.json (committed); puzzles & stats (gitignored locally; KV in production)
+  data/          — heroes.json, items.json, clash-puzzles.json (committed); puzzles.json & stats (gitignored; KV in production)
   i18n/          — translation files (en, ru, es, pt)
   lib/           — utilities, types, Redis client, API helpers
   stores/        — Zustand game state
@@ -101,10 +103,13 @@ scripts/         — data seeding and KV upload scripts
 | `npm run start` | Start production server (after `build`) |
 | `npm run lint` | Run ESLint |
 | `npm run seed:constants` | Fetch hero/item data from OpenDota into `src/data/` |
-| `npm run seed:puzzles` | Fetch ranked Daily + Puzzles + Build Clash datasets (latest patch) |
-| `npm run seed:clash` | Re-seed only Build Clash puzzles |
-| `npm run seed:puzzles -- --reset-progress` | Seed puzzles and reset all user progress (see script help) |
-| `npm run upload:puzzles-kv` | Upload local puzzle JSON to Upstash (production maintenance) |
+| `npm run seed:puzzles` | Full refresh: main pool + Build Clash + both KV keys |
+| `npm run seed:pool` | Main pool only (Daily + Puzzles); skips clash; uploads `puzzles:all` |
+| `npm run seed:clash` | Build Clash only; uploads `puzzles:clash-all` (needs local `puzzles.json`) |
+| `npm run seed:puzzles -- --reset-progress` | Full seed + bump persist key (clears saved user progress) |
+| `npm run upload:puzzles-kv` | Upload `puzzles.json` → `puzzles:all` only (no OpenDota fetch) |
+
+Full maintenance workflow and failure recovery: **[PUZZLE_MAINTENANCE.md](./PUZZLE_MAINTENANCE.md)**.
 
 ## Credits
 
