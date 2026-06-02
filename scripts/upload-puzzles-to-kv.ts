@@ -7,10 +7,8 @@
 import { readFileSync, existsSync } from "fs";
 import { resolve } from "path";
 import { Redis } from "@upstash/redis";
-import {
-  newPuzzlesPoolGeneration,
-  setPuzzlesPoolGeneration,
-} from "../src/lib/puzzles-pool-generation";
+import { newPuzzlesPoolGeneration } from "../src/lib/puzzles-pool-generation.constants";
+import { setPuzzlesPoolGeneration } from "../src/lib/puzzles-pool-generation.server";
 
 const ENV_PATH = resolve(__dirname, "../.env.local");
 if (existsSync(ENV_PATH)) {

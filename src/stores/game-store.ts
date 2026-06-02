@@ -13,7 +13,7 @@ import type {
   GuessResponse,
 } from "@/lib/game-types";
 import { PUZZLES_TOTAL } from "@/lib/game-types";
-import { LEGACY_PUZZLES_GENERATION } from "@/lib/puzzles-pool-generation";
+import { LEGACY_PUZZLES_GENERATION } from "@/lib/puzzles-pool-generation.constants";
 import {
   emptyPuzzlesGridProgress,
   type PuzzlesGridProgressState,

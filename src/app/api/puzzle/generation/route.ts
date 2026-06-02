@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getPuzzlesPoolGeneration } from "@/lib/puzzles-pool-generation";
+import { getPuzzlesPoolGeneration } from "@/lib/puzzles-pool-generation.server";
 
 /**
  * GET /api/puzzle/generation

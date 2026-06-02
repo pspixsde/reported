@@ -1,24 +1,17 @@
-/**
- * Main puzzle pool generation id — bumped when Daily/Puzzles pool is re-seeded.
- * Clients compare this to localStorage to reset only the Puzzles grid (not stats).
- */
+import "server-only";
+
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from "fs";
 import { resolve, dirname } from "path";
 import { getRedis } from "./redis";
-
-export const KV_PUZZLES_GENERATION_KEY = "puzzles:generation";
-
-/** Used when no generation has been written yet (pre-migration / fresh clone). */
-export const LEGACY_PUZZLES_GENERATION = "legacy";
+import {
+  KV_PUZZLES_GENERATION_KEY,
+  LEGACY_PUZZLES_GENERATION,
+} from "./puzzles-pool-generation.constants";
 
 const GENERATION_FILE = resolve(
   process.cwd(),
   "src/data/puzzles-pool-generation.json",
 );
-
-export function newPuzzlesPoolGeneration(): string {
-  return new Date().toISOString();
-}
 
 export async function getPuzzlesPoolGeneration(): Promise<string> {
   const redis = getRedis();

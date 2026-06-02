@@ -16,10 +16,8 @@
 import { readFileSync, writeFileSync, existsSync } from "fs";
 import { resolve } from "path";
 import { Redis } from "@upstash/redis";
-import {
-  newPuzzlesPoolGeneration,
-  setPuzzlesPoolGeneration,
-} from "../src/lib/puzzles-pool-generation";
+import { newPuzzlesPoolGeneration } from "../src/lib/puzzles-pool-generation.constants";
+import { setPuzzlesPoolGeneration } from "../src/lib/puzzles-pool-generation.server";
 
 // Load .env.local for KV credentials (not auto-loaded outside Next.js)
 const ENV_PATH = resolve(__dirname, "../.env.local");
