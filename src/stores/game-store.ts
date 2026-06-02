@@ -13,6 +13,11 @@ import type {
   GuessResponse,
 } from "@/lib/game-types";
 import { PUZZLES_TOTAL } from "@/lib/game-types";
+import { LEGACY_PUZZLES_GENERATION } from "@/lib/puzzles-pool-generation";
+import {
+  emptyPuzzlesGridProgress,
+  type PuzzlesGridProgressState,
+} from "@/lib/puzzles-grid-progress";
 
 // ── Store state ──
 
@@ -78,6 +83,9 @@ interface GameStoreState {
   hardPuzzlesGamesPlayed: number;
   hardPuzzlesTotalScore: number;
 
+  /** Last seen main-pool generation (see /api/puzzle/generation). */
+  puzzlesPoolGeneration: string | null;
+
   // Survey tracking
   surveyedPuzzleIds: string[];
 
@@ -91,6 +99,8 @@ interface GameStoreState {
 
   // Actions
   loadConstants: () => Promise<void>;
+  /** Reset Puzzles grid if server pool generation changed (keeps stats + daily + clash). */
+  syncPuzzlesPoolGeneration: () => Promise<void>;
   startGame: (mode: GameMode) => Promise<void>;
   submitGuess: (guess: string) => Promise<void>;
   resetGame: () => void;
@@ -178,6 +188,8 @@ export const useGameStore = create<GameStoreState>()(
       hardPuzzlesGamesPlayed: 0,
       hardPuzzlesTotalScore: 0,
 
+      puzzlesPoolGeneration: null,
+
       // Survey tracking
       surveyedPuzzleIds: [],
 
@@ -194,19 +206,69 @@ export const useGameStore = create<GameStoreState>()(
 
       // ── Load hero/item constants ──
       loadConstants: async () => {
-        if (get().constantsLoaded && get().items) return;
+        if (!get().constantsLoaded || !get().items) {
+          try {
+            const res = await fetch("/api/constants", { cache: "no-store" });
+            if (!res.ok) throw new Error("Failed to load constants");
+            const data = await res.json();
+            set({
+              heroes: data.heroes,
+              items: data.items,
+              constantsLoaded: true,
+            });
+          } catch (err) {
+            console.error("Failed to load constants:", err);
+            set({ error: "Failed to load game data" });
+          }
+        }
+        await get().syncPuzzlesPoolGeneration();
+      },
+
+      syncPuzzlesPoolGeneration: async () => {
         try {
-          const res = await fetch("/api/constants", { cache: "no-store" });
-          if (!res.ok) throw new Error("Failed to load constants");
-          const data = await res.json();
+          const res = await fetch("/api/puzzle/generation", { cache: "no-store" });
+          if (!res.ok) return;
+          const { generation } = (await res.json()) as { generation?: string };
+          if (!generation) return;
+
+          const local = get().puzzlesPoolGeneration;
+          if (generation === local) return;
+
+          // First visit on legacy pool: record id without wiping existing grid.
+          if (
+            generation === LEGACY_PUZZLES_GENERATION &&
+            local === null
+          ) {
+            set({ puzzlesPoolGeneration: generation });
+            return;
+          }
+
+          const gridReset: PuzzlesGridProgressState = emptyPuzzlesGridProgress();
+          const state = get();
+          const onActivePuzzle =
+            state.mode === "puzzles" &&
+            state.currentPuzzleIndex !== null &&
+            !state.puzzlesGridVisible;
+
           set({
-            heroes: data.heroes,
-            items: data.items,
-            constantsLoaded: true,
+            ...gridReset,
+            puzzlesPoolGeneration: generation,
+            ...(onActivePuzzle
+              ? {
+                  puzzle: null,
+                  puzzlesGridVisible: true,
+                  currentPuzzleIndex: null,
+                  currentLevel: 1 as GuessLevel,
+                  results: [],
+                  completed: false,
+                  score: 0,
+                  loading: false,
+                  error: null,
+                }
+              : {}),
           });
         } catch (err) {
-          console.error("Failed to load constants:", err);
-          set({ error: "Failed to load game data" });
+          console.warn("Puzzle pool generation sync failed:", err);
         }
       },
 
@@ -548,6 +610,7 @@ export const useGameStore = create<GameStoreState>()(
 
       // ── Puzzles mode: show puzzle grid ──
       startPuzzlesMode: () => {
+        void get().syncPuzzlesPoolGeneration();
         set({
           mode: "puzzles",
           puzzle: null,
@@ -714,32 +777,28 @@ export const useGameStore = create<GameStoreState>()(
     }),
     {
       name: "reported-game-v8",
-      version: 1,
+      version: 2,
       migrate: (persistedState, version) => {
         const state = persistedState as Record<string, unknown>;
+        let next = state;
         if (version < 1) {
-          return {
-            ...state,
-            // Reset only Puzzles mode progress/stats for new puzzle season.
-            completedPuzzles: [],
-            puzzleScores: {},
-            puzzleResults: {},
-            puzzlesInProgressIndex: null,
-            puzzlesInProgressLevel: 1 as GuessLevel,
-            puzzlesInProgressResults: [],
-            completedHardPuzzles: [],
-            hardPuzzleScores: {},
-            hardPuzzleResults: {},
-            hardPuzzlesInProgressIndex: null,
-            hardPuzzlesInProgressLevel: 1 as GuessLevel,
-            hardPuzzlesInProgressResults: [],
+          next = {
+            ...next,
+            ...emptyPuzzlesGridProgress(),
             puzzlesGamesPlayed: 0,
             puzzlesTotalScore: 0,
             hardPuzzlesGamesPlayed: 0,
             hardPuzzlesTotalScore: 0,
-          } as any;
+          };
         }
-        return state as any;
+        if (version < 2) {
+          next = {
+            ...next,
+            puzzlesPoolGeneration:
+              (next.puzzlesPoolGeneration as string | null | undefined) ?? null,
+          };
+        }
+        return next as any;
       },
       partialize: (state) => ({
         // Daily persistence
@@ -780,6 +839,7 @@ export const useGameStore = create<GameStoreState>()(
         puzzlesTotalScore: state.puzzlesTotalScore,
         hardPuzzlesGamesPlayed: state.hardPuzzlesGamesPlayed,
         hardPuzzlesTotalScore: state.hardPuzzlesTotalScore,
+        puzzlesPoolGeneration: state.puzzlesPoolGeneration,
         // Survey tracking
         surveyedPuzzleIds: state.surveyedPuzzleIds,
       }),

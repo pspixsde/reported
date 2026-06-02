@@ -60,15 +60,28 @@ If you only need one pool:
 
 Until the patch ID is updated, seeds only pull matches tagged with the old patch.
 
-### Resetting user progress (rare)
+### Puzzles grid progress (automatic)
 
-Only when you intentionally want everyone’s **saved game state** cleared (new persist key):
+When you re-seed the **main pool** (`seed:puzzles` or `seed:pool`), the script bumps a **pool generation id** (`puzzles:generation` in KV + local `puzzles-pool-generation.json`).
+
+On the next visit, each player's browser compares that id to `puzzlesPoolGeneration` in localStorage and:
+
+- **Clears** Puzzles mode grid state (completed slots, 1/3 badges, in-progress puzzles)
+- **Keeps** Daily progress/stats, Clash progress/stats, and the aggregate **Puzzles stats** under the grid (games played / accuracy)
+
+`seed:clash` does **not** bump pool generation, so Clash-only updates never wipe the Puzzles grid.
+
+No `--reset-progress` needed for routine monthly refreshes.
+
+### Resetting all user progress (rare)
+
+Only when you intentionally want **everything** cleared (Daily, Clash, Puzzles grid, and all stats):
 
 ```bash
 npm run seed:puzzles -- --reset-progress
 ```
 
-Same flag works with `seed:pool` or `seed:clash`. This bumps `reported-game-vN` in `src/stores/game-store.ts` and commits that change. Do **not** use for routine monthly updates.
+This bumps `reported-game-vN` in `src/stores/game-store.ts` and must be committed/deployed. Do **not** use for routine monthly updates.
 
 ---
 
@@ -77,6 +90,7 @@ Same flag works with `seed:pool` or `seed:clash`. This bumps `reported-game-vN` 
 | Output | Path / KV key | Git |
 |--------|----------------|-----|
 | Main pool (70 puzzles) | `src/data/puzzles.json` → `puzzles:all` | **gitignored** (answers stay private) |
+| Pool generation id | `puzzles-pool-generation.json` → `puzzles:generation` | gitignored (bumps on main-pool seed) |
 | Build Clash (30 pairs) | `src/data/clash-puzzles.json` → `puzzles:clash-all` | **committed** |
 | Popularity baseline | `src/data/hero-item-popularity.json` | gitignored |
 | Heroes / items | `src/data/heroes.json`, `items.json` | committed |
@@ -93,6 +107,7 @@ After seeding, confirm:
    - Main: `Done! Saved 70 puzzles` (warnings if fewer are OK but investigate if &lt; 60).
    - Clash: `Saved 30 clash puzzles` (warn if &lt; 30).
    - KV: `Uploaded N puzzles to KV` / `Uploaded N clash puzzles to KV` — if you see “skipped KV upload”, fix `.env.local`.
+   - Main pool: `Main pool generation: <ISO timestamp>` (grid reset for users after deploy + this seed).
 
 2. **Files**
    - `src/data/puzzles.json` exists locally (not in git).

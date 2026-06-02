@@ -36,6 +36,7 @@ src/data/puzzles.json
 src/data/puzzle-global-stats.json
 src/data/survey-responses.json
 src/data/hero-item-popularity.json
+src/data/puzzles-pool-generation.json
 
 # vercel
 .vercel

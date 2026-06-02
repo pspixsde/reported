@@ -16,6 +16,10 @@
 import { readFileSync, writeFileSync, existsSync } from "fs";
 import { resolve } from "path";
 import { Redis } from "@upstash/redis";
+import {
+  newPuzzlesPoolGeneration,
+  setPuzzlesPoolGeneration,
+} from "../src/lib/puzzles-pool-generation";
 
 // Load .env.local for KV credentials (not auto-loaded outside Next.js)
 const ENV_PATH = resolve(__dirname, "../.env.local");
@@ -847,9 +851,12 @@ async function main() {
   }
 
   writeFileSync(PUZZLES_PATH, JSON.stringify(puzzles, null, 2));
+  const poolGeneration = newPuzzlesPoolGeneration();
+  await setPuzzlesPoolGeneration(poolGeneration);
   console.log(
     `\nDone! Saved ${puzzles.length} puzzles to src/data/puzzles.json`,
   );
+  console.log(`  Main pool generation: ${poolGeneration}`);
 
   if (puzzles.length < TARGET_PUZZLES) {
     console.warn(

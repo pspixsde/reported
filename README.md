@@ -57,7 +57,7 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
-**Monthly production updates** (refresh pools, KV, troubleshooting): see **[PUZZLE_MAINTENANCE.md](./PUZZLE_MAINTENANCE.md)**.
+**Monthly production updates** (refresh pools, KV, automatic Puzzles grid reset, troubleshooting): see **[PUZZLE_MAINTENANCE.md](./PUZZLE_MAINTENANCE.md)**.
 
 For KV-only fixes without re-fetching matches: `npm run upload:puzzles-kv` (main pool; requires `src/data/puzzles.json` and KV env vars).
 

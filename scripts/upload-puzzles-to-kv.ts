@@ -7,6 +7,10 @@
 import { readFileSync, existsSync } from "fs";
 import { resolve } from "path";
 import { Redis } from "@upstash/redis";
+import {
+  newPuzzlesPoolGeneration,
+  setPuzzlesPoolGeneration,
+} from "../src/lib/puzzles-pool-generation";
 
 const ENV_PATH = resolve(__dirname, "../.env.local");
 if (existsSync(ENV_PATH)) {
@@ -46,7 +50,10 @@ async function main() {
 
   const redis = new Redis({ url, token });
   await redis.set(KV_KEY, puzzles);
+  const generation = newPuzzlesPoolGeneration();
+  await setPuzzlesPoolGeneration(generation);
   console.log(`Uploaded ${puzzles.length} puzzles to Upstash (key: ${KV_KEY})`);
+  console.log(`Pool generation: ${generation}`);
 }
 
 main().catch((err) => {
